@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kushu · Read Qur’an. Everything else can wait.</title>
+<meta name="description" content="Kushu opens the mushaf and holds your other apps until your reading is done. On your computer, it calls you to each prayer.">
+<meta name="theme-color" content="#D9D4D3">
+<link rel="icon" href="img/favicon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <a class="wordmark" href="#top">Kushu</a>
+  <nav aria-label="Sections">
+    <a href="#how">How it works</a>
+    <a href="#computer">On your computer</a>
+    <a class="nav-download" href="#download">Download</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero">
+    <p class="chip">For iPhone, Android, Windows and Mac</p>
+    <h1>Read Qur’an.<br><span>Everything else can wait.</span></h1>
+    <p class="lede">Kushu opens the mushaf and holds your other apps until your reading is done. On your computer, it calls you to each prayer.</p>
+    <div class="cta">
+      <a class="button" id="hero-download" href="#download">Download</a>
+      <a class="cta-alt" id="hero-alt" href="#download" hidden></a>
+    </div>
+    <p class="cta-note" id="hero-note" hidden></p>
+    <img class="hero-device" src="img/device-stone.png" width="512" height="512" alt="The Kushu device, a soft stone square with Kushu set into it">
+  </section>
+
+  <!-- How it works: the words change as you scroll, and the phone and the computer show each step -->
+  <section class="story" id="how" aria-label="How Kushu works">
+    <div class="story-pin">
+      <div class="story-text">
+        <p class="eyebrow">How it works</p>
+        <ol class="steps">
+          <li class="step is-active" data-phone="home">
+            <h2>Pick how long.</h2>
+            <p>Five minutes or an hour. Tap once and the time is set aside.</p>
+          </li>
+          <li class="step" data-phone="reader">
+            <h2>The mushaf opens.</h2>
+            <p>The Madani mushaf, page for page as it is printed, with each surah a tap away.</p>
+          </li>
+          <li class="step" data-phone="blocked">
+            <h2>Everything else waits.</h2>
+            <p>Open an app you chose to block and Kushu brings you back to your page.</p>
+          </li>
+          <li class="step" data-phone="blocked" data-laptop="lock-reading">
+            <h2>Your computer goes quiet too.</h2>
+            <p>Sign in on both, and while you read, every screen on your computer goes dark until you’re done.</p>
+          </li>
+          <li class="step" data-phone="computer" data-laptop="lock-phone">
+            <h2>Lock it from your phone.</h2>
+            <p>Fifteen minutes, two hours, or any length you set. Only the clock or your phone opens it again, not the computer.</p>
+          </li>
+          <li class="step" data-phone="schedule" data-laptop="lock-schedule" data-notice="on">
+            <h2>Reading on a schedule.</h2>
+            <p>After Fajr, at lunch, before bed. Kushu reminds you on your phone, and your computer locks at the same time.</p>
+          </li>
+          <li class="step" data-laptop="prayer">
+            <h2>Called to each prayer.</h2>
+            <p>The Adhan in the middle of your screen, with how long it’s been since the last prayer. A verse follows a few minutes later, recited.</p>
+          </li>
+          <li class="step" data-laptop="time" data-pill="on">
+            <h2>See where the day went.</h2>
+            <p>Time in each app, today and across the week, with a small pill that floats over your work.</p>
+          </li>
+          <li class="step" data-laptop="limit">
+            <h2>Give each app its time.</h2>
+            <p>Set a daily limit. Past it, Kushu covers the app with a verse, and you move on.</p>
+          </li>
+        </ol>
+      </div>
+      <div class="story-visual" aria-hidden="true">
+        <div class="laptop">
+          <div class="laptop-lid">
+            <div class="laptop-screen">
+              <img class="lscreen" data-l="lock-reading" src="img/desktop-lock-reading.jpg" alt="">
+              <img class="lscreen" data-l="lock-phone" src="img/desktop-lock-phone.jpg" alt="">
+              <img class="lscreen" data-l="lock-schedule" src="img/desktop-lock-schedule.jpg" alt="">
+              <div class="lscreen lscreen-desk lscreen-prayer" data-l="prayer">
+                <img class="window" src="img/desktop-app.jpg" alt="">
+                <img class="prayer-card" src="img/popup-prayer.png" alt="">
+              </div>
+              <div class="lscreen lscreen-desk" data-l="time">
+                <img class="window" src="img/desktop-time.jpg" alt="">
+              </div>
+              <img class="lscreen" data-l="limit" src="img/desktop-limit.jpg" alt="">
+              <img class="pill-shot" src="img/pill.png" alt="">
+            </div>
+          </div>
+          <div class="laptop-base"></div>
+        </div>
+        <div class="phone">
+          <img class="screen is-active" data-s="home" src="img/phone-home.png" alt="">
+          <img class="screen" data-s="reader" src="img/phone-reader.png" alt="">
+          <img class="screen" data-s="blocked" src="img/phone-blocked.png" alt="">
+          <img class="screen" data-s="computer" src="img/phone-computer.png" alt="">
+          <img class="screen" data-s="schedule" src="img/phone-schedule.png" alt="">
+          <div class="notice-card">
+            <span class="notice-app">Kushu · now</span>
+            <strong>After Fajr</strong>
+            <span>Tap to start your 20-minute reading.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The dark of the session screen -->
+  <section class="dark" aria-labelledby="h-features">
+    <div class="dark-inner">
+      <img class="dark-device" src="img/device-dark.png" width="810" height="810" alt="">
+      <h2 id="h-features">Made for the time you give it.</h2>
+      <p class="lede">While a session runs, the room goes dark and quiet. Here is what holds it.</p>
+      <div class="features">
+        <article>
+          <h3>Blocks what you choose</h3>
+          <p>Pick the apps that pull you away. During a session they wait until your reading is done.</p>
+        </article>
+        <article>
+          <h3>An object to end early</h3>
+          <p>Register a card, a sticker or a book’s barcode. Leaving early means getting up to scan it.</p>
+        </article>
+        <article>
+          <h3>Schedules</h3>
+          <p>Set the days and times you read. Kushu reminds you, and the session is ready.</p>
+        </article>
+        <article>
+          <h3>Prayer on your computer</h3>
+          <p>The Adhan at each prayer, in the middle of the screen, and a verse a few minutes after.</p>
+        </article>
+        <article>
+          <h3>Daily limits</h3>
+          <p>Give an app its time. Past it, Kushu covers the app with a verse and the time you spent.</p>
+        </article>
+        <article>
+          <h3>Nothing to scroll</h3>
+          <p>No feed, no ads, no streak pressure. Just the page, and a record of the time you kept.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- The desktop app -->
+  <section class="computer" id="computer" aria-labelledby="h-computer">
+    <p class="eyebrow">On your computer</p>
+    <h2 id="h-computer">Called to prayer,<br><span>wherever the day has taken you.</span></h2>
+    <p class="lede">Kushu sits quietly in the tray. At each prayer it puts the Adhan in front of you, then a verse a few minutes later, recited. It also keeps count of the time in each app, so you can see where the day went.</p>
+    <div class="computer-shots">
+      <img class="shot-app" src="img/desktop-today.png" alt="Kushu on the computer: the next prayer, and today’s five prayer times with a switch for each">
+      <img class="shot-verse" src="img/popup-verse.png" alt="A verse pop-up: An-Noor 24:37 in Arabic and English, with its recitation playing">
+    </div>
+  </section>
+
+  <!-- Download -->
+  <section class="download" id="download" aria-labelledby="h-download">
+    <h2 id="h-download">Get Kushu.</h2>
+    <p class="lede">On your phone to read, on your computer for the prayers. Both, for the whole day.</p>
+    <div class="platforms">
+      <article class="platform" data-os="ios">
+        <h3>iPhone</h3>
+        <p>Blocks apps with Apple’s Screen Time.</p>
+        <a class="button" data-link="appStore" href="#">App Store</a>
+      </article>
+      <article class="platform" data-os="android">
+        <h3>Android</h3>
+        <p>Installs straight from here. Your phone will ask you to allow it.</p>
+        <a class="button" data-link="android" href="#">Download for Android</a>
+      </article>
+      <article class="platform" data-os="windows">
+        <h3>Windows</h3>
+        <p>Windows 10 and 11. Updates itself.</p>
+        <a class="button" data-link="windows" href="#">Download for Windows</a>
+        <p class="version" data-version="Kushu-Setup.exe" hidden></p>
+      </article>
+      <article class="platform" data-os="mac">
+        <h3>Mac</h3>
+        <p>Apple silicon and Intel.</p>
+        <a class="button" data-link="macArm" href="#">Download for Mac</a>
+        <a class="small-link" data-link="macIntel" href="#">Mac with Intel?</a>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span class="wordmark">Kushu</span>
+  <span>© 2026 Kushu</span>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>
