@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy · Kushu</title>
+<meta name="description" content="What Kushu keeps, where it keeps it, and what never leaves your devices.">
+<meta name="theme-color" content="#D9D4D3">
+<link rel="icon" href="img/favicon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <a class="wordmark" href="./">Kushu</a>
+  <nav aria-label="Sections">
+    <a class="nav-download" href="./#download">Download</a>
+  </nav>
+</header>
+
+<main class="legal">
+  <p class="eyebrow">Privacy</p>
+  <h1>Your reading is yours.</h1>
+  <p class="legal-updated">Last updated 29 September 2026</p>
+
+  <p class="legal-lede">Kushu is built to keep you off your screens, not to watch them. Most of what it knows stays on your
+    phone and your computer. This page says what is kept, where, and why.</p>
+
+  <h2>Without an account</h2>
+  <p>You can use Kushu on your phone without signing in. Then nothing about you is sent to us at all: your reading
+    sessions, your place in the mushaf, your schedules and the apps you block are kept only on your phone.</p>
+
+  <h2>With an account</h2>
+  <p>Signing in ties your phone and your computer together, so a reading session or a schedule on your phone can lock
+    your computer. For that, Kushu keeps these on its servers:</p>
+  <ul>
+    <li><strong>Your email address</strong>, to send you a sign-in code. There is no password.</li>
+    <li><strong>Your devices</strong>: a name for each (such as “Windows PC”), whether it is a phone or a computer, its
+      platform, and when it was last seen.</li>
+    <li><strong>Your reading sessions</strong>: when each started and ended, how it ended (finished, or ended early),
+      whether it started by hand or on a schedule, and whether it should lock your computer. Not what you read.</li>
+    <li><strong>Your reading schedules</strong>: each one’s name, time, days, length and time zone.</li>
+    <li><strong>Locks you start from your phone</strong>: when each starts and ends.</li>
+  </ul>
+  <p>Each account can read only its own records. We don’t sell them, share them for advertising, or use them for
+    anything but making Kushu work between your devices.</p>
+
+  <h2>What stays on your devices</h2>
+  <ul>
+    <li><strong>The apps you block.</strong> On iPhone they are chosen through Apple’s Screen Time, and Kushu never sees
+      which apps they are. On Android the list stays on the phone.</li>
+    <li><strong>Time in apps on your computer</strong>, your daily limits and the floating pill: counted and kept on the
+      computer only.</li>
+    <li><strong>Where you are in the mushaf</strong>, your recent pages and your reading history.</li>
+    <li><strong>Your prayer settings</strong>, sounds and announcements.</li>
+  </ul>
+
+  <h2>Services Kushu uses</h2>
+  <ul>
+    <li><strong>Supabase</strong> stores the account records above.</li>
+    <li><strong>Resend</strong> delivers the sign-in email with your code.</li>
+    <li><strong>Prayer times.</strong> The computer app works out your city from your internet address, using a
+      location lookup service (ipwho.is, GeoJS or ipapi.co), then asks AlAdhan for that day’s times. It keeps the city,
+      not the address.</li>
+    <li><strong>The Qur’an.</strong> Verses, the mushaf’s fonts and recitations are loaded from Qur’an sources (such as
+      alquran.cloud, EveryAyah and the Quran.com fonts) and kept on your device.</li>
+    <li><strong>Updates.</strong> The computer app checks GitHub for new versions.</li>
+  </ul>
+  <p>Kushu has no advertising and no analytics or tracking tools.</p>
+
+  <h2>Deleting your data</h2>
+  <p>Sign out to stop your devices sharing anything. To delete your account and everything kept with it, email
+    <a href="mailto:hello@kushu.space">hello@kushu.space</a> from the address you signed in with, and we will delete it.
+    Deleting Kushu from a device removes what it kept there.</p>
+
+  <h2>Children</h2>
+  <p>Kushu accounts are not meant for children under 13, and we don’t knowingly keep their data.</p>
+
+  <h2>Changes and questions</h2>
+  <p>If this changes, the date at the top will too. Questions are welcome at
+    <a href="mailto:hello@kushu.space">hello@kushu.space</a>.</p>
+</main>
+
+<footer class="footer">
+  <span class="wordmark">Kushu</span>
+  <span><a href="privacy.html">Privacy</a> · © 2026 Kushu</span>
+</footer>
+
+</body>
+</html>
