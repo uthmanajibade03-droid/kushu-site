@@ -17,8 +17,9 @@ const DOWNLOADS = {
   appStore: null, // Kushu's App Store page, once it is live
   android: null, // RELEASES + 'Kushu.apk'
   windows: RELEASES + 'Kushu-Setup.exe',
-  macArm: null, // RELEASES + 'Kushu-mac-arm64.zip' (Apple silicon)
-  macIntel: null, // RELEASES + 'Kushu-mac-x64.zip'
+  // One universal app for Apple silicon and Intel alike, signed and notarized.
+  macArm: RELEASES + 'Kushu-Mac.dmg',
+  macIntel: RELEASES + 'Kushu-Mac.dmg',
 };
 
 /** The newest release, for the version under the download buttons. */
@@ -193,7 +194,7 @@ async function showLatestVersion() {
     const hero = document.getElementById('hero-download');
     const heroFile = hero.getAttribute('href') && hero.getAttribute('href').split('/').pop();
     if (heroFile && names.has(heroFile)) {
-      note.textContent = `Version ${version}${heroFile.endsWith('.exe') ? ' · Windows 10 and 11 · updates itself' : ''}`;
+      note.textContent = `Version ${version}${heroFile.endsWith('.exe') ? ' · Windows 10 and 11 · updates itself' : heroFile.endsWith('.dmg') ? ' · macOS 12 or later · updates itself' : ''}`;
       note.hidden = false;
     }
   } catch {
