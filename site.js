@@ -14,8 +14,9 @@ const RELEASES = 'https://github.com/uthmanajibade03-droid/kushu-releases/releas
  * a button that goes nowhere.
  */
 const DOWNLOADS = {
-  appStore: null, // Kushu's App Store page, once it is live
-  android: null, // RELEASES + 'Kushu.apk'
+  // The TestFlight beta until Kushu is on the App Store.
+  appStore: 'https://testflight.apple.com/join/EeYxdrCt',
+  android: RELEASES + 'Kushu.apk',
   windows: RELEASES + 'Kushu-Setup.exe',
   // One universal app for Apple silicon and Intel alike, signed and notarized.
   macArm: RELEASES + 'Kushu-Mac.dmg',
@@ -26,7 +27,7 @@ const DOWNLOADS = {
 const LATEST_API = 'https://api.github.com/repos/uthmanajibade03-droid/kushu-releases/releases/latest';
 
 const LABELS = {
-  appStore: 'App Store',
+  appStore: 'Join the iPhone beta',
   android: 'Download for Android',
   windows: 'Download for Windows',
   macArm: 'Download for Mac',
