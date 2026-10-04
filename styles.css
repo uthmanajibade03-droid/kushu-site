@@ -25,7 +25,11 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-/* iPhone Safari only honours this on html: the story's laptop sits partly off to the side as it slides in. */
+/*
+ * No sideways scroll: the story's laptop sits partly off to the side as it
+ * slides in. clip, never hidden: hidden makes body a scroll container of its
+ * own, and the story's pinned visual stops pinning inside one.
+ */
 html { overflow-x: clip; }
 body {
   margin: 0;
@@ -33,7 +37,7 @@ body {
   color: var(--ink);
   font-family: Figtree, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 img { max-width: 100%; display: block; }
 a { color: inherit; }
