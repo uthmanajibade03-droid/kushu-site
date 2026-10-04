@@ -25,6 +25,8 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+/* iPhone Safari only honours this on html: the story's laptop sits partly off to the side as it slides in. */
+html { overflow-x: clip; }
 body {
   margin: 0;
   background: var(--stone);
@@ -286,6 +288,8 @@ h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -0.02em; }
   .step h2 { margin-bottom: 8px; }
   .step p { margin: 0 auto; }
   .story-visual { height: 100%; min-height: 0; }
+  /* Narrower, so its wider base still fits the screen. */
+  .laptop { width: min(86%, 146cqh); }
   .story[data-laptop] .laptop { transform: translate(-50%, -62%); }
   .story[data-laptop]:not([data-phone]) .laptop { transform: translate(-50%, -50%); }
   .story[data-laptop][data-phone] .phone { transform: translate(-50%, -30%) scale(0.44); }
