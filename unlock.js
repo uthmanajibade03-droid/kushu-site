@@ -28,6 +28,40 @@ function problem(text) {
   $('problem').textContent = text || '';
 }
 
+/** "Signed in as …  Not you?" so a wrong email is easy to see and change. */
+async function showSignedIn() {
+  const { data } = await db.auth.getSession();
+  const who = data.session && data.session.user.email;
+  const el = $('signed-in');
+  el.hidden = !who;
+  if (!who) return;
+  el.textContent = `Signed in as ${who}. `;
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.textContent = 'Use a different email';
+  b.addEventListener('click', useOtherEmail);
+  el.append(b);
+}
+
+async function useOtherEmail() {
+  await db.auth.signOut();
+  problem('');
+  $('signed-in').hidden = true;
+  $('email').value = '';
+  show('email-form');
+  $('email').focus();
+}
+
+/** Supabase's own reason, made plain. */
+function why(error) {
+  const m = (error && error.message) || '';
+  const wait = m.match(/after (d+) seconds?/);
+  if (wait) return `Wait ${wait[1]} seconds, then send a new code.`;
+  if (/rate limit/i.test(m)) return 'Too many codes were sent. Wait a few minutes, then send a new one.';
+  if (/expired|invalid|not found/i.test(m)) return 'That code didn’t work. Only the newest code works, and only once. Check it, or send a new one.';
+  return m || 'Something went wrong. Try again.';
+}
+
 function finished(text) {
   $('done-text').textContent = text;
   show('done');
@@ -38,9 +72,11 @@ async function loadRequest() {
   if (error) return problem('Couldn’t load the request. Check your connection and refresh.');
   const r = data && data[0];
   if (!r) {
-    show('email-form');
-    return problem('This request wasn’t sent to that email. Sign in with the email your friend added.');
+    show();
+    await showSignedIn();
+    return problem('This request isn’t for this email. Use the email your friend added you with, or, if you were added today in strict mode, you can answer from tomorrow.');
   }
+  await showSignedIn();
   const until = new Date(r.lock_until);
   isChange = /^Change: /.test(r.lock_name || '');
   if (isChange) {
@@ -79,18 +115,28 @@ $('email-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   problem('');
   email = $('email').value.trim();
+  await sendCode();
+});
+
+async function sendCode() {
+  problem('');
   const { error } = await db.auth.signInWithOtp({ email, options: { shouldCreateUser: true } });
-  if (error) return problem('Couldn’t send the code. Check the email and try again.');
+  if (error) return problem(why(error));
+  $('code-sent').textContent = `We sent a code to ${email}. Use the newest one.`;
+  $('code').value = '';
   show('code-form');
   $('code').focus();
-});
+}
+
+$('resend').addEventListener('click', () => void sendCode());
+$('other-email').addEventListener('click', () => void useOtherEmail());
 
 $('code-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   problem('');
   const token = $('code').value.replace(/\D/g, '');
   const { error } = await db.auth.verifyOtp({ email, token, type: 'email' });
-  if (error) return problem('That code didn’t work. Check it, or go back and send a new one.');
+  if (error) return problem(why(error));
   await loadRequest();
 });
 
