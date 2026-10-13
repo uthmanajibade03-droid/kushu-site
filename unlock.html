@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Let them out · Kushu</title>
+<meta name="description" content="A friend asked you to let them out of a Kushu lock.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#D9D4D3">
+<link rel="icon" href="img/favicon.png">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .unlock { max-width: 460px; margin: 0 auto; padding: 48px var(--gutter) 80px; display: flex; flex-direction: column; gap: 18px; }
+  .unlock h1 { margin: 0; font-size: clamp(28px, 6vw, 38px); line-height: 1.15; letter-spacing: -0.5px; font-weight: 600; text-wrap: balance; }
+  .unlock .card { background: var(--pill); border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 12px; }
+  .unlock label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; }
+  .unlock input { height: 48px; border-radius: 14px; border: 1px solid var(--line); background: var(--stone); padding: 0 14px; font: inherit; font-size: 16px; color: var(--ink); }
+  .unlock .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .unlock .button { border: 0; cursor: pointer; font: inherit; font-weight: 600; }
+  .unlock .button.light { background: var(--stone); color: var(--ink); }
+  .unlock p { margin: 0; color: var(--muted); line-height: 1.5; }
+  .unlock .problem { color: #9A3B2B; }
+  .unlock .asker { color: var(--ink); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a class="wordmark" href="./">Kushu</a>
+</header>
+
+<main class="unlock">
+  <p class="eyebrow">A friend’s lock</p>
+  <h1 id="title">Someone asked you to let them out</h1>
+  <p id="lede">They locked their phone and computer with Kushu, chose you as the friend who can open it early, and are asking now.</p>
+
+  <!-- Sign in: only the friend they chose can answer. -->
+  <form class="card" id="email-form" hidden>
+    <label>Your email
+      <input id="email" type="email" autocomplete="email" required>
+    </label>
+    <button class="button" type="submit">Email me a code</button>
+    <p>Use the email your friend added. We’ll send a 6-digit code.</p>
+  </form>
+
+  <form class="card" id="code-form" hidden>
+    <label>The code from your email
+      <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" required>
+    </label>
+    <button class="button" type="submit">Sign in</button>
+  </form>
+
+  <section class="card" id="request" hidden>
+    <p><span class="asker" id="asker"></span> asks to be let out of <span class="asker" id="lock-name"></span>, which ends at <span class="asker" id="lock-until"></span>.</p>
+    <p id="note" hidden></p>
+    <div class="row">
+      <button class="button" id="approve" type="button">Let them out</button>
+      <button class="button light" id="decline" type="button">Not now</button>
+    </div>
+    <p>Saying no is fine. The lock is there because they asked for it.</p>
+  </section>
+
+  <section class="card" id="done" hidden>
+    <p class="asker" id="done-text"></p>
+  </section>
+
+  <p class="problem" id="problem" role="alert" hidden></p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+<script src="unlock.js"></script>
+</body>
+</html>
