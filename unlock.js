@@ -16,6 +16,8 @@ const $ = (id) => document.getElementById(id);
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const requestId = new URLSearchParams(location.search).get('r') || '';
 let email = '';
+/** A request to allow a waiting change to their locks, not to end a lock. */
+let isChange = false;
 
 function show(...ids) {
   for (const id of ['email-form', 'code-form', 'request', 'done']) $(id).hidden = !ids.includes(id);
@@ -40,13 +42,21 @@ async function loadRequest() {
     return problem('This request wasn’t sent to that email. Sign in with the email your friend added.');
   }
   const until = new Date(r.lock_until);
-  $('asker').textContent = r.asker;
-  $('lock-name').textContent = r.lock_name || 'a lock';
-  $('lock-until').textContent = until.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+  isChange = /^Change: /.test(r.lock_name || '');
+  if (isChange) {
+    $('title').textContent = 'Someone asked you to allow a change';
+    $('lede').textContent = 'They use Kushu’s strict mode, so turning a lock off happens a day later, unless you say yes now.';
+    $('request').querySelector('p').textContent = `${r.asker} wants to: ${r.lock_name.replace(/^Change: /, '')}. Without you, it happens by itself ${until.toLocaleString(undefined, { weekday: 'long', hour: 'numeric', minute: '2-digit' })}.`;
+    $('approve').textContent = 'Allow it now';
+  } else {
+    $('asker').textContent = r.asker;
+    $('lock-name').textContent = r.lock_name || 'a lock';
+    $('lock-until').textContent = until.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+  }
   if (r.note) { $('note').hidden = false; $('note').textContent = r.note; }
-  if (r.status === 'approved') return finished('You already let them out.');
+  if (r.status === 'approved') return finished(isChange ? 'You already allowed it.' : 'You already let them out.');
   if (r.status === 'declined') return finished('You said not now. The lock stays until its time.');
-  if (until.getTime() <= Date.now()) return finished('That lock is already over.');
+  if (until.getTime() <= Date.now()) return finished(isChange ? 'That change has already happened.' : 'That lock is already over.');
   show('request');
 }
 
@@ -57,7 +67,7 @@ async function decide(approve) {
   $('approve').disabled = $('decline').disabled = false;
   if (error) return problem('Couldn’t send your answer. Check your connection and try again.');
   const said = {
-    approved: 'Done. Their phone and computer open now.',
+    approved: isChange ? 'Done. The change happens now.' : 'Done. Their phone and computer open now.',
     declined: 'You said not now. The lock stays until its time.',
     over: 'That lock is already over.',
     'not-found': 'This request wasn’t sent to your email.',
