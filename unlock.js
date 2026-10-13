@@ -55,7 +55,7 @@ async function useOtherEmail() {
 /** Supabase's own reason, made plain. */
 function why(error) {
   const m = (error && error.message) || '';
-  const wait = m.match(/after (d+) seconds?/);
+  const wait = m.match(/after (\d+) seconds?/);
   if (wait) return `Wait ${wait[1]} seconds, then send a new code.`;
   if (/rate limit/i.test(m)) return 'Too many codes were sent. Wait a few minutes, then send a new one.';
   if (/expired|invalid|not found/i.test(m)) return 'That code didn’t work. Only the newest code works, and only once. Check it, or send a new one.';
