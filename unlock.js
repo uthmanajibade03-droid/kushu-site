@@ -15,6 +15,9 @@ const SUPABASE_ANON_KEY =
 const $ = (id) => document.getElementById(id);
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const requestId = new URLSearchParams(location.search).get('r') || '';
+// In the window title on purpose: Kushu on the asker's own computer reads it
+// and the request can't be answered from there (migration 20261017000000).
+if (/^[0-9a-f]{8}/i.test(requestId)) document.title = `Kushu answer ${requestId.slice(0, 8).toLowerCase()}`;
 let email = '';
 /** A request to allow a waiting change to their locks, not to end a lock. */
 let isChange = false;
@@ -107,6 +110,7 @@ async function decide(approve) {
     declined: 'You said not now. The lock stays until its time.',
     over: 'That lock is already over.',
     'not-found': 'This request wasn’t sent to your email.',
+    'own-device': 'This was opened on their own computer, so it can’t be answered. Ask them to send it again, and answer on your own phone or computer.',
   };
   finished(said[data] || 'Done.');
 }
