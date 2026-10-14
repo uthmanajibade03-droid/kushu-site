@@ -96,6 +96,11 @@ async function loadRequest() {
   if (r.status === 'approved') return finished(isChange ? 'You already allowed it.' : 'You already let them out.');
   if (r.status === 'declined') return finished('You said not now. The lock stays until its time.');
   if (until.getTime() <= Date.now()) return finished(isChange ? 'That change has already happened.' : 'That lock is already over.');
+  // Under strict mode two friends have to say yes (migration 20261018000000).
+  const { data: votes } = await db.rpc('unlock_votes_for_partner', { request: requestId });
+  const v = votes && votes[0];
+  if (v && v.mine) return finished('You said yes. One more friend has to say yes too.');
+  $('two').hidden = !(v && v.needed > 1);
   show('request');
 }
 
@@ -110,6 +115,7 @@ async function decide(approve) {
     declined: 'You said not now. The lock stays until its time.',
     over: 'That lock is already over.',
     'not-found': 'This request wasn’t sent to your email.',
+    waiting: 'Thanks. One more friend has to say yes too.',
     'own-device': 'This was opened on their own computer, so it can’t be answered. Ask them to send it again, and answer on your own phone or computer.',
   };
   finished(said[data] || 'Done.');
