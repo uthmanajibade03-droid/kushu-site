@@ -117,6 +117,7 @@ async function decide(approve) {
     'not-found': 'This request wasn’t sent to your email.',
     waiting: 'Thanks. One more friend has to say yes too.',
     'own-device': 'This was opened on their own computer, so it can’t be answered. Ask them to send it again, and answer on your own phone or computer.',
+    'own-network': 'You’re on the same internet as their own phone or computer, so this can’t count. Answer from your own mobile data or another network.',
   };
   finished(said[data] || 'Done.');
 }
