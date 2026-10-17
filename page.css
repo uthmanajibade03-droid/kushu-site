@@ -33,6 +33,7 @@
 .page li { margin-bottom: 8px; }
 .page strong { color: var(--text); font-weight: 600; }
 .page a { color: var(--text); }
+.page a.button { color: var(--ink); }
 .legal-updated { font-size: 13px !important; }
 .legal-lede { color: var(--text) !important; font-size: 18px !important; }
 
