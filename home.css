@@ -222,3 +222,33 @@ a { color: inherit; }
   .hero-words { padding-left: 16px; padding-right: 16px; }
   .hero h1 { font-size: 40px; }
 }
+
+/* ---- 2026-10-17: the words at the bottom middle of the scene; MAST down by the footer ---- */
+.hero-words { position: absolute; z-index: 2; left: 0; right: 0; bottom: clamp(48px, 9vh, 96px); margin: 0 auto; padding: 0 16px; }
+.hero h1 { font-weight: 500; line-height: 0.96; }
+.giant { position: static; margin: clamp(48px, 10vh, 120px) 0 -0.12em; overflow: hidden; }
+.intro { max-width: 760px; margin: 0 auto; padding: clamp(80px, 14vh, 150px) clamp(16px, 4vw, 48px) 0; }
+.intro h2 { margin: 0 0 20px; font-size: clamp(30px, 4vw, 52px); line-height: 1.04; font-weight: 500; letter-spacing: -0.03em; }
+.intro p { margin: 0; font-size: clamp(18px, 1.8vw, 22px); line-height: 1.6; color: var(--soft); }
+.story { padding-top: clamp(64px, 10vh, 110px); }
+.how { max-width: 1280px; margin: 0 auto; padding: clamp(80px, 14vh, 150px) clamp(16px, 4vw, 48px) 0; }
+.how > h2 { margin: 0; font-size: clamp(30px, 4vw, 52px); line-height: 1.04; font-weight: 500; letter-spacing: -0.03em; }
+.how .what { padding: 40px 0 clamp(72px, 12vh, 140px); }
+.line h3 { margin: 0 0 10px; font-size: clamp(20px, 1.9vw, 24px); line-height: 1.2; font-weight: 500; letter-spacing: -0.02em; }
+@media (max-width: 600px) {
+  .hero-words { position: static; padding-top: calc(var(--band) - 28px); }
+  .intro { padding-top: 56px; }
+  .story { padding-top: 48px; }
+  .how { padding-top: 64px; }
+  .how .what { padding: 28px 0 64px; }
+  .giant { margin-top: 24px; }
+}
+/* The car and the figure above the words, not behind them. */
+@media (min-width: 601px) { .slide { background-position: center 88%; } }
+@media (min-width: 601px) {
+  .hero-words { bottom: clamp(20px, 4vh, 44px); }
+  .hero h1 { font-size: clamp(40px, 4.6vw, 64px); }
+  .hero .lede { margin-top: 14px; }
+  .hero .cta { margin-top: 20px; }
+  .platforms-note { margin-top: 12px; }
+}
