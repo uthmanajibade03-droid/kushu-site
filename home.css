@@ -19,7 +19,7 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
 body { margin: 0; background: var(--ink); color: var(--text); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
 a { color: inherit; }
 [hidden] { display: none !important; }
@@ -29,7 +29,11 @@ a { color: inherit; }
 body::after {
   content: '';
   position: fixed;
-  inset: 0;
+  /* Far past every edge: an iPhone's screen grows as Safari's bars shrink, and an edge would show as a box. */
+  top: -50vh;
+  left: -10vw;
+  width: 120vw;
+  height: 200vh;
   z-index: 50;
   pointer-events: none;
   opacity: 0.08;
