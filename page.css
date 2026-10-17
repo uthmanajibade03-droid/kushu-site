@@ -7,7 +7,7 @@
 .band {
   position: relative;
   height: clamp(200px, 34vh, 360px);
-  background: url('img/scene-hero-1.webp') center 62% / cover no-repeat;
+  background: url('img/scene-car-field.webp') center 55% / cover no-repeat;
 }
 .band::after {
   content: '';

@@ -7,16 +7,15 @@
 <meta name="description" content="Set your locks once. Kushu holds you to them, on your phone and your computer.">
 <meta name="theme-color" content="#0E0C0B">
 <link rel="icon" href="img/favicon.png">
-<link rel="preload" as="image" href="img/scene-hero-1.webp">
+<link rel="preload" as="image" href="img/scene-car-field.webp">
 <link rel="stylesheet" href="home.css">
 </head>
 <body>
 
-<!-- The scenes, one after another behind the words -->
+<!-- The scene behind the words -->
 <section class="hero" id="top">
   <div class="slides" aria-hidden="true">
-    <div class="slide is-on" style="background-image: url('img/scene-hero-1.webp')"></div>
-    <div class="slide" style="background-image: url('img/scene-car-field.webp')"></div>
+    <div class="slide is-on" style="background-image: url('img/scene-car-field.webp')"></div>
   </div>
 
   <header class="nav">
@@ -88,18 +87,5 @@
 </footer>
 
 <script src="site.js"></script>
-<script>
-  // One scene after another, slowly; a still page for anyone who asks for less motion.
-  (() => {
-    const slides = [...document.querySelectorAll('.slide')];
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    let i = 0;
-    setInterval(() => {
-      slides[i].classList.remove('is-on');
-      i = (i + 1) % slides.length;
-      slides[i].classList.add('is-on');
-    }, 6500);
-  })();
-</script>
 </body>
 </html>
