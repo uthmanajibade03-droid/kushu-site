@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mast · Stop relying on willpower.</title>
 <meta name="description" content="Set your locks once. Mast holds you to them, on your phone and your computer.">
-<meta name="theme-color" content="#1B2F35">
+<meta name="theme-color" content="#22424A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" as="image" href="img/scene-car-field.webp">
-<link rel="stylesheet" href="home.css?v=1792266910">
-<link rel="stylesheet" href="blossom.css?v=1792266318">
+<link rel="stylesheet" href="home.css?v=1792267120">
+<link rel="stylesheet" href="blossom.css?v=1792267120">
 </head>
 <body>
 <script>try { if (localStorage.getItem('mast.scene') === 'blossom') document.body.classList.add('blossom'); } catch (e) {}</script>
@@ -120,7 +120,7 @@
     const buttons = [...document.querySelectorAll('.scene-switch button')];
     const show = (scene) => {
       document.body.classList.toggle('blossom', scene === 'blossom');
-      document.querySelector('meta[name=theme-color]').setAttribute('content', scene === 'blossom' ? '#3A1A1E' : '#1B2F35');
+      document.querySelector('meta[name=theme-color]').setAttribute('content', scene === 'blossom' ? '#3A1A1E' : '#22424A');
       buttons.forEach((b) => b.setAttribute('aria-checked', String(b.dataset.scene === scene)));
     };
     show(document.body.classList.contains('blossom') ? 'blossom' : 'field');

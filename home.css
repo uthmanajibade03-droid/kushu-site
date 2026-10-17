@@ -279,7 +279,7 @@ body { transition: background-color 400ms; }
 .nav { z-index: 10; }
 
 /* ---- the top edge: Safari's status bar takes the picture's own top colour, and the picture fades into it ---- */
-:root { --top: #1B2F35; }
+:root { --top: #22424A; }
 html { background-color: var(--top); }
 body { background-color: var(--ink); }
 .hero::before {
@@ -291,8 +291,25 @@ body { background-color: var(--ink); }
   right: 0;
   height: 140px;
   pointer-events: none;
-  background: linear-gradient(180deg, var(--top) 0%, rgba(27, 47, 53, 0.55) 40%, rgba(27, 47, 53, 0) 100%);
+  background: linear-gradient(180deg, var(--top) 0%, rgba(34, 66, 74, 0.55) 40%, rgba(34, 66, 74, 0) 100%);
 }
 body.blossom { --top: #3A1A1E; }
 html:has(body.blossom) { --top: #3A1A1E; }
 body.blossom .hero::before { background: linear-gradient(180deg, #3A1A1E 0%, rgba(58, 26, 30, 0.55) 40%, rgba(58, 26, 30, 0) 100%); }
+
+/* ---- 2026-10-17: phones get the tall picture, full screen; the top and bottom both melt ---- */
+/* Safari tints its bar from the page's own background: make that the picture's top colour, and keep the reading area dark. */
+body { background-color: var(--top); }
+main, .giant, .footer { background-color: var(--ink); }
+.hero { background-color: var(--top); }
+@media (max-width: 600px) {
+  .hero { --band: 100svh; height: 100svh; min-height: 600px; display: block; }
+  .slides { bottom: 0; height: auto; }
+  .field-only { background-image: url('img/scene-field-tall.webp') !important; }
+  .slide { background-position: center 40%; }
+  .slides::after {
+    background: linear-gradient(180deg, rgba(14, 12, 11, 0) 0%, rgba(14, 12, 11, 0) 44%, rgba(14, 12, 11, 0.4) 62%, rgba(14, 12, 11, 0.8) 80%, rgba(14, 12, 11, 0.95) 92%, var(--ink) 100%);
+  }
+  .hero-words { position: absolute; left: 0; right: 0; bottom: 40px; padding: 0 16px; text-align: center; }
+  .hero::before { height: 160px; }
+}
