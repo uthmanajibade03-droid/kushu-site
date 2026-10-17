@@ -86,6 +86,7 @@ async function setUpDownloads() {
   // The hero's button is for the device you're on; the line under it is for the other one you might mean.
   const hero = document.getElementById('hero-download');
   const alt = document.getElementById('hero-alt');
+  if (!hero || !alt) return; // the hero's button just goes to the downloads
   const pick = { ios: 'appStore', android: 'android', windows: 'windows', mac };
   const other = {
     ios: ['android', 'Android user?'],
@@ -194,6 +195,7 @@ async function showLatestVersion() {
     }
     const note = document.getElementById('hero-note');
     const hero = document.getElementById('hero-download');
+    if (!note || !hero) return;
     const heroFile = hero.getAttribute('href') && hero.getAttribute('href').split('/').pop();
     if (heroFile && names.has(heroFile)) {
       note.textContent = `Version ${version}${heroFile.endsWith('.exe') ? ' · Windows 10 and 11 · updates itself' : heroFile.endsWith('.dmg') ? ' · macOS 12 or later · updates itself' : ''}`;
