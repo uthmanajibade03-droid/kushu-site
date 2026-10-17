@@ -84,7 +84,7 @@ async function loadRequest() {
   isChange = /^Change: /.test(r.lock_name || '');
   if (isChange) {
     $('title').textContent = 'Someone asked you to allow a change';
-    $('lede').textContent = 'They use Holdfast’s strict mode, so turning a lock off happens a day later, unless you say yes now.';
+    $('lede').textContent = 'They use Mast’s strict mode, so turning a lock off happens a day later, unless you say yes now.';
     $('request').querySelector('p').textContent = `${r.asker} wants to: ${r.lock_name.replace(/^Change: /, '')}. Without you, it happens by itself ${until.toLocaleString(undefined, { weekday: 'long', hour: 'numeric', minute: '2-digit' })}.`;
     $('approve').textContent = 'Allow it now';
   } else {

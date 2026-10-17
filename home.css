@@ -124,7 +124,7 @@ body::after {
   bottom: 0.02em;
   margin: 0;
   text-align: center;
-  font-size: clamp(56px, 15.5vw, 260px);
+  font-size: clamp(96px, 25vw, 420px);
   line-height: 1;
   font-weight: 800;
   letter-spacing: -0.05em;
@@ -177,7 +177,7 @@ body::after {
 @media (max-width: 600px) {
   .slide { background-position: 62% 60%; }
   .nav nav a[href="#what"] { display: none; }
-  .giant { font-size: 14vw; letter-spacing: -0.03em; }
+  .giant { font-size: 24vw; letter-spacing: -0.03em; }
   .cta { gap: 12px; }
   .cta-alt { flex-basis: 100%; }
 }
@@ -196,3 +196,4 @@ body::after {
 .story h2 { margin: 12px 0 22px; font-size: clamp(34px, 5vw, 62px); line-height: 1.02; font-weight: 600; letter-spacing: -0.04em; }
 .story p:not(.eyebrow) { margin: 0 0 16px; font-size: clamp(18px, 1.8vw, 22px); line-height: 1.6; color: var(--soft); }
 .story p:last-child { color: var(--text); }
+.story .held { margin-top: 28px; font-size: clamp(15px, 1.3vw, 17px) !important; letter-spacing: 0.02em; color: var(--soft) !important; font-style: italic; }
