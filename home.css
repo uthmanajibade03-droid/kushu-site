@@ -252,3 +252,17 @@ a { color: inherit; }
   .hero .cta { margin-top: 20px; }
   .platforms-note { margin-top: 12px; }
 }
+
+/* ---- 2026-10-17 fixes ---- */
+/* Only the first line bold; the second quieter, regular. */
+.hero h1 { font-weight: 400; }
+.hero h1 .strong { font-weight: 600; color: var(--text); }
+/* The problem: one light line, not a heading. */
+.intro p { font-size: clamp(20px, 2vw, 26px); line-height: 1.5; font-weight: 400; color: var(--soft); letter-spacing: -0.01em; }
+@media (max-width: 600px) {
+  /* In front of the picture band, and left-aligned as before. */
+  .hero-words { position: relative; z-index: 2; bottom: auto; text-align: left; padding: calc(var(--band) - 28px) 16px 0; }
+  .hero h1 { font-size: 42px; line-height: 1.02; }
+  .hero .lede, .platforms-note { text-align: left; margin-left: 0; }
+  .hero .cta { justify-content: flex-start; }
+}
