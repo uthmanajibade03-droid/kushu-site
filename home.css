@@ -72,7 +72,8 @@ body::after {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 22px clamp(16px, 4vw, 48px);
+  /* Below the phone's status bar (the page reaches under it: viewport-fit=cover). */
+  padding: calc(env(safe-area-inset-top, 0px) + 22px) clamp(16px, 4vw, 48px) 22px;
   font-size: 15px;
 }
 .wordmark { font-weight: 700; font-size: 18px; letter-spacing: -0.01em; text-decoration: none; }
@@ -175,6 +176,15 @@ body::after {
 }
 
 @media (max-width: 600px) {
+  /* A tall phone: a shorter hero, the fade into dark kept to the bottom, no empty bands. */
+  .hero { height: 86svh; min-height: 600px; }
+  .slides::after {
+    background:
+      radial-gradient(ellipse 90% 45% at 20% 30%, rgba(8, 10, 14, 0.38), rgba(8, 10, 14, 0) 70%),
+      linear-gradient(180deg, rgba(8, 10, 14, 0.5) 0%, rgba(8, 10, 14, 0) 34%, rgba(14, 12, 11, 0) 68%, rgba(14, 12, 11, 0.7) 86%, var(--ink) 100%);
+  }
+  .story { padding-top: 48px; }
+  .what { padding-top: 56px; padding-bottom: 72px; }
   .slide { background-position: 62% 60%; }
   .nav nav a[href="#what"] { display: none; }
   .giant { font-size: 24vw; letter-spacing: -0.03em; }
