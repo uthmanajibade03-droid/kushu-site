@@ -114,6 +114,7 @@ async function setUpDownloads() {
 
 function setUpStory() {
   const story = document.querySelector('.story');
+  if (!story) return;
   const steps = [...story.querySelectorAll('.step')];
   const screens = [...story.querySelectorAll('.screen')];
   const laptops = [...story.querySelectorAll('.lscreen')];
@@ -154,7 +155,7 @@ function setUpStory() {
 // ---- things that rise into view -----------------------------------------------
 
 function setUpReveals() {
-  const items = document.querySelectorAll('.computer-shots img, .features article, .platform');
+  const items = document.querySelectorAll('.scenes article, .platform');
   if (!('IntersectionObserver' in window)) return;
   const seen = new IntersectionObserver((entries) => {
     for (const e of entries) {

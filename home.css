@@ -1,0 +1,188 @@
+/*
+ * The home page: our own scenes, full screen, one after another; the words set
+ * straight into the sky; KUSHU huge along the bottom. No boxes, no glass.
+ */
+
+@font-face {
+  font-family: 'Inter';
+  src: url('fonts/Inter-Variable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  --ink: #0E0C0B;
+  --text: #F6F1EA;
+  --soft: rgba(246, 241, 234, 0.72);
+  --faint: rgba(246, 241, 234, 0.16);
+  --sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--ink); color: var(--text); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 4px; }
+
+/* Fine film grain over everything: printed, not digital. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- the hero ---- */
+
+.hero {
+  position: relative;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.slides, .slide { position: absolute; inset: 0; }
+.slide {
+  background-size: cover;
+  background-position: center 60%;
+  opacity: 0;
+  transform: scale(1.06);
+  transition: opacity 1800ms ease, transform 9000ms linear;
+}
+.slide.is-on { opacity: 1; transform: scale(1); }
+/* Darker at the top for the words, and at the bottom where KUSHU sits. */
+.slides::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 55% at 12% 38%, rgba(8, 10, 14, 0.42), rgba(8, 10, 14, 0) 70%),
+    linear-gradient(180deg, rgba(8, 10, 14, 0.45) 0%, rgba(8, 10, 14, 0) 38%, rgba(8, 10, 14, 0) 62%, rgba(14, 12, 11, 0.85) 100%);
+}
+
+.nav {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px clamp(16px, 4vw, 48px);
+  font-size: 15px;
+}
+.wordmark { font-weight: 700; font-size: 18px; letter-spacing: -0.01em; text-decoration: none; }
+.nav nav { display: flex; gap: clamp(16px, 3vw, 32px); }
+.nav nav a { text-decoration: none; color: var(--soft); transition: color 200ms; }
+.nav nav a:hover { color: var(--text); }
+
+.hero-words {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(24px, 9vh, 110px);
+  padding: 0 clamp(16px, 4vw, 48px);
+  max-width: 760px;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+}
+.hero h1 {
+  margin: 0;
+  font-size: clamp(40px, 6.4vw, 92px);
+  line-height: 0.98;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  max-width: 11ch;
+}
+.lede { margin: 18px 0 0; font-size: clamp(16px, 1.5vw, 19px); line-height: 1.5; color: rgba(246, 241, 234, 0.9); max-width: 34ch; }
+.cta { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 28px; }
+.cta-alt { font-size: 14px; color: var(--text); }
+.cta-note { margin: 12px 0 0; font-size: 13px; color: rgba(246, 241, 234, 0.85); }
+
+.button {
+  display: inline-block;
+  padding: 13px 24px;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  text-shadow: none;
+  transition: transform 200ms, background 200ms;
+}
+.button:hover { background: #fff; transform: translateY(-1px); }
+
+/* The name, huge, sinking into the ground. */
+.giant {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: -0.2em;
+  margin: 0;
+  text-align: center;
+  font-size: clamp(96px, 25vw, 420px);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  color: transparent;
+  background: linear-gradient(180deg, rgba(246, 241, 234, 0.9) 0%, rgba(246, 241, 234, 0.05) 78%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ---- what it does ---- */
+
+.what {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 40px clamp(24px, 4vw, 56px);
+  padding: clamp(72px, 12vh, 140px) clamp(16px, 4vw, 48px);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.line { border-top: 1px solid var(--faint); padding-top: 18px; }
+.eyebrow { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--soft); }
+.line h2 { margin: 10px 0 10px; font-size: clamp(24px, 2.4vw, 32px); font-weight: 600; letter-spacing: -0.025em; }
+.line p:not(.eyebrow) { margin: 0; color: var(--soft); line-height: 1.55; }
+
+/* ---- download ---- */
+
+.download { padding: 0 clamp(16px, 4vw, 48px) clamp(80px, 14vh, 160px); max-width: 1280px; margin: 0 auto; }
+.download h2 { margin: 0 0 36px; font-size: clamp(36px, 5vw, 64px); font-weight: 600; letter-spacing: -0.04em; }
+.platforms { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; }
+.platform { border-top: 1px solid var(--faint); padding-top: 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.platform h3 { margin: 0; font-size: 20px; font-weight: 600; }
+.platform p { margin: 0; color: var(--soft); line-height: 1.5; font-size: 15px; }
+.platform .button { margin-top: 6px; padding: 11px 20px; font-size: 14px; }
+.platform.is-yours { border-top-color: var(--text); }
+.version { font-size: 13px !important; }
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 24px clamp(16px, 4vw, 48px) 32px;
+  border-top: 1px solid var(--faint);
+  font-size: 13px;
+  color: var(--soft);
+}
+
+@media (max-width: 600px) {
+  .slide { background-position: 62% 60%; }
+  .nav nav a[href="#what"] { display: none; }
+  .giant { font-size: 20vw; letter-spacing: -0.03em; }
+  .cta { gap: 12px; }
+  .cta-alt { flex-basis: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide { transition: none; transform: none; }
+  html { scroll-behavior: auto; }
+}
