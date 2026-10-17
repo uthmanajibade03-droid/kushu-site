@@ -15,7 +15,7 @@
   --text: #F6F1EA;
   --soft: rgba(246, 241, 234, 0.72);
   --faint: rgba(246, 241, 234, 0.16);
-  --sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
+  --sans: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -198,3 +198,27 @@ a { color: inherit; }
 .story p:not(.eyebrow) { margin: 0 0 16px; font-size: clamp(18px, 1.8vw, 22px); line-height: 1.6; color: var(--soft); }
 .story p:last-child { color: var(--text); }
 .story .held { margin-top: 28px; font-size: clamp(15px, 1.3vw, 17px) !important; letter-spacing: 0.02em; color: var(--soft) !important; font-style: italic; }
+
+/* ---- the hero, set as spacefs.com sets theirs: centred, Google Sans, a quieter second line ---- */
+.hero-words {
+  margin: clamp(40px, 12vh, 140px) auto 0;
+  max-width: 760px;
+  text-align: center;
+}
+.hero h1 {
+  max-width: none;
+  font-weight: 400;
+  font-size: clamp(42px, 5.6vw, 76px);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+.hero h1 span { color: rgba(246, 241, 234, 0.72); }
+.hero .lede { margin: 22px auto 0; max-width: 36ch; font-size: clamp(16px, 1.3vw, 18px); line-height: 1.6; color: rgba(246, 241, 234, 0.86); text-align: center; }
+.hero .cta { justify-content: center; margin-top: 30px; }
+.hero .button { padding: 14px 30px; font-weight: 500; }
+.platforms-note { margin: 16px 0 0; font-size: 12px; letter-spacing: 0.02em; color: rgba(246, 241, 234, 0.7); text-align: center; }
+.story h2, .download h2, .line h2 { font-weight: 500; letter-spacing: -0.03em; }
+@media (max-width: 600px) {
+  .hero-words { padding-left: 16px; padding-right: 16px; }
+  .hero h1 { font-size: 40px; }
+}
