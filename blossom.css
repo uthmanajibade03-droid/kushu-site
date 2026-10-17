@@ -1,0 +1,20 @@
+/*
+ * The blossom version (blossom.html): the painting, tall, filling the whole
+ * screen on every device; as it scrolls away it melts into a dark wine taken
+ * from its own ground, and the page carries on in that colour.
+ */
+.blossom { --ink: #1A1012; background: var(--ink); }
+.blossom .hero { height: 100svh; min-height: 560px; }
+.blossom .slides { bottom: 0; height: auto; }
+.blossom .slide { background-position: center 30%; transform: none; }
+/* A long, soft fall into the page's colour: no line where the picture ends. */
+.blossom .slides::after {
+  background:
+    linear-gradient(180deg, rgba(14, 6, 8, 0.38) 0%, rgba(26, 16, 18, 0) 26%, rgba(26, 16, 18, 0) 42%, rgba(26, 16, 18, 0.35) 60%, rgba(26, 16, 18, 0.72) 78%, rgba(26, 16, 18, 0.93) 91%, var(--ink) 100%);
+}
+@media (max-width: 600px) {
+  .blossom .hero { height: 100svh; }
+  .blossom .slides { height: auto; bottom: 0; }
+  .blossom .slide { background-position: center 30%; }
+  .blossom .hero-words { position: absolute; left: 0; right: 0; bottom: 44px; padding: 0 16px; }
+}
