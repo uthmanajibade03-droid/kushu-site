@@ -261,8 +261,6 @@ a { color: inherit; }
 .intro p { font-size: clamp(20px, 2vw, 26px); line-height: 1.5; font-weight: 400; color: var(--soft); letter-spacing: -0.01em; }
 @media (max-width: 600px) {
   /* In front of the picture band, and left-aligned as before. */
-  .hero-words { position: relative; z-index: 2; bottom: auto; text-align: left; padding: calc(var(--band) - 28px) 16px 0; }
+  .hero-words { position: relative; z-index: 2; bottom: auto; text-align: center; padding: calc(var(--band) - 28px) 16px 0; }
   .hero h1 { font-size: 42px; line-height: 1.02; }
-  .hero .lede, .platforms-note { text-align: left; margin-left: 0; }
-  .hero .cta { justify-content: flex-start; }
 }
