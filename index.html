@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mast · Stop relying on willpower.</title>
 <meta name="description" content="Set your locks once. Mast holds you to them, on your phone and your computer.">
-<meta name="theme-color" content="#0E0C0B">
+<meta name="theme-color" content="#1B2F35">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" as="image" href="img/scene-car-field.webp">
-<link rel="stylesheet" href="home.css?v=1792266501">
+<link rel="stylesheet" href="home.css?v=1792266910">
 <link rel="stylesheet" href="blossom.css?v=1792266318">
 </head>
 <body>
@@ -28,8 +28,8 @@
     <a class="wordmark" href="#top">Mast</a>
     <nav aria-label="Sections">
       <div class="scene-switch" role="radiogroup" aria-label="Picture">
-        <button type="button" role="radio" data-scene="field" aria-label="Field"><img src="img/thumb-field.webp" alt=""></button>
-        <button type="button" role="radio" data-scene="blossom" aria-label="Blossom"><img src="img/thumb-blossom.webp" alt=""></button>
+        <button type="button" role="radio" data-scene="field" aria-label="Field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="11" r="3.5"/><path d="M12 3.5v1.6M5.6 6.1l1.1 1.1M18.4 6.1l-1.1 1.1M3 18h18M6 21h12"/></svg></button>
+        <button type="button" role="radio" data-scene="blossom" aria-label="Blossom"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2"/><path d="M12 10c-2.4-1.6-2.4-5 0-6 2.4 1 2.4 4.4 0 6zM14 12c1.6-2.4 5-2.4 6 0-1 2.4-4.4 2.4-6 0zM12 14c2.4 1.6 2.4 5 0 6-2.4-1-2.4-4.4 0-6zM10 12c-1.6 2.4-5 2.4-6 0 1-2.4 4.4-2.4 6 0z"/></svg></button>
       </div>
       <a href="#what">What it does</a>
       <a href="#download">Download</a>
@@ -120,6 +120,7 @@
     const buttons = [...document.querySelectorAll('.scene-switch button')];
     const show = (scene) => {
       document.body.classList.toggle('blossom', scene === 'blossom');
+      document.querySelector('meta[name=theme-color]').setAttribute('content', scene === 'blossom' ? '#3A1A1E' : '#1B2F35');
       buttons.forEach((b) => b.setAttribute('aria-checked', String(b.dataset.scene === scene)));
     };
     show(document.body.classList.contains('blossom') ? 'blossom' : 'field');
