@@ -276,3 +276,5 @@ a { color: inherit; }
 /* Only the chosen picture shows. */
 body:not(.blossom) .blossom-only, body.blossom .field-only { display: none; }
 body { transition: background-color 400ms; }
+/* The top bar above everything in the hero, so its links and the picture switch can always be tapped. */
+.nav { z-index: 10; }
