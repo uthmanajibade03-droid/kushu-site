@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" as="image" href="img/scene-car-field.webp">
-<link rel="stylesheet" href="home.css?v=1792321982">
-<link rel="stylesheet" href="blossom.css?v=1792321982">
+<link rel="stylesheet" href="home.css?v=1792322110">
+<link rel="stylesheet" href="blossom.css?v=1792322110">
 </head>
 <body>
 <script>try { if (localStorage.getItem('mast.scene') === 'blossom') document.body.classList.add('blossom'); } catch (e) {}</script>
@@ -135,6 +135,8 @@
 
             <!-- 11:45 PM: Mast's cover, as the computer shows it, counting down to off. -->
             <img class="cover-shot" id="demo-cover" src="img/demo/cover-field-0.webp" alt="">
+            <!-- 11:55 PM on Windows: its own "Shutting down", dots going round. -->
+            <div class="shutdown-win"><div class="dots"><i></i><i></i><i></i><i></i><i></i></div><p>Shutting down</p></div>
             <div class="off-screen"></div>
 
             <div class="spot" id="demo-spot"></div>
@@ -229,6 +231,10 @@
       preloaded = true;
       [...Object.values(LOCKS), ...covers].forEach((src) => { new Image().src = src; });
     };
+
+    // Windows shuts down with its own screen; a Mac (or anything else) just closes and goes dark.
+    const windows = /Windows/.test(navigator.userAgent);
+    d.classList.add(windows ? 'os-win' : 'os-mac');
 
     const $ = (id) => document.getElementById(id);
     const cover = $('demo-cover');
@@ -353,11 +359,13 @@
         ff.forEach(([i, t], n) => at(n * 380, () => { showCover(i); now(t); }));
         const end = ff.length * 380;
         [20, 21, 22].forEach((i, n) => at(end + n * 1000, () => showCover(i)));
+        // 11:55: the computer shuts down the way yours does, then it's dark until morning.
         at(end + 3000, () => {
-          d.dataset.step = 'off'; spot(null); now('11:55 PM', 'Off until morning.');
-          // Off: the video stops with the computer.
+          d.dataset.step = 'shutdown'; spot(null); now('11:55 PM', 'Shutting down.');
+          if (!windows) d.querySelector('.menubar b').textContent = 'Finder';
           yt.classList.remove('ready'); yt.src = 'about:blank'; playing = null;
         });
+        at(end + 3000 + (windows ? 3200 : 1600), () => { d.dataset.step = 'off'; now('11:55 PM', 'Off until morning.'); });
       },
     ];
 
@@ -370,6 +378,7 @@
       if (i === current) return;
       current = i;
       clear();
+      d.querySelector('.menubar b').textContent = 'Chrome';
       stages[i]();
     }
 
