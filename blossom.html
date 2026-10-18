@@ -12,8 +12,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" as="image" href="img/scene-blossom.webp">
-<link rel="stylesheet" href="home.css?v=1792325355">
-<link rel="stylesheet" href="blossom.css?v=1792325355">
+<link rel="stylesheet" href="home.css?v=1792336904">
+<link rel="stylesheet" href="blossom.css?v=1792336904">
 </head>
 <body class="blossom">
 
@@ -137,7 +137,7 @@
             <!-- The opening and the ending: white, and the name coming into focus. -->
             <div class="brand-screen">
               <p class="brand-word">Mast</p>
-              <p class="brand-line" data-top="Knowing your bedtime isn’t the problem."><span class="l2">Going to bed is.</span></p>
+              <p class="brand-line"><span class="l1">Knowing your bedtime isn’t the problem.</span><span class="l2">Going to bed is.</span></p>
             </div>
 
             <svg class="cursor" viewBox="0 0 24 24" width="22" height="22"><path d="M5 3l14 8.5-6.2 1.3L9.6 19z" fill="#fff" stroke="#111" stroke-width="1.4" stroke-linejoin="round"/></svg>
@@ -392,92 +392,14 @@
     now('Fri', '9:15 AM', 'In the morning, you set your computer to shut down at 11:45 PM.');
     d.classList.add('brand', 'cap-hidden', 'no-browser');
     mast.src = LOCKS.off;
-    // The last words, stacked: the small line sits down into the big one, just above its short letters,
-    // and its words are spaced round the tall ones (G, t, b, d, the i's dot), at the largest size that fills the width.
-    const stackLines = () => {
-      const line = d.querySelector('.brand-line');
-      const big = line.querySelector('.l2');
-      const words = line.dataset.top.split(' ');
-      // The big line, letter by letter, with a mark at its baseline (all measured from the line, their positioned parent).
-      if (!big.querySelector('.base')) {
-        big.innerHTML = [...big.textContent].map((ch) => `<b>${ch === ' ' ? '&nbsp;' : ch}</b>`).join('') + '<i class="base"></i>';
-      }
-      line.querySelectorAll('.w').forEach((w) => w.remove());
-      const st = getComputedStyle(big);
-      const bigSize = parseFloat(st.fontSize);
-      const baseline = big.querySelector('.base').offsetTop;
-      const left = big.offsetLeft, right = big.offsetLeft + big.offsetWidth;
-
-      // Each big letter drawn once; for any band of height above the baseline, where its ink is.
-      const H = Math.ceil(bigSize * 1.4), W = Math.ceil(bigSize * 1.2), Y0 = Math.ceil(bigSize * 1.1);
-      const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
-      const cx = cv.getContext('2d', { willReadFrequently: true });
-      cx.font = `${st.fontWeight} ${bigSize}px ${st.fontFamily}`;
-      const xHeight = cx.measureText('x').actualBoundingBoxAscent;
-      const letters = [...big.querySelectorAll('b')].map((el) => {
-        cx.clearRect(0, 0, W, H);
-        cx.fillText(el.textContent.trim(), 0, Y0);
-        const px = cx.getImageData(0, 0, W, H).data;
-        // inkAt(lo, hi): the ink's left and right edge between those heights above the baseline, or null.
-        const inkAt = (lo, hi) => {
-          let a = Infinity, b = -Infinity;
-          for (let y = Math.max(0, Math.floor(Y0 - hi)); y <= Math.min(H - 1, Math.ceil(Y0 - lo)); y += 1) {
-            for (let x = 0; x < W; x += 1) if (px[(y * W + x) * 4 + 3] > 40) { if (x < a) a = x; if (x > b) b = x; }
-          }
-          return a === Infinity ? null : [el.offsetLeft + a, el.offsetLeft + b];
-        };
-        return inkAt;
-      });
-
-      // The small words as spans, each with a mark at its own baseline.
-      const spans = words.map((w) => {
-        const s = document.createElement('span');
-        s.className = 'w'; s.textContent = w;
-        s.appendChild(Object.assign(document.createElement('i'), { className: 'base' }));
-        line.appendChild(s);
-        return s;
-      });
-      const layout = (size) => {
-        spans.forEach((s) => { s.style.fontSize = size + 'px'; });
-        // The small line rests just above the short letters: its baseline this high above the big one,
-        // its tails just clear of them, its capitals reaching this far up.
-        const rest = xHeight + size * 0.26;
-        const lo = Math.max(xHeight + 5, rest - size * 0.2), hi = rest + size * 0.76;
-        const pad = size * 0.22;
-        const keepOut = letters.map((inkAt) => inkAt(lo, hi)).filter(Boolean).map(([a, b]) => [a - pad, b + pad]);
-        const space = size * 0.3;
-        const placed = [];
-        let x = left;
-        for (const s of spans) {
-          const w = s.offsetWidth;
-          let moved = true;
-          while (moved) {
-            moved = false;
-            for (const [a0, a1] of keepOut) if (x < a1 && x + w > a0) { x = a1; moved = true; }
-          }
-          if (x + w > right + 1) return null;
-          placed.push([s, x]);
-          x += w + space;
-        }
-        return { placed, smallBase: baseline - rest, end: x - space, keepOut };
-      };
-      let best = null;
-      for (let size = 56; size >= 16; size -= 0.5) { best = layout(size); if (best) break; }
-      if (!best) return;
-      // Spread the leftover room through the gaps that aren't held by a tall letter, so it ends where the big line does.
-      const spare = right - best.end;
-      const opens = best.placed.length - 1;
-      best.placed.forEach(([s, x], n) => {
-        let nx = x + (opens ? (spare * n) / opens : 0);
-        const w = s.offsetWidth;
-        // Never pushed onto a tall letter by the spreading: back off to just before it.
-        for (const [a0, a1] of best.keepOut) if (nx < a1 && nx + w > a0) nx = Math.max(x, a0 - w);
-        s.style.left = nx + 'px';
-        s.style.top = best.smallBase - s.querySelector('.base').offsetTop + 'px';
-      });
+    // The last words: the first line sized to be exactly as wide as the second, in whatever font this device draws.
+    const matchLines = () => {
+      const a = d.querySelector('.brand-line .l1'), b = d.querySelector('.brand-line .l2');
+      a.style.fontSize = '40px';
+      a.style.fontSize = (40 * b.offsetWidth) / a.offsetWidth + 'px';
     };
-    stackLines();
-    if (document.fonts) document.fonts.ready.then(stackLines);
+    matchLines();
+    if (document.fonts) document.fonts.ready.then(matchLines);
 
     fit();
     onScroll();
