@@ -319,3 +319,68 @@ main, .giant, .footer { background-color: var(--ink); }
 body.past-hero { background-color: var(--ink); }
 html:has(body.past-hero) { background-color: var(--ink); }
 .footer { padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px)); }
+
+/* ---- the moment: a two-tone headline, then the moment shown on a screen (as spacefs shows its product) ---- */
+.moment { max-width: 1040px; text-align: center; }
+.moment h2 { margin: 0; font-size: clamp(34px, 4.6vw, 64px); line-height: 1.02; font-weight: 400; letter-spacing: -0.035em; }
+.moment h2 .strong { font-weight: 600; color: var(--text); }
+.moment h2 span:not(.strong) { color: rgba(246, 241, 234, 0.6); }
+.moment .moment-sub { margin: 20px auto 0; max-width: 34ch; font-size: clamp(16px, 1.4vw, 19px); line-height: 1.6; color: var(--soft); }
+
+.screen { position: relative; margin: clamp(40px, 7vh, 72px) auto 0; max-width: 920px; aspect-ratio: 16 / 10; border-radius: 18px; overflow: hidden; background: #16171A; box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.08); text-align: left; }
+.screen-bar { height: 34px; display: flex; align-items: center; gap: 7px; padding: 0 14px; background: #1E1F23; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+.screen-bar i { width: 11px; height: 11px; border-radius: 50%; background: #3A3B40; }
+.screen-bar span { margin-left: auto; font-size: 12px; color: rgba(255, 255, 255, 0.55); font-variant-numeric: tabular-nums; }
+.screen-body { position: absolute; inset: 34px 0 0; overflow: hidden; }
+.feed { position: absolute; inset: 18px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.post { border-radius: 12px; background: #23252A; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.post b { flex: 1; border-radius: 8px; background: linear-gradient(135deg, #3B3F47, #2B2E34); }
+.post em { height: 8px; border-radius: 4px; background: #33363C; }
+.post em.short { width: 60%; }
+.post.tall b { min-height: 120px; }
+.screen.play .feed { animation: scroll-feed 6s linear forwards; }
+@keyframes scroll-feed { to { transform: translateY(-60px); } }
+
+.toasts { position: absolute; top: 14px; right: 14px; display: flex; flex-direction: column; gap: 8px; width: min(260px, 46%); }
+.toast { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: rgba(40, 42, 48, 0.92); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35); opacity: 0; transform: translateX(20px); }
+.toast strong { display: block; font-size: 13px; font-weight: 600; color: #fff; }
+.toast small { font-size: 11px; color: rgba(255, 255, 255, 0.6); }
+.dot-red { flex: none; width: 9px; height: 9px; border-radius: 50%; background: #FF4D4D; box-shadow: 0 0 8px #FF4D4D; }
+.screen.play .toast { animation: toast-in 500ms cubic-bezier(.2, .8, .2, 1) forwards; }
+.screen.play .t1 { animation-delay: 400ms; }
+.screen.play .t2 { animation-delay: 1100ms; }
+.screen.play .t3 { animation-delay: 1800ms; }
+@keyframes toast-in { to { opacity: 1; transform: none; } }
+
+/* Mast closes it: the picture, blurred, and the lock card with its tube. */
+.lockcover { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; transform: translateY(16px); }
+.lockcover::before { content: ''; position: absolute; inset: -30px; background: url('img/scene-car-field.webp') center 70% / cover; filter: blur(22px) saturate(120%); }
+body.blossom .lockcover::before { background-image: url('img/scene-blossom.webp'); background-position: center 30%; }
+.lockcover::after { content: ''; position: absolute; inset: 0; background: rgba(10, 14, 16, 0.25); }
+.screen.play .lockcover { animation: cover-in 900ms cubic-bezier(.2, .8, .2, 1) 3s forwards; }
+@keyframes cover-in { to { opacity: 1; transform: none; } }
+.lockcard { position: relative; z-index: 1; width: min(400px, 78%); padding: 26px 28px; border-radius: 26px; background: rgba(255, 255, 255, 0.1); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35), 0 24px 60px rgba(0, 0, 0, 0.35); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35); }
+.lockcard .eyebrow { color: rgba(255, 255, 255, 0.8); }
+.lock-title { margin: 6px 0 0; font-size: clamp(24px, 3vw, 34px); font-weight: 600; letter-spacing: -0.03em; color: #fff; }
+.lock-sub { margin: 6px 0 0; font-size: 14px; color: rgba(255, 255, 255, 0.85); }
+.lockcard .tube { position: absolute; right: 26px; top: 22px; bottom: 22px; width: 34px; border-radius: 999px; overflow: hidden; background: linear-gradient(90deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.06) 45%, rgba(255, 255, 255, 0.2)); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6); }
+.lockcard .liquid { position: absolute; left: 0; right: 0; bottom: 0; height: 92%; background: linear-gradient(90deg, #4E7F79, #2F5A56 60%, #1F3E3B); }
+body.blossom .lockcard .liquid { background: linear-gradient(90deg, #9B3340, #6E1A24 60%, #4A0F17); }
+.screen.play .liquid { animation: drain 8s linear 4s forwards; }
+@keyframes drain { to { height: 70%; } }
+
+@media (max-width: 600px) {
+  .screen { aspect-ratio: 4 / 5; border-radius: 16px; }
+  .feed { grid-template-columns: repeat(2, 1fr); }
+  .toasts { width: 72%; }
+  .lockcard .tube { width: 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .screen .toast, .screen .lockcover { opacity: 1; transform: none; animation: none !important; }
+}
+/* The lock card's own sizes (over .intro p). */
+.moment .lockcard p { margin: 0; letter-spacing: normal; }
+.moment .lockcard .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.8); }
+.moment .lockcard .lock-title { margin-top: 6px; font-size: clamp(24px, 3vw, 34px); line-height: 1.1; font-weight: 600; letter-spacing: -0.03em; color: #fff; }
+.moment .lockcard .lock-sub { margin-top: 6px; font-size: 14px; line-height: 1.4; color: rgba(255, 255, 255, 0.85); }
+.moment .moment-sub { max-width: 44ch; }

@@ -12,8 +12,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" as="image" href="img/scene-blossom.webp">
-<link rel="stylesheet" href="home.css?v=1792286485">
-<link rel="stylesheet" href="blossom.css?v=1792286485">
+<link rel="stylesheet" href="home.css?v=1792286968">
+<link rel="stylesheet" href="blossom.css?v=1792286968">
 </head>
 <body class="blossom">
 
@@ -45,8 +45,37 @@
 <main>
 
   <!-- The problem, before the story -->
-  <section class="intro" aria-label="The problem">
-    <p>Knowing isn’t the problem, the moment is. When it comes, your phone is louder than your plans.</p>
+  <section class="intro moment" aria-labelledby="h-moment">
+    <h2 id="h-moment"><span class="strong">Knowing isn’t the problem.</span><br><span>The moment is.</span></h2>
+    <p class="moment-sub">When it comes, your phone is louder than your plans.</p>
+
+    <!-- The moment, shown: a screen at 11:42 PM, the feed pulling, and Mast closing it. -->
+    <div class="screen" aria-hidden="true">
+      <div class="screen-bar"><i></i><i></i><i></i><span>11:42 PM</span></div>
+      <div class="screen-body">
+        <div class="feed">
+          <div class="post"><b></b><em></em><em class="short"></em></div>
+          <div class="post tall"><b></b><em></em></div>
+          <div class="post"><b></b><em></em><em class="short"></em></div>
+          <div class="post tall"><b></b><em></em></div>
+          <div class="post"><b></b><em></em><em class="short"></em></div>
+          <div class="post"><b></b><em></em></div>
+        </div>
+        <div class="toasts">
+          <div class="toast t1"><span class="dot-red"></span><div><strong>3 new messages</strong><small>Open now</small></div></div>
+          <div class="toast t2"><span class="dot-red"></span><div><strong>Live now</strong><small>Someone you follow</small></div></div>
+          <div class="toast t3"><span class="dot-red"></span><div><strong>You have 12 notifications</strong><small>Don’t miss out</small></div></div>
+        </div>
+        <div class="lockcover">
+          <div class="lockcard">
+            <p class="eyebrow">Bedtime</p>
+            <p class="lock-title">Off until morning.</p>
+            <p class="lock-sub">Opens at 6:00 AM</p>
+            <div class="tube"><div class="liquid"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Why it works: the oldest version of the idea -->
@@ -109,6 +138,20 @@
 </footer>
 
 <script src="site.js"></script>
+<script>
+  // The moment plays once it's on screen: the feed pulls, then Mast closes it.
+  (() => {
+    const s = document.querySelector('.screen');
+    if (!s) return;
+    const check = () => {
+      const r = s.getBoundingClientRect();
+      if (r.top < window.innerHeight * 0.75 && r.bottom > 0) { s.classList.add('play'); window.removeEventListener('scroll', check); }
+    };
+    window.addEventListener('scroll', check, { passive: true });
+    window.addEventListener('resize', check);
+    check();
+  })(); // moment-play
+</script>
 <script>
   // Past the picture, the page's background turns dark, so Safari's bars match what's under them.
   (() => {
