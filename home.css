@@ -529,5 +529,5 @@ body.blossom .demo { --accent: #6E1A24; }
 /* The last words on two lines, always: the first smaller, the second bigger, the same width. */
 .moment .demo .brand-screen .brand-line { max-width: none; }
 .demo .brand-screen .brand-line .l1, .demo .brand-screen .brand-line .l2 { display: table; margin: 0 auto; white-space: nowrap; }
-.demo .brand-screen .brand-line .l1 { font-size: var(--l1, 40px); color: #1D1D1F; }
-.demo .brand-screen .brand-line .l2 { font-size: 92px; line-height: 1.05; color: var(--accent); }
+.demo .brand-screen .brand-line .l1 { font-size: var(--l1, 40px); line-height: 1; color: #1D1D1F; }
+.demo .brand-screen .brand-line .l2 { font-size: 92px; line-height: 1; margin-top: -2px; color: var(--accent); }
