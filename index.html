@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" as="image" href="img/scene-car-field.webp">
-<link rel="stylesheet" href="home.css?v=1792322110">
-<link rel="stylesheet" href="blossom.css?v=1792322110">
+<link rel="stylesheet" href="home.css?v=1792322844">
+<link rel="stylesheet" href="blossom.css?v=1792322844">
 </head>
 <body>
 <script>try { if (localStorage.getItem('mast.scene') === 'blossom') document.body.classList.add('blossom'); } catch (e) {}</script>
@@ -57,10 +57,10 @@
     <!-- The moment, played out on a computer with the real Mast screens, one stage per scroll: bedtime set at 9:00 PM, the warning, one more video, the cover, and off. -->
     <div class="demo" id="demo" data-step="setup">
       <div class="demo-sticky">
-        <p class="demo-cap" id="demo-cap" aria-live="polite"><span class="cap-time" id="cap-time">9:00 PM</span><span id="cap-text">You set it while calm.</span></p>
+        <p class="demo-cap" id="demo-cap" aria-live="polite"><span class="cap-time" id="cap-time">Friday 9:15 AM</span><span id="cap-text">In the morning, you set your computer to shut down at 11:45 PM.</span></p>
         <div class="demo-frame" aria-hidden="true">
           <div class="demo-stage">
-            <div class="menubar"><b>Chrome</b><span>File</span><span>Edit</span><span>View</span><span>History</span><span>Bookmarks</span><span>Window</span><span class="mb-clock" id="demo-clock">Fri 9:00 PM</span></div>
+            <div class="menubar"><b>Chrome</b><span>File</span><span>Edit</span><span>View</span><span>History</span><span>Bookmarks</span><span>Window</span><span class="mb-clock" id="demo-clock">Fri 9:15 AM</span></div>
             <div class="win">
               <div class="win-bar">
                 <span class="lights"><i></i><i></i><i></i></span>
@@ -245,9 +245,10 @@
     const cap = $('demo-cap');
 
     // The time, everywhere at once: the menu bar and the line on top.
-    const now = (time, text) => {
-      $('demo-clock').textContent = 'Fri ' + time;
-      $('cap-time').textContent = time;
+    const DAYS = { Fri: 'Friday' };
+    const now = (day, time, text, label) => {
+      $('demo-clock').textContent = day + ' ' + time;
+      $('cap-time').textContent = label || DAYS[day] + ' ' + time;
       if (text !== undefined && $('cap-text').textContent !== text) {
         $('cap-text').textContent = text;
         cap.classList.remove('fresh'); void cap.offsetWidth; cap.classList.add('fresh');
@@ -308,64 +309,32 @@
     const showCover = (i) => { cover.src = covers[i]; };
 
     const stages = [
-      // 9:00 PM: calm. Mast open, bedtime switched on.
+      // Friday morning, calm: bedtime set for tonight (and every night).
       () => {
-        now('9:00 PM', 'You set it while calm.');
+        now('Fri', '9:15 AM', 'In the morning, you set your computer to shut down at 11:45 PM.');
         d.classList.add('no-browser', 'mast-open'); d.dataset.step = 'setup';
         mast.src = LOCKS.off; spot(OFF_ROW); point(520, 470);
-        at(300, () => point(748, 274));
-        at(1500, () => { click(); mast.src = LOCKS.on; spot(ON_BLOCK); });
+        at(500, () => point(748, 274));
+        at(1900, () => { click(); mast.src = LOCKS.on; spot(ON_BLOCK); });
       },
-      // 11:40 PM: still up. Five minutes' warning.
+      // Friday, 11:44 PM: just watching.
       () => {
-        now('11:40 PM', 'Five minutes’ warning.');
-        d.dataset.step = 'watch'; video('a'); keepPlaying(); point(430, 300);
-        spot({ x: 880, y: 2, w: 112, h: 20 }, 6);
-        at(800, () => { d.dataset.step = 'warn'; spot({ x: 658, y: 2, w: 334, h: 102 }, 6); });
+        now('Fri', '11:44 PM', 'That night, you’re still watching YouTube a minute before bedtime.');
+        d.dataset.step = 'watch'; video('a'); keepPlaying(); point(430, 330); spot(null);
       },
-      // 11:41 PM: just one more.
+      // 11:45 PM: Mast steps in, ten minutes to save your work.
       () => {
-        now('11:41 PM', 'Just one more.');
-        d.dataset.step = 'watch'; video('a'); keepPlaying(); d.classList.add('hover-vid');
-        const next = d.querySelector('.vid.first');
-        spot(box(next), 6); pointAt(next.querySelector('.th'));
-        at(1300, () => { click(); d.classList.remove('hover-vid'); video('b'); spot(box(d.querySelector('.player')), 4); });
-      },
-      // 11:43 PM: try to turn it off. Not tonight: it waits 24 hours.
-      () => {
-        now('11:43 PM', 'You try to turn it off.');
-        d.dataset.step = 'watch'; video('b'); keepPlaying(); d.classList.add('mast-open');
-        mast.src = LOCKS.soon; spot(SOON_ROW); point(560, 470);
-        at(300, () => point(748, 373));
-        at(1500, () => { click(); mast.src = LOCKS.held; spot(HELD_BLOCK); now('11:43 PM', 'Not tonight. It waits 24 hours.'); });
-      },
-      // 11:45 PM: the cover. Ten minutes to save your work.
-      () => {
-        now('11:45 PM', 'Ten minutes to save your work.');
-        video('b'); d.dataset.step = 'lock'; showCover(0); spot(COUNTDOWN, 0);
+        now('Fri', '11:45 PM', 'Mast covers the screen and waits ten minutes before shutting down, in case you have work to save.');
+        video('a'); d.dataset.step = 'lock'; showCover(0); spot(COUNTDOWN, 0);
         [1, 2, 3, 4].forEach((i) => at(i * 1000, () => showCover(i)));
       },
-      // 11:46 PM: a real need has a way out.
+      // 11:55 PM: off, the way your computer shuts down, until morning.
       () => {
-        now('11:46 PM', 'Really need it? Two friends can let you in.');
-        video('b'); d.dataset.step = 'lock'; showCover(5); spot(ASK, 6);
-        [6, 7, 8, 9].forEach((i, n) => at((n + 1) * 1000, () => showCover(i)));
-      },
-      // 11:47 → 11:55 PM: the minutes run out, and it's off.
-      () => {
-        video('b'); d.dataset.step = 'ff'; spot(COUNTDOWN, 0);
-        const ff = [[10, '11:47 PM'], [11, '11:48 PM'], [12, '11:49 PM'], [13, '11:50 PM'], [14, '11:51 PM'], [15, '11:52 PM'], [16, '11:53 PM'], [17, '11:54 PM'], [18, '11:54 PM'], [19, '11:54 PM']];
-        now('11:47 PM', 'Off at 11:55.');
-        ff.forEach(([i, t], n) => at(n * 380, () => { showCover(i); now(t); }));
-        const end = ff.length * 380;
-        [20, 21, 22].forEach((i, n) => at(end + n * 1000, () => showCover(i)));
-        // 11:55: the computer shuts down the way yours does, then it's dark until morning.
-        at(end + 3000, () => {
-          d.dataset.step = 'shutdown'; spot(null); now('11:55 PM', 'Shutting down.');
-          if (!windows) d.querySelector('.menubar b').textContent = 'Finder';
-          yt.classList.remove('ready'); yt.src = 'about:blank'; playing = null;
-        });
-        at(end + 3000 + (windows ? 3200 : 1600), () => { d.dataset.step = 'off'; now('11:55 PM', 'Off until morning.'); });
+        now('Fri', '11:55 PM', 'Your computer shuts down.');
+        d.dataset.step = 'shutdown'; spot(null);
+        if (!windows) d.querySelector('.menubar b').textContent = 'Finder';
+        yt.classList.remove('ready'); yt.src = 'about:blank'; playing = null;
+        at(windows ? 3200 : 1600, () => { d.dataset.step = 'off'; now('Fri', '11:55 PM', 'It stays off until morning. Switch it back on, and Mast shuts it down again.'); });
       },
     ];
 
@@ -390,7 +359,7 @@
       if (r.top > window.innerHeight * 0.35) {
         if (current !== -1) {
           current = -1; clear(); spot(null);
-          now('9:00 PM', 'You set it while calm.'); d.dataset.step = 'setup';
+          now('Fri', '9:15 AM', 'In the morning, you set your computer to shut down at 11:45 PM.'); d.dataset.step = 'setup';
           d.classList.add('no-browser', 'mast-open'); mast.src = LOCKS.off; point(520, 470);
         }
         return;
@@ -407,7 +376,7 @@
     window.addEventListener('resize', () => { fit(); onScroll(); });
 
     // Before it plays: 9:00 PM, Mast open, bedtime still off.
-    now('9:00 PM', 'You set it while calm.');
+    now('Fri', '9:15 AM', 'In the morning, you set your computer to shut down at 11:45 PM.');
     d.classList.add('no-browser', 'mast-open');
     mast.src = LOCKS.off;
     fit();
