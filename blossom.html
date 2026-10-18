@@ -12,8 +12,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" as="image" href="img/scene-blossom.webp">
-<link rel="stylesheet" href="home.css?v=1792337307">
-<link rel="stylesheet" href="blossom.css?v=1792337307">
+<link rel="stylesheet" href="home.css?v=1792337662">
+<link rel="stylesheet" href="blossom.css?v=1792337662">
 </head>
 <body class="blossom">
 
@@ -132,11 +132,14 @@
             <img class="cover-shot" id="demo-cover" src="img/demo/cover-field-0.webp" alt="">
             <!-- 11:55 PM on Windows: its own "Shutting down", dots going round. -->
             <div class="shutdown-win"><div class="dots"><i></i><i></i><i></i><i></i><i></i></div><p>Shutting down</p></div>
+            <div class="shutdown-mac"><div class="spokes"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><p>Shutting down</p></div>
             <div class="off-screen"></div>
 
             <!-- The opening and the ending: white, and the name coming into focus. -->
             <div class="brand-screen">
               <p class="brand-word">Mast</p>
+              <div class="intro-page" data-page="1"><p>Mast locks your phone and computer</p><p>at the times you choose,</p><p>so you don’t have to rely on willpower.</p></div>
+              <div class="intro-page" data-page="2"><p>Bedtime, deep work, prayer.</p><p>You set it once, while you’re calm.</p><p>When the moment comes, it holds.</p></div>
               <p class="brand-line"><span class="l1">Knowing your bedtime isn’t the problem.</span><span class="l2">Going to bed is.</span></p>
             </div>
 
@@ -300,6 +303,15 @@
         d.classList.add('brand', 'cap-hidden', 'no-browser');
         at(250, () => d.classList.add('word-in'));
       },
+      // What Mast is, line by line.
+      () => {
+        d.classList.add('brand', 'cap-hidden', 'no-browser', 'word-in', 'word-out');
+        at(60, () => { d.dataset.intro = '1'; });
+      },
+      () => {
+        d.classList.add('brand', 'cap-hidden', 'no-browser', 'word-in', 'word-out');
+        at(60, () => { d.dataset.intro = '2'; });
+      },
       // Friday morning, calm: bedtime set for tonight (and every night).
       () => {
         now('Fri', '9:15 AM', 'In the morning, you set your computer to shut down at 11:45 PM.');
@@ -325,9 +337,8 @@
       () => {
         now('Fri', '11:55 PM', 'Your computer shuts down.');
         d.dataset.step = 'shutdown';
-        if (!windows) d.querySelector('.menubar b').textContent = 'Finder';
         yt.classList.remove('ready'); yt.src = 'about:blank'; playing = null;
-        at(windows ? 3200 : 1600, () => { d.dataset.step = 'off'; now('Fri', '11:55 PM', 'It stays off until morning. Switch it back on, and Mast shuts it down again.'); });
+        at(3200, () => { now('Fri', '11:55 PM', 'It stays off until morning. Switch it back on, and Mast shuts it down again.'); });
       },
       // Out of the dark: white, and the name.
       () => {
@@ -343,7 +354,7 @@
       },
     ];
     // How much scroll each stage gets: the last one more, so it stays on screen before the page moves on.
-    const ROOM = [1, 1, 1.2, 1.2, 1, 1, 1.8];
+    const ROOM = [1, 1.3, 1.3, 1, 1.2, 1.2, 1.1, 1, 1.8];
     const TOTAL = ROOM.reduce((s, x) => s + x, 0);
     const stageAt = (p) => {
       let edge = 0;
@@ -355,6 +366,7 @@
     function clear() {
       timers.forEach((t) => { clearTimeout(t); clearInterval(t); }); timers = [];
       d.classList.remove('hover-vid', 'no-browser', 'mast-open', 'brand', 'word-in', 'word-out', 'line-in', 'cap-hidden');
+      delete d.dataset.intro;
     }
     function show(i) {
       if (i === current) return;

@@ -455,7 +455,7 @@ body.blossom .demo-stage { background-image: url('img/scene-blossom.webp'); }
 .desc b { color: #fff; }
 
 /* One stage per scroll: the screen holds still while the page moves on underneath it. */
-.demo { height: calc(100vh + 7 * 85vh); height: calc(100svh + 7 * 85svh); }
+.demo { height: calc(100vh + 9 * 85vh); height: calc(100svh + 9 * 85svh); }
 .demo-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
 .demo-frame { width: min(100%, calc((100vh - 150px) * 1000 / 640)); margin: 0 auto; }
 
@@ -482,7 +482,7 @@ body.blossom .demo-stage { background-image: url('img/scene-blossom.webp'); }
 /* 11:55 PM, Windows: "Shutting down", the dots going round, on its blue. */
 .shutdown-win { position: absolute; inset: 0; z-index: 5; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 30px; background: #0B3D78; color: #fff; font-family: 'Segoe UI', 'Segoe UI Variable', system-ui, sans-serif; }
 .moment .demo .shutdown-win p { margin: 0; font-size: 22px; font-weight: 300; letter-spacing: 0; color: #fff; }
-.demo.os-win[data-step="shutdown"] .shutdown-win { display: flex; }
+.demo.os-win[data-step="shutdown"] .shutdown-win, .demo.os-mac[data-step="shutdown"] .shutdown-mac { display: flex; }
 .dots { position: relative; width: 44px; height: 44px; }
 .dots i { position: absolute; inset: 0; opacity: 0; animation: win-orbit 5.5s infinite; }
 .dots i::before { content: ''; position: absolute; left: 50%; top: 0; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: #fff; }
@@ -502,7 +502,6 @@ body.blossom .demo-stage { background-image: url('img/scene-blossom.webp'); }
 }
 
 /* 11:55 PM, Mac: the apps close, the bare desktop for a moment, then dark. */
-.demo.os-mac[data-step="shutdown"] .win { opacity: 0; }
 .demo[data-step="shutdown"] .cursor { opacity: 0; }
 .off-screen { z-index: 6; }
 
@@ -538,3 +537,29 @@ body.blossom .demo { --accent: #6E1A24; }
 
 /* On a phone, no line on top: the screen tells it. */
 @media (max-width: 600px) { .demo-cap { display: none; } }
+
+/* After the name: what Mast is, three lines a page, each coming into focus after the last. */
+.intro-page { grid-area: 1 / 1; text-align: center; }
+.moment .demo .intro-page p { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', Inter, system-ui, sans-serif; font-size: 40px; line-height: 1.3; font-weight: 600; letter-spacing: -0.03em; color: #1D1D1F; opacity: 0; filter: blur(12px); transform: translateY(10px); transition: opacity 500ms ease, filter 500ms ease, transform 500ms ease; }
+.demo[data-intro="1"] .intro-page[data-page="1"] p, .demo[data-intro="2"] .intro-page[data-page="2"] p { opacity: 1; filter: blur(0); transform: none; transition: opacity 1000ms cubic-bezier(.2, .8, .2, 1), filter 1000ms cubic-bezier(.2, .8, .2, 1), transform 1200ms cubic-bezier(.2, .8, .2, 1); }
+.demo[data-intro] .intro-page p:nth-child(2) { transition-delay: 650ms; }
+.demo[data-intro] .intro-page p:nth-child(3) { transition-delay: 1300ms; }
+
+/* 11:55 PM on a Mac (or anything not Windows): dark, the spinner, "Shutting down". */
+.shutdown-mac { position: absolute; inset: 0; z-index: 5; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 26px; background: #000; }
+.moment .demo .shutdown-mac p { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, system-ui, sans-serif; font-size: 18px; font-weight: 500; letter-spacing: 0; color: rgba(255, 255, 255, 0.85); }
+.spokes { position: relative; width: 30px; height: 30px; animation: spokes 1s steps(12) infinite; }
+.spokes i { position: absolute; left: 13.5px; top: 0; width: 3px; height: 8px; border-radius: 2px; background: #fff; transform-origin: 1.5px 15px; }
+.spokes i:nth-child(1) { transform: rotate(0deg); opacity: 0.15; }
+.spokes i:nth-child(2) { transform: rotate(30deg); opacity: 0.23; }
+.spokes i:nth-child(3) { transform: rotate(60deg); opacity: 0.30; }
+.spokes i:nth-child(4) { transform: rotate(90deg); opacity: 0.38; }
+.spokes i:nth-child(5) { transform: rotate(120deg); opacity: 0.46; }
+.spokes i:nth-child(6) { transform: rotate(150deg); opacity: 0.54; }
+.spokes i:nth-child(7) { transform: rotate(180deg); opacity: 0.61; }
+.spokes i:nth-child(8) { transform: rotate(210deg); opacity: 0.69; }
+.spokes i:nth-child(9) { transform: rotate(240deg); opacity: 0.77; }
+.spokes i:nth-child(10) { transform: rotate(270deg); opacity: 0.85; }
+.spokes i:nth-child(11) { transform: rotate(300deg); opacity: 0.92; }
+.spokes i:nth-child(12) { transform: rotate(330deg); opacity: 1.00; }
+@keyframes spokes { to { transform: rotate(360deg); } }
