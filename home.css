@@ -343,7 +343,6 @@ body.blossom .demo-stage { background-image: url('img/scene-blossom.webp'); }
 
 /* The browser, nearly full screen. */
 .win { position: absolute; left: 14px; right: 14px; top: 34px; bottom: 14px; border-radius: 11px; overflow: hidden; background: #0F0F0F; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.12); transition: filter 500ms ease; }
-.demo[data-step="setup"] .win, .demo[data-step="set"] .win { filter: blur(7px) brightness(0.7); }
 .win-bar { height: 34px; display: flex; align-items: flex-end; gap: 4px; padding: 0 10px; background: #1F1F21; }
 .lights { display: flex; gap: 7px; align-self: center; margin-right: 12px; }
 .lights i { width: 11px; height: 11px; border-radius: 50%; background: #FF5F57; }
@@ -404,10 +403,8 @@ body.blossom .demo-stage { background-image: url('img/scene-blossom.webp'); }
 
 /* Mast, open over the blurred desktop. */
 .mastwin { position: absolute; left: 180px; top: 128px; z-index: 3; width: 640px; height: 404px; border-radius: 12px; overflow: hidden; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.16); transition: opacity 450ms, transform 450ms cubic-bezier(.2, .8, .2, 1); }
-.demo:not([data-step="setup"]):not([data-step="set"]) .mastwin { opacity: 0; transform: scale(0.95); pointer-events: none; }
+.mastwin { opacity: 0; transform: scale(0.95); pointer-events: none; }
 .mw { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.mw.on { opacity: 0; transition: opacity 180ms; }
-.demo:not([data-step="setup"]) .mw.on { opacity: 1; }
 
 /* The system notification, top right. */
 .notif { position: absolute; top: 32px; right: 12px; z-index: 3; display: flex; align-items: flex-start; gap: 10px; width: 330px; padding: 11px 12px; border-radius: 16px; background: rgba(48, 48, 50, 0.86); -webkit-backdrop-filter: blur(30px) saturate(160%); backdrop-filter: blur(30px) saturate(160%); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.12); opacity: 0; transform: translateX(40px); transition: opacity 400ms, transform 450ms cubic-bezier(.2, .8, .2, 1); }
@@ -458,23 +455,9 @@ body.blossom .demo-stage { background-image: url('img/scene-blossom.webp'); }
 .desc b { color: #fff; }
 
 /* One stage per scroll: the screen holds still while the page moves on underneath it. */
-.demo { height: calc(100vh + 4 * 80vh); height: calc(100svh + 4 * 80svh); }
+.demo { height: calc(100vh + 6 * 70vh); height: calc(100svh + 6 * 70svh); }
 .demo-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
 .demo-frame { width: min(100%, calc((100vh - 150px) * 1000 / 640)); margin: 0 auto; }
-
-/* The night's timeline, on top: where you are in it. */
-.demo-steps { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
-.demo-steps button { border: 0; cursor: pointer; padding: 9px 14px; border-radius: 999px; font: inherit; font-size: 13.5px; color: rgba(246, 241, 234, 0.42); background: rgba(255, 255, 255, 0.04); transition: color 300ms, background 300ms, box-shadow 300ms; }
-.demo-steps button span { font-variant-numeric: tabular-nums; margin-right: 6px; font-weight: 600; }
-.demo-steps button:hover { color: rgba(246, 241, 234, 0.75); }
-.demo-steps button.on { color: #fff; background: rgba(255, 255, 255, 0.14); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28); }
-.demo-steps button.done { color: rgba(246, 241, 234, 0.62); }
-
-@media (max-width: 600px) {
-  .demo-frame { width: 100%; border-radius: 9px; }
-  .demo-steps li:not(:has(.on)) { display: none; }
-  .demo-steps button { font-size: 15px; }
-}
 
 /* The video, really playing (YouTube's own player, muted), under YouTube's controls as drawn. */
 .player .yt-frame { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; border: 0; pointer-events: none; opacity: 0; transition: opacity 400ms; }
@@ -485,8 +468,16 @@ body.blossom .demo-stage { background-image: url('img/scene-blossom.webp'); }
 .spot { position: absolute; z-index: 7; left: 500px; top: 320px; width: 0; height: 0; border-radius: 14px; pointer-events: none; opacity: 0; box-shadow: 0 0 0 2px #FF3B30, 0 0 22px 4px rgba(255, 59, 48, 0.45), 0 0 0 3000px rgba(0, 0, 0, 0.62); transition: left 600ms cubic-bezier(.3, .7, .2, 1), top 600ms cubic-bezier(.3, .7, .2, 1), width 600ms cubic-bezier(.3, .7, .2, 1), height 600ms cubic-bezier(.3, .7, .2, 1), opacity 400ms; }
 .spot.on { opacity: 1; }
 
-/* One step at a time, top centre, rising in as the night moves on. */
-.demo-steps li:not(:has(.on)) { display: none; }
-.demo-steps button { font-size: 15px; padding: 10px 18px; }
-.demo-steps button.on { animation: step-in 450ms cubic-bezier(.2, .8, .2, 1); }
-@keyframes step-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+/* The night's time and what's happening, one line, top centre; it changes as the night moves on. */
+.demo-cap { margin: 0 auto; max-width: 100%; display: flex; align-items: center; gap: 10px; padding: 11px 20px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22); font-size: 16px; line-height: 1.25; color: #fff; }
+.moment .demo .demo-cap { margin: 0 auto; }
+.cap-time { flex: none; font-weight: 700; font-variant-numeric: tabular-nums; color: #FF6B61; }
+.demo-cap.fresh { animation: cap-in 450ms cubic-bezier(.2, .8, .2, 1); }
+@keyframes cap-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (max-width: 600px) { .demo-cap { font-size: 14px; padding: 9px 14px; } }
+
+/* 9:00 PM: just the desktop and Mast; the browser comes later. */
+.win { transition: filter 500ms ease, opacity 400ms ease; }
+.demo.no-browser .win { opacity: 0; }
+.demo.mast-open .win { filter: blur(7px) brightness(0.7); }
+.demo.mast-open .mastwin { opacity: 1; transform: none; }
