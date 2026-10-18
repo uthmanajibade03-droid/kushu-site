@@ -455,7 +455,7 @@ body.blossom .demo-stage { background-image: url('img/scene-blossom.webp'); }
 .desc b { color: #fff; }
 
 /* One stage per scroll: the screen holds still while the page moves on underneath it. */
-.demo { height: calc(100vh + 9 * 85vh); height: calc(100svh + 9 * 85svh); }
+.demo { height: calc(100vh + 12 * 72vh); height: calc(100svh + 12 * 72svh); }
 .demo-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
 .demo-frame { width: min(100%, calc((100vh - 150px) * 1000 / 640)); margin: 0 auto; }
 
@@ -540,10 +540,9 @@ body.blossom .demo { --accent: #6E1A24; }
 
 /* After the name: what Mast is, three lines a page, each coming into focus after the last. */
 .intro-page { grid-area: 1 / 1; text-align: center; }
-.moment .demo .intro-page p { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', Inter, system-ui, sans-serif; font-size: 40px; line-height: 1.3; font-weight: 600; letter-spacing: -0.03em; color: #1D1D1F; opacity: 0; filter: blur(12px); transform: translateY(10px); transition: opacity 500ms ease, filter 500ms ease, transform 500ms ease; }
-.demo[data-intro="1"] .intro-page[data-page="1"] p, .demo[data-intro="2"] .intro-page[data-page="2"] p { opacity: 1; filter: blur(0); transform: none; transition: opacity 1000ms cubic-bezier(.2, .8, .2, 1), filter 1000ms cubic-bezier(.2, .8, .2, 1), transform 1200ms cubic-bezier(.2, .8, .2, 1); }
-.demo[data-intro] .intro-page p:nth-child(2) { transition-delay: 650ms; }
-.demo[data-intro] .intro-page p:nth-child(3) { transition-delay: 1300ms; }
+.moment .demo .intro-page p { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', Inter, system-ui, sans-serif; font-size: 40px; line-height: 1.12; font-weight: 600; letter-spacing: -0.03em; color: #1D1D1F; opacity: 0; filter: blur(12px); transform: translateY(10px); transition: opacity 400ms ease, filter 400ms ease, transform 400ms ease; }
+.demo .intro-page p em { font-style: normal; color: var(--accent); }
+.demo .intro-page p.on { opacity: 1; filter: blur(0); transform: none; transition: opacity 1000ms cubic-bezier(.2, .8, .2, 1), filter 1000ms cubic-bezier(.2, .8, .2, 1), transform 1200ms cubic-bezier(.2, .8, .2, 1); }
 
 /* 11:55 PM on a Mac (or anything not Windows): dark, the spinner, "Shutting down". */
 .shutdown-mac { position: absolute; inset: 0; z-index: 5; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 26px; background: #000; }

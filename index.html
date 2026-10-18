@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" as="image" href="img/scene-car-field.webp">
-<link rel="stylesheet" href="home.css?v=1792337662">
-<link rel="stylesheet" href="blossom.css?v=1792337662">
+<link rel="stylesheet" href="home.css?v=1792338008">
+<link rel="stylesheet" href="blossom.css?v=1792338008">
 </head>
 <body>
 <script>try { if (localStorage.getItem('mast.scene') === 'blossom') document.body.classList.add('blossom'); } catch (e) {}</script>
@@ -143,8 +143,8 @@
             <!-- The opening and the ending: white, and the name coming into focus. -->
             <div class="brand-screen">
               <p class="brand-word">Mast</p>
-              <div class="intro-page" data-page="1"><p>Mast locks your phone and computer</p><p>at the times you choose,</p><p>so you don’t have to rely on willpower.</p></div>
-              <div class="intro-page" data-page="2"><p>Bedtime, deep work, prayer.</p><p>You set it once, while you’re calm.</p><p>When the moment comes, it holds.</p></div>
+              <div class="intro-page" data-page="1"><p>It’s <em>11:40 PM.</em></p><p>You said you’d be asleep by <em>eleven.</em></p><p>YouTube is already playing the <em>next video.</em></p></div>
+              <div class="intro-page" data-page="2"><p>Mast is for <em>that moment.</em></p><p>You set your bedtime while you’re <em>calm,</em></p><p>and Mast <em>shuts the computer down</em> when it comes.</p></div>
               <p class="brand-line"><span class="l1">Knowing your bedtime isn’t the problem.</span><span class="l2">Going to bed is.</span></p>
             </div>
 
@@ -308,15 +308,14 @@
         d.classList.add('brand', 'cap-hidden', 'no-browser');
         at(250, () => d.classList.add('word-in'));
       },
-      // What Mast is, line by line.
-      () => {
+      // The moment, then what Mast does about it: a line per scroll, building up the page.
+      ...[[1, 1], [1, 2], [1, 3], [2, 1], [2, 2], [2, 3]].map(([page, upTo]) => () => {
         d.classList.add('brand', 'cap-hidden', 'no-browser', 'word-in', 'word-out');
-        at(60, () => { d.dataset.intro = '1'; });
-      },
-      () => {
-        d.classList.add('brand', 'cap-hidden', 'no-browser', 'word-in', 'word-out');
-        at(60, () => { d.dataset.intro = '2'; });
-      },
+        d.dataset.intro = String(page);
+        d.querySelectorAll('.intro-page').forEach((el) => {
+          el.querySelectorAll('p').forEach((p, n) => p.classList.toggle('on', Number(el.dataset.page) === page && n < upTo));
+        });
+      }),
       // Friday morning, calm: bedtime set for tonight (and every night).
       () => {
         now('Fri', '9:15 AM', 'In the morning, you set your computer to shut down at 11:45 PM.');
@@ -359,7 +358,7 @@
       },
     ];
     // How much scroll each stage gets: the last one more, so it stays on screen before the page moves on.
-    const ROOM = [1, 1.3, 1.3, 1, 1.2, 1.2, 1.1, 1, 1.8];
+    const ROOM = [1, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 1, 1.2, 1.2, 1.1, 1, 1.8];
     const TOTAL = ROOM.reduce((s, x) => s + x, 0);
     const stageAt = (p) => {
       let edge = 0;
@@ -372,6 +371,7 @@
       timers.forEach((t) => { clearTimeout(t); clearInterval(t); }); timers = [];
       d.classList.remove('hover-vid', 'no-browser', 'mast-open', 'brand', 'word-in', 'word-out', 'line-in', 'cap-hidden');
       delete d.dataset.intro;
+      d.querySelectorAll('.intro-page p').forEach((p) => p.classList.remove('on'));
     }
     function show(i) {
       if (i === current) return;
