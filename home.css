@@ -525,3 +525,9 @@ body.blossom .demo { --accent: #6E1A24; }
 .demo[data-step="dim"] .win, .demo[data-step="lock"] .win { filter: blur(16px) brightness(0.8); }
 .cover-shot { transform: scale(1.02); transition: opacity 1400ms cubic-bezier(.25, .1, .25, 1), transform 1800ms cubic-bezier(.2, .8, .2, 1); }
 .moment .demo .brand-screen .brand-line { max-width: 640px; }
+
+/* The last words on two lines, always: the first smaller, the second bigger, the same width. */
+.moment .demo .brand-screen .brand-line { max-width: none; }
+.demo .brand-screen .brand-line .l1, .demo .brand-screen .brand-line .l2 { display: table; margin: 0 auto; white-space: nowrap; }
+.demo .brand-screen .brand-line .l1 { font-size: var(--l1, 40px); color: #1D1D1F; }
+.demo .brand-screen .brand-line .l2 { font-size: 92px; line-height: 1.05; color: var(--accent); }

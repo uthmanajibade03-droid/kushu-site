@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" as="image" href="img/scene-car-field.webp">
-<link rel="stylesheet" href="home.css?v=1792323585">
-<link rel="stylesheet" href="blossom.css?v=1792323585">
+<link rel="stylesheet" href="home.css?v=1792323894">
+<link rel="stylesheet" href="blossom.css?v=1792323894">
 </head>
 <body>
 <script>try { if (localStorage.getItem('mast.scene') === 'blossom') document.body.classList.add('blossom'); } catch (e) {}</script>
@@ -142,7 +142,7 @@
             <!-- The opening and the ending: white, and the name coming into focus. -->
             <div class="brand-screen">
               <p class="brand-word">Mast</p>
-              <p class="brand-line">Knowing your bedtime isn’t the problem.<br><span>Going to bed is.</span></p>
+              <p class="brand-line"><span class="l1">Knowing your bedtime isn’t the problem.</span><span class="l2">Going to bed is.</span></p>
             </div>
 
             <svg class="cursor" viewBox="0 0 24 24" width="22" height="22"><path d="M5 3l14 8.5-6.2 1.3L9.6 19z" fill="#fff" stroke="#111" stroke-width="1.4" stroke-linejoin="round"/></svg>
@@ -397,6 +397,15 @@
     now('Fri', '9:15 AM', 'In the morning, you set your computer to shut down at 11:45 PM.');
     d.classList.add('brand', 'cap-hidden', 'no-browser');
     mast.src = LOCKS.off;
+    // The last words: the first line sized to be exactly as wide as the second, in whatever font this device draws.
+    const matchLines = () => {
+      const a = d.querySelector('.brand-line .l1'), b = d.querySelector('.brand-line .l2');
+      a.style.fontSize = '40px';
+      a.style.fontSize = (40 * b.offsetWidth) / a.offsetWidth + 'px';
+    };
+    matchLines();
+    if (document.fonts) document.fonts.ready.then(matchLines);
+
     fit();
     onScroll();
   })(); // moment-play
