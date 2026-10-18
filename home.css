@@ -514,7 +514,6 @@ body.blossom .demo { --accent: #6E1A24; }
 .demo .brand-screen .brand-word, .demo .brand-screen .brand-line { grid-area: 1 / 1; margin: 0; text-align: center; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', Inter, system-ui, sans-serif; opacity: 0; filter: blur(14px); transform: scale(1.06); transition: opacity 1100ms cubic-bezier(.2, .8, .2, 1), filter 1100ms cubic-bezier(.2, .8, .2, 1), transform 1600ms cubic-bezier(.2, .8, .2, 1); }
 .demo .brand-screen .brand-word { font-size: 132px; line-height: 1; font-weight: 700; letter-spacing: -0.055em; color: var(--accent); }
 .demo .brand-screen .brand-line { max-width: 720px; font-size: 46px; line-height: 1.08; font-weight: 600; letter-spacing: -0.035em; color: #1D1D1F; }
-.demo .brand-screen .brand-line span { color: var(--accent); }
 .demo.word-in .brand-screen .brand-word, .demo.line-in .brand-screen .brand-line { opacity: 1; filter: blur(0); transform: none; }
 .demo.word-out .brand-screen .brand-word { opacity: 0; filter: blur(10px); transform: translateY(-18px) scale(0.97); transition-duration: 700ms; }
 .demo-cap { transition: opacity 400ms ease; }
@@ -526,19 +525,16 @@ body.blossom .demo { --accent: #6E1A24; }
 .cover-shot { transform: scale(1.02); transition: opacity 1400ms cubic-bezier(.25, .1, .25, 1), transform 1800ms cubic-bezier(.2, .8, .2, 1); }
 .moment .demo .brand-screen .brand-line { max-width: 640px; }
 
-/* The last words on two lines, always: the first smaller, the second bigger, the same width, close together. */
+/* The last words: two short lines, the same size, the second in the picture's colour. */
 .moment .demo .brand-screen .brand-line { max-width: none; }
-.demo .brand-screen .brand-line .l1, .demo .brand-screen .brand-line .l2 { display: table; margin: 0 auto; white-space: nowrap; }
-.demo .brand-screen .brand-line .l1 { line-height: 1; color: #1D1D1F; }
-.demo .brand-screen .brand-line .l2 { margin-top: -2px; font-size: 92px; line-height: 1; color: var(--accent); }
+.demo .brand-screen .brand-line .l1, .demo .brand-screen .brand-line .l2 { display: block; white-space: nowrap; font-size: 40px; line-height: 1.2; }
+.demo .brand-screen .brand-line .l1 { color: #1D1D1F; }
+.demo .brand-screen .brand-line .l2 { color: var(--accent); }
 
 /* Nothing white waits unseen on the pinned screen (Safari colours its bars from what it finds there). */
 .demo-sticky { background: var(--ink, #0E0C0B); }
 .brand-screen { background: transparent; opacity: 1; transition: background-color 900ms ease; }
 .demo.brand .brand-screen { background: #fff; }
 
-/* On a phone: the time on its own small line, the sentence under it, both modest. */
-@media (max-width: 600px) {
-  .demo-cap { display: block; text-align: center; padding: 10px 14px; border-radius: 14px; font-size: 14px; line-height: 1.35; }
-  .cap-time { display: block; margin-bottom: 2px; font-size: 12px; }
-}
+/* On a phone, no line on top: the screen tells it. */
+@media (max-width: 600px) { .demo-cap { display: none; } }
