@@ -3,7 +3,7 @@
  * screen on every device; as it scrolls away it melts into a dark wine taken
  * from its own ground, and the page carries on in that colour.
  */
-.blossom { --ink: #1A1012; background: var(--ink); }
+.blossom { --ink: #1A1012; }
 .blossom .hero { height: 100svh; min-height: 560px; }
 .blossom .slides { bottom: 0; height: auto; }
 .blossom .slide { background-position: center 30%; transform: none; }

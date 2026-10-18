@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" as="image" href="img/scene-car-field.webp">
-<link rel="stylesheet" href="home.css?v=1792267120">
-<link rel="stylesheet" href="blossom.css?v=1792267120">
+<link rel="stylesheet" href="home.css?v=1792285965">
+<link rel="stylesheet" href="blossom.css?v=1792285965">
 </head>
 <body>
 <script>try { if (localStorage.getItem('mast.scene') === 'blossom') document.body.classList.add('blossom'); } catch (e) {}</script>
@@ -120,7 +120,7 @@
     const buttons = [...document.querySelectorAll('.scene-switch button')];
     const show = (scene) => {
       document.body.classList.toggle('blossom', scene === 'blossom');
-      document.querySelector('meta[name=theme-color]').setAttribute('content', scene === 'blossom' ? '#3A1A1E' : '#22424A');
+      document.querySelector('meta[name=theme-color]').setAttribute('content', scene === 'blossom' ? '#632B2E' : '#22424A');
       buttons.forEach((b) => b.setAttribute('aria-checked', String(b.dataset.scene === scene)));
     };
     show(document.body.classList.contains('blossom') ? 'blossom' : 'field');

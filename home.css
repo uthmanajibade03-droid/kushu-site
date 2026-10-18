@@ -293,9 +293,9 @@ body { background-color: var(--ink); }
   pointer-events: none;
   background: linear-gradient(180deg, var(--top) 0%, rgba(34, 66, 74, 0.55) 40%, rgba(34, 66, 74, 0) 100%);
 }
-body.blossom { --top: #3A1A1E; }
-html:has(body.blossom) { --top: #3A1A1E; }
-body.blossom .hero::before { background: linear-gradient(180deg, #3A1A1E 0%, rgba(58, 26, 30, 0.55) 40%, rgba(58, 26, 30, 0) 100%); }
+body.blossom { --top: #632B2E; }
+html:has(body.blossom) { --top: #632B2E; }
+body.blossom .hero::before { background: linear-gradient(180deg, #632B2E 0%, rgba(99, 43, 46, 0.5) 40%, rgba(99, 43, 46, 0) 100%); }
 
 /* ---- 2026-10-17: phones get the tall picture, full screen; the top and bottom both melt ---- */
 /* Safari tints its bar from the page's own background: make that the picture's top colour, and keep the reading area dark. */
