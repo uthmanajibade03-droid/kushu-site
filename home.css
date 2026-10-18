@@ -526,8 +526,9 @@ body.blossom .demo { --accent: #6E1A24; }
 .cover-shot { transform: scale(1.02); transition: opacity 1400ms cubic-bezier(.25, .1, .25, 1), transform 1800ms cubic-bezier(.2, .8, .2, 1); }
 .moment .demo .brand-screen .brand-line { max-width: 640px; }
 
-/* The last words on two lines, always: the first smaller, the second bigger, the same width. */
-.moment .demo .brand-screen .brand-line { max-width: none; }
-.demo .brand-screen .brand-line .l1, .demo .brand-screen .brand-line .l2 { display: table; margin: 0 auto; white-space: nowrap; }
-.demo .brand-screen .brand-line .l1 { font-size: var(--l1, 40px); line-height: 1; color: #1D1D1F; }
-.demo .brand-screen .brand-line .l2 { font-size: 92px; line-height: 1; margin-top: -2px; color: var(--accent); }
+/* The last words, stacked: the small line sits down into the big one, its words round the tall letters. */
+.moment .demo .brand-screen .brand-line { position: relative; max-width: none; padding-top: 0.42em; font-size: 128px; line-height: 1; }
+.demo .brand-screen .brand-line .l2 { display: block; white-space: nowrap; font-size: 128px; font-weight: 700; letter-spacing: -0.045em; color: var(--accent); }
+.demo .brand-screen .brand-line .l2 b { font-weight: inherit; }
+.demo .brand-screen .brand-line .base { display: inline-block; width: 0; height: 0; }
+.demo .brand-screen .brand-line .w { position: absolute; white-space: nowrap; line-height: 1; font-weight: 650; letter-spacing: -0.025em; color: #1D1D1F; }
