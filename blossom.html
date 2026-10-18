@@ -12,8 +12,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" as="image" href="img/scene-blossom.webp">
-<link rel="stylesheet" href="home.css?v=1792285965">
-<link rel="stylesheet" href="blossom.css?v=1792285965">
+<link rel="stylesheet" href="home.css?v=1792286485">
+<link rel="stylesheet" href="blossom.css?v=1792286485">
 </head>
 <body class="blossom">
 
@@ -101,7 +101,7 @@
 
 </main>
 
-<p class="giant" aria-hidden="true">MAST</p>
+<div class="giant-wrap"><p class="giant" aria-hidden="true">MAST</p></div>
 
 <footer class="footer">
   <span>Mast</span>
@@ -109,5 +109,14 @@
 </footer>
 
 <script src="site.js"></script>
+<script>
+  // Past the picture, the page's background turns dark, so Safari's bars match what's under them.
+  (() => {
+    const hero = document.querySelector('.hero');
+    const check = () => document.body.classList.toggle('past-hero', window.scrollY > hero.offsetHeight * 0.6);
+    window.addEventListener('scroll', check, { passive: true });
+    check();
+  })();
+</script>
 </body>
 </html>

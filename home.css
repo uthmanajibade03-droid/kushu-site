@@ -313,3 +313,9 @@ main, .giant, .footer { background-color: var(--ink); }
   .hero-words { position: absolute; left: 0; right: 0; bottom: 40px; padding: 0 16px; text-align: center; }
   .hero::before { height: 160px; }
 }
+
+/* ---- the bottom: dark behind MAST, and the page dark once the picture has scrolled away ---- */
+.giant-wrap { background-color: var(--ink); overflow: hidden; }
+body.past-hero { background-color: var(--ink); }
+html:has(body.past-hero) { background-color: var(--ink); }
+.footer { padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px)); }
