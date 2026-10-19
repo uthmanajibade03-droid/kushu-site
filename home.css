@@ -562,3 +562,11 @@ body.blossom .demo { --accent: #6E1A24; }
 .spokes i:nth-child(11) { transform: rotate(300deg); opacity: 0.92; }
 .spokes i:nth-child(12) { transform: rotate(330deg); opacity: 1.00; }
 @keyframes spokes { to { transform: rotate(360deg); } }
+
+/* The reading story: a 16:9 frame for the real recording; the white pages over it until it rolls. */
+.demo.reel { height: calc(100vh + 13 * 72vh); height: calc(100svh + 13 * 72svh); }
+.demo.reel .demo-frame { aspect-ratio: 16 / 9; width: min(100%, calc((100vh - 150px) * 16 / 9)); width: min(100%, calc((100svh - 150px) * 16 / 9)); }
+.demo.reel .demo-stage { height: 562.5px; background: #0E0C0B; }
+.demo.reel .reel-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.demo.reel .intro-page p { white-space: nowrap; }
+.demo.reel .brand-screen .brand-line .l2 { color: var(--accent); }
