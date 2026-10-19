@@ -77,14 +77,14 @@ async function loadRequest() {
   if (!r) {
     show();
     await showSignedIn();
-    return problem('This request isn’t for this email. Use the email your friend added you with, or, if you were added today in strict mode, you can answer from tomorrow.');
+    return problem('This request isn’t for this email. Use the email your friend added you with, or, if you were added today, you can answer from tomorrow.');
   }
   await showSignedIn();
   const until = new Date(r.lock_until);
   isChange = /^Change: /.test(r.lock_name || '');
   if (isChange) {
     $('title').textContent = 'Someone asked you to allow a change';
-    $('lede').textContent = 'They use Mast’s strict mode, so turning a lock off happens a day later, unless you say yes now.';
+    $('lede').textContent = 'With Mast, turning a lock off happens a day later, unless you say yes now.';
     $('request').querySelector('p').textContent = `${r.asker} wants to: ${r.lock_name.replace(/^Change: /, '')}. Without you, it happens by itself ${until.toLocaleString(undefined, { weekday: 'long', hour: 'numeric', minute: '2-digit' })}.`;
     $('approve').textContent = 'Allow it now';
   } else {
