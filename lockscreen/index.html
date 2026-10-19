@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:">
+<title>Mast</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="glass.css">
+<link rel="stylesheet" href="cover.css">
+</head>
+<body>
+<!-- The lens behind liquid glass (glass.css): the middle almost still, the edges bent. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="lens" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB" primitiveUnits="objectBoundingBox">
+    <feImage x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="map" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='r' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23000'/%3E%3Cstop offset='1' stop-color='%23f00'/%3E%3C/linearGradient%3E%3ClinearGradient id='g' y1='0' y2='1' x1='0' x2='0'%3E%3Cstop offset='0' stop-color='%23000'/%3E%3Cstop offset='1' stop-color='%230f0'/%3E%3C/linearGradient%3E%3Cfilter id='b'%3E%3CfeGaussianBlur stdDeviation='5'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100' height='100' fill='url(%23r)'/%3E%3Crect width='100' height='100' fill='url(%23g)' style='mix-blend-mode:screen'/%3E%3Crect x='8' y='8' width='84' height='84' rx='18' fill='%23808000' filter='url(%23b)'/%3E%3C/svg%3E"/>
+    <feDisplacementMap in="SourceGraphic" in2="map" scale="0.055" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+<div class="wall drift"></div>
+<div class="shade"></div>
+<!-- The picture, sharp and drifting slowly; what's happening at the bottom left; the time draining and the ways out at the bottom right. -->
+<main class="cover" role="alertdialog" aria-labelledby="c-title" aria-describedby="c-detail">
+  <!-- The day's verse; while the phone recites, the verse being recited, each new one rising into view. -->
+  <figure class="verse lg deep" id="c-verse" hidden>
+    <div class="reel" id="c-reel"></div>
+  </figure>
+
+  <section class="card">
+    <p class="eyebrow" id="c-label"></p>
+    <h1 id="c-title"></h1>
+    <p class="big" id="c-time" role="timer"></p>
+    <p class="detail" id="c-detail"></p>
+    <p class="foot" id="c-foot"></p>
+    <!-- Kept for the code that fills them; this look draws the time left as the line on the right. -->
+    <div class="tube big-tube" id="c-tube" hidden><div class="liquid" id="c-liquid"></div></div>
+    <div class="bookmark" id="c-bookmark" hidden><img src="img/bookmark.png" alt=""></div>
+  </section>
+
+  <aside class="side">
+    <!-- Ask friends: scan with the phone, Messages opens with the link ready. -->
+    <div class="panel lg deep" id="c-asked" hidden>
+      <div class="qr" id="c-qr" aria-label="QR code to text your friends"></div>
+      <div>
+        <p class="confirm-q">Scan with your phone to text your friends</p>
+        <p class="confirm-note" id="c-ask-note"></p>
+      </div>
+    </div>
+    <!-- The week's one emergency: asked twice, because it might really be needed later. -->
+    <div class="panel lg deep confirm" id="c-confirm" role="group" aria-labelledby="c-confirm-q" hidden>
+      <p class="confirm-q" id="c-confirm-q">Are you sure you want to use it now?</p>
+      <p class="confirm-note">You get one a week. You might actually need it later.</p>
+      <div class="confirm-row">
+        <button class="glass-button primary" id="c-keep" type="button">Keep the lock</button>
+        <button class="glass-button" id="c-use" type="button">Use it now</button>
+      </div>
+    </div>
+    <!-- The time left, as a line that drains. -->
+    <div class="drain" id="c-drain" hidden><i id="c-drain-fill"></i></div>
+    <nav class="dock lg" id="c-dock">
+      <button class="glass-button primary" id="c-ask" type="button" hidden>Ask friends</button>
+      <button class="glass-button" id="c-needed" type="button" hidden>Needed for this task</button>
+      <button class="glass-button" id="c-more" type="button" hidden>Five more minutes</button>
+      <button class="glass-button" id="c-limits" type="button" hidden>Change limits</button>
+      <button class="glass-button" id="c-emergency" type="button" hidden>Emergency</button>
+    </nav>
+  </aside>
+</main>
+<script src="clock-830.js"></script>
+<script src="cover.js"></script>
+</body>
+</html>

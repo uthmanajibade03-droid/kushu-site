@@ -1,0 +1,123 @@
+/*
+ * Kushu's look, shared by every window: the painting behind, liquid glass
+ * on top, oxblood for what matters. Designed in docs/redesign/glass-v2.
+ *
+ * Liquid glass is nearly clear, a lens more than a frost: what's behind is
+ * only lightly blurred and brightened, a bright rim catches the light at the
+ * edges, and a soft highlight sits across the top.
+ */
+
+@font-face {
+  font-family: 'Inter';
+  src: url('fonts/Inter-Variable.ttf') format('truetype');
+  font-weight: 100 900;
+}
+
+:root {
+  /* What you press, and the breath of colour in the glass: the picture's own (blossom here, field below). */
+  --oxblood: #6E1A24;
+  --oxblood-deep: #4A0F17;
+  --oxblood-light: #9B3340;
+  --liquid-top: #B7505C;
+  --tint: rgba(40, 16, 20, 0.22);
+  --tint-strong: rgba(110, 26, 36, 0.58);
+  --dot: #FF8A7A;
+  --pill-body: rgba(60, 40, 42, 0.42);
+  --wall: url('img/wall-blossom.webp');
+  --wall-pos: center 38%;
+  --cream: #F4EADB;
+  --glass-ink: #FFFFFF;
+  --glass-soft: rgba(255, 255, 255, 0.8);
+  --milk-ink: #1D1416;
+  --milk-soft: rgba(29, 20, 22, 0.6);
+  /* Apple's own face on a Mac; Inter, its open cousin, everywhere else. */
+  --display: -apple-system, 'SF Pro Display', 'Inter', system-ui, sans-serif;
+  --text: -apple-system, 'SF Pro Text', 'Inter', system-ui, sans-serif;
+}
+
+/* The field: sea-teal from its sky, in place of the blossom's oxblood. */
+:root[data-scene="field"] {
+  --oxblood: #2F5A56;
+  --oxblood-deep: #1F3E3B;
+  --oxblood-light: #4E7F79;
+  --liquid-top: #6FA39B;
+  --tint: rgba(16, 30, 28, 0.24);
+  --tint-strong: rgba(36, 70, 66, 0.6);
+  --dot: #9FD3C7;
+  --pill-body: rgba(34, 52, 50, 0.44);
+  --wall: url('img/wall-field.webp');
+  --wall-pos: center 62%;
+}
+:root[data-scene="field"] .bookmark img, :root[data-scene="field"] img.bookmark-img { content: url('img/bookmark-teal.png'); }
+
+/* The picture, behind everything. */
+.wall { position: fixed; inset: 0; z-index: -1; background: #2b2a29 var(--wall) var(--wall-pos) / cover no-repeat; }
+.wall.blur { filter: blur(30px) saturate(115%); transform: scale(1.12); }
+.wall.blur::after { content: ''; position: absolute; inset: 0; background: rgba(40, 10, 14, 0.22); }
+
+.lg {
+  position: relative;
+  isolation: isolate;
+  border-radius: 32px;
+  color: var(--glass-ink);
+  background: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: url(#lens) blur(2px) saturate(150%) brightness(1.08);
+  backdrop-filter: url(#lens) blur(2px) saturate(150%) brightness(1.08);
+  box-shadow: 0 24px 60px rgba(20, 5, 8, 0.28), 0 2px 8px rgba(20, 5, 8, 0.12),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.65);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.28);
+}
+.lg::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none; z-index: 1;
+  background: linear-gradient(140deg, rgba(255,255,255,0.95), rgba(255,255,255,0.15) 28%, rgba(255,255,255,0.05) 55%, rgba(255,255,255,0.55) 85%, rgba(255,255,255,0.9));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+.lg::after {
+  content: ''; position: absolute; left: 6%; right: 6%; top: 0; height: 45%; border-radius: inherit; pointer-events: none; z-index: 0;
+  background: radial-gradient(120% 90% at 30% 0%, rgba(255,255,255,0.3), rgba(255,255,255,0) 60%);
+}
+.lg > * { position: relative; z-index: 2; }
+/* Over a blurred painting the glass can be a little more solid, for reading. */
+.lg.deep { background: rgba(255, 255, 255, 0.12); -webkit-backdrop-filter: url(#lens) blur(12px) saturate(150%) brightness(1.08); backdrop-filter: url(#lens) blur(12px) saturate(150%) brightness(1.08); }
+/* Milky glass for lists to read: light, with dark text. */
+.lg.milk {
+  color: var(--milk-ink); text-shadow: none;
+  background: rgba(255, 250, 244, 0.66);
+  -webkit-backdrop-filter: blur(22px) saturate(140%); backdrop-filter: blur(22px) saturate(140%);
+}
+.lg.milk::after { background: radial-gradient(120% 90% at 30% 0%, rgba(255,255,255,0.55), rgba(255,255,255,0) 60%); }
+
+/* The leather bookmark (the photo, cut out), hanging off a card's top edge. */
+.bookmark { position: absolute; top: 0; width: 46px; z-index: 3; pointer-events: none; filter: drop-shadow(0 10px 14px rgba(40, 8, 12, 0.45)); }
+.bookmark img { width: 100%; display: block; }
+
+/* A glass tube, the oxblood draining as the time runs out. */
+.tube {
+  position: relative; overflow: hidden; border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.45), rgba(255,255,255,0.06) 45%, rgba(255,255,255,0.22));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.65), inset 0 3px 8px rgba(0,0,0,0.18);
+}
+.tube::after { content: ''; position: absolute; top: 8px; bottom: 8px; left: 20%; width: 13%; border-radius: 9px; background: rgba(255,255,255,0.7); z-index: 3; }
+.liquid {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 0;
+  background: linear-gradient(90deg, var(--oxblood-light), var(--oxblood) 60%, var(--oxblood-deep));
+  transition: height 1200ms ease;
+}
+.liquid::before { content: ''; position: absolute; left: -20%; right: -20%; top: -4px; height: 8px; border-radius: 50%; background: var(--liquid-top); }
+.liquid.empty::before { display: none; }
+
+.capsule { display: inline-flex; align-items: center; gap: 10px; border-radius: 999px; padding: 11px 22px; font-size: 15px; font-weight: 600; }
+.eyebrow { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; color: var(--glass-soft); margin: 0; }
+.milk .eyebrow { color: var(--milk-soft); }
+
+/* Buttons on glass: white is the one to press, clear glass the rest. */
+.glass-button {
+  border: 0; border-radius: 24px; padding: 15px 26px; cursor: pointer;
+  font: 600 15px var(--text); color: #fff; background: rgba(255, 255, 255, 0.14);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+.glass-button:hover { background: rgba(255, 255, 255, 0.22); }
+.glass-button.primary { background: rgba(255, 255, 255, 0.92); color: var(--oxblood); text-shadow: none; }
+.glass-button.primary:hover { background: #fff; }
+.glass-button:disabled { opacity: 0.55; cursor: default; }

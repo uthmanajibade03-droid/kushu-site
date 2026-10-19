@@ -564,9 +564,48 @@ body.blossom .demo { --accent: #6E1A24; }
 @keyframes spokes { to { transform: rotate(360deg); } }
 
 /* The reading story: a 16:9 frame for the real recording; the white pages over it until it rolls. */
-.demo.reel { height: calc(100vh + 13 * 72vh); height: calc(100svh + 13 * 72svh); }
+.demo.reel { height: auto; }
+.demo.reel .demo-sticky { position: static; height: auto; padding: 24px 0; }
 .demo.reel .demo-frame { aspect-ratio: 16 / 9; width: min(100%, calc((100vh - 150px) * 16 / 9)); width: min(100%, calc((100svh - 150px) * 16 / 9)); }
-.demo.reel .demo-stage { height: 562.5px; background: #0E0C0B; }
-.demo.reel .reel-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.demo.reel .intro-page p { white-space: nowrap; }
+.demo.reel .demo-stage { height: 562.5px; background: #fff; }
+.demo.reel .intro-page { max-width: 760px; }
+.demo.reel .intro-page p { white-space: normal; text-wrap: balance; }
+.demo.reel .intro-page p + p { margin-top: 18px; }
 .demo.reel .brand-screen .brand-line .l2 { color: var(--accent); }
+
+/* A time on a page of its own: big, in the accent colour. */
+.moment .demo.reel .intro-page.time p { font-size: 96px; line-height: 1; letter-spacing: -0.045em; color: var(--accent); }
+
+/* The clock between the words: the minute rolls up into place. */
+.demo.reel .tick-label { display: block; margin-bottom: 14px; font-size: 32px; letter-spacing: -0.02em; color: #6E6E73; }
+.demo.reel .tick { display: inline-block; overflow: hidden; height: 1.05em; vertical-align: top; font-variant-numeric: tabular-nums; }
+.demo.reel .tick span { display: block; }
+.demo.reel .tick { position: relative; min-width: 4.6em; text-align: center; }
+.demo.reel .tick span + span { position: absolute; left: 0; right: 0; top: 0; }
+.demo.reel .tick .in { animation: tick-in 640ms cubic-bezier(.33, 0, .2, 1) both; }
+.demo.reel .tick .out { animation: tick-out 640ms cubic-bezier(.33, 0, .2, 1) both; }
+@keyframes tick-in { from { transform: translateY(70%); opacity: 0; filter: blur(4px); } to { transform: none; opacity: 1; filter: none; } }
+@keyframes tick-out { from { transform: none; opacity: 1; filter: none; } to { transform: translateY(-70%); opacity: 0; filter: blur(4px); } }
+/* The last line's ask, big. */
+.demo.reel .huge { display: block; margin-top: 10px; font-size: 104px; line-height: .95; letter-spacing: -0.05em; color: var(--accent); }
+/* Mast's lock screen over the whole frame (its page is 1600 × 900, drawn at the frame's size). */
+.demo.reel .reel-lock { position: absolute; inset: 0; z-index: 9; overflow: hidden; opacity: 0; pointer-events: none; transition: opacity 900ms ease; }
+.demo.reel .reel-lock iframe { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; border: 0; transform-origin: 0 0; transform: scale(0.625); }
+.demo.reel.locked .reel-lock { opacity: 1; }
+
+/* The line under the demo, filling as it plays. */
+.demo.reel .reel-progress { width: min(100%, calc((100vh - 150px) * 16 / 9)); margin: 16px auto 0; height: 3px; border-radius: 2px; background: rgba(255, 255, 255, 0.12); overflow: hidden; }
+.demo.reel .reel-progress i { display: block; height: 100%; width: 0; background: rgba(255, 255, 255, 0.6); }
+
+/* The first time: the white grows out of the card to the whole screen, and back. The demo sits above it. */
+.takeover { position: fixed; inset: 0; z-index: 40; background: #fff; pointer-events: none; opacity: 0; clip-path: inset(50% 50% 50% 50%); transition: clip-path 900ms cubic-bezier(.22, 1.1, .36, 1); }
+.takeover.on { opacity: 1; }
+body.demo-held .demo.reel .demo-frame { position: relative; z-index: 41; box-shadow: none; transition: box-shadow 600ms ease; }
+body.demo-held .demo.reel .reel-progress { position: relative; z-index: 41; background: rgba(0, 0, 0, 0.08); }
+body.demo-held .demo.reel .reel-progress i { background: rgba(0, 0, 0, 0.35); }
+.takeover-skip { position: fixed; right: 24px; bottom: 22px; z-index: 42; border: 0; background: none; cursor: pointer; padding: 8px 12px; font: 500 14px -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, system-ui, sans-serif; color: rgba(0, 0, 0, 0.42); }
+.takeover-skip:hover { color: rgba(0, 0, 0, 0.75); }
+@media (prefers-reduced-motion: reduce) { .takeover { transition: none; } }
+html { scrollbar-gutter: stable; }
+html.held, html.held body { overflow: hidden; }
+html.held { background-color: #fff; }

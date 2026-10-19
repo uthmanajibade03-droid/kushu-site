@@ -54,24 +54,36 @@
     <h2 id="h-moment"><span class="strong">Knowing isn’t the problem.</span><br><span>The moment is.</span></h2>
     <p class="moment-sub">When it comes, your phone is louder than your plans.</p>
 
-    <!-- The moment, one line per scroll: the excuse everyone makes, then a real recording of Mast locking a computer mid-work (a Reading lock), then the name. -->
+    <!-- The moment, a step per scroll: the words, the clock running between them, and on the second day at 8:30 Mast's own lock screen. -->
     <div class="demo reel" id="demo">
       <div class="demo-sticky">
-        <p class="demo-cap" id="demo-cap" aria-live="polite"><span class="cap-time" id="cap-time"></span><span id="cap-text"></span></p>
         <div class="demo-frame">
           <div class="demo-stage">
-            <!-- Recorded on Windows: someone working in a doc at 8:29; at 8:30 Mast's own Reading lock covers the screen. -->
-            <video class="reel-video" id="demo-video" src="img/demo/reading-lock.mp4" poster="img/demo/reading-lock-poster.webp" muted playsinline preload="auto" aria-label="A computer locked by Mast for reading time"></video>
             <div class="brand-screen">
               <p class="brand-word">Mast</p>
-              <div class="intro-page" data-page="1"><p>You want to read every day at <em>8:30 PM.</em></p><p>But at <em>8:28 PM,</em> you’re still working.</p></div>
-              <div class="intro-page" data-page="2"><p><em>8:30 PM.</em> Now it’s just you and your willpower.</p><p>“This is important. <em>10 more minutes.</em>”</p></div>
-              <div class="intro-page" data-page="3"><p><em>8:40 PM.</em> “You know what? <em>I’ll start tomorrow.</em>”</p><p>Tomorrow, <em>8:29 PM.</em> Same excuse. Same willpower.</p></div>
-              <div class="intro-page" data-page="4"><p>That’s what <em>Mast</em> is for.</p><p>Reading time comes,</p></div>
+              <div class="intro-page" data-page="1"><p>You want to read every day at <em>8:30 PM.</em></p></div>
+              <div class="intro-page time" data-page="2"><p></p></div>
+              <div class="intro-page" data-page="3"><p>But you are working on your computer, and the time is <em>8:28 PM.</em></p></div>
+              <div class="intro-page time" data-page="4"><p></p></div>
+              <div class="intro-page" data-page="5"><p>Reading time comes <em>(8:30 PM)</em>, now you’re left with willpower to turn off your computer and go read.</p></div>
+              <div class="intro-page" data-page="6"><p>You say: “This work is important, let me finish it. <em>10 more minutes.</em>”</p></div>
+              <div class="intro-page time" data-page="7"><p></p></div>
+              <div class="intro-page" data-page="8"><p>“You know what? <em>I’ll start my reading tomorrow.</em>”</p></div>
+              <div class="intro-page time" data-page="9"><p></p></div>
+              <div class="intro-page" data-page="10"><p>Same excuse, weak willpower.</p></div>
+              <div class="intro-page" data-page="11"><p>That’s what <em>Mast</em> is for.</p></div>
+              <div class="intro-page" data-page="12"><p>The planned schedule time comes;</p></div>
+              <div class="intro-page time" data-page="13"><p></p></div>
+              <div class="intro-page" data-page="14"><p>Mast <em>locks your computer screen</em> until your reading time is over.</p></div>
+              <div class="intro-page" data-page="15"><p>So you’re left with a locked screen and a book.</p></div>
+              <div class="intro-page" data-page="16"><p>Now the decision is yours: waste the time, or<span class="huge">READ THE BOOK.</span></p></div>
               <p class="brand-line"><span class="l1">Built for when</span><span class="l2">your willpower fails you.</span></p>
             </div>
+            <!-- Mast's lock screen, the app's own page with its clock set to 8:30 PM (lockscreen/). -->
+            <div class="reel-lock"><iframe id="demo-lock" title="Mast's lock screen" tabindex="-1" loading="lazy"></iframe></div>
           </div>
         </div>
+        <div class="reel-progress" aria-hidden="true"><i id="demo-progress"></i></div>
       </div>
     </div>
   </section>
@@ -135,10 +147,12 @@
   <span><a href="privacy.html">Privacy</a> · © 2026 Mast</span>
 </footer>
 
+<div class="takeover" id="takeover" aria-hidden="true"></div>
+<button class="takeover-skip" id="takeover-skip" type="button" hidden>Skip</button>
 <script src="site.js"></script>
 <script>
-  // moment-play: one stage per scroll. The white pages build a line at a time; then the recording plays
-  // from where the story is; then the name, and what it's for.
+  // moment-play: plays by itself once it's in view, and again from the start each time: words fade in,
+  // a clock runs between them, and on the second day at 8:30 Mast's own lock screen comes over the frame.
   (() => {
     const d = document.getElementById('demo');
     if (!d) return;
@@ -146,91 +160,138 @@
     const frame = d.querySelector('.demo-frame');
     const fit = () => stage.style.setProperty('--k', frame.clientWidth / 1000);
     if ('ResizeObserver' in window) new ResizeObserver(fit).observe(frame);
-    const $ = (id) => document.getElementById(id);
-    const video = $('demo-video');
-    const cap = $('demo-cap');
+    const pages = [...d.querySelectorAll('.intro-page')];
+    const lockFrame = document.getElementById('demo-lock');
+    const progress = document.getElementById('demo-progress');
+    const STEPS = [["say"],["tick","","20:26","20:28",900],["say"],["tick","","20:28","20:30",900],["say"],["say"],["tick","After 10 minutes","20:30","20:40",420],["say"],["tick","Tomorrow","20:27","20:29",900],["say"],["say"],["say"],["lock","Tomorrow","20:29","20:30",1100],["say"],["say"],["say"]];
 
     let timers = [];
     const at = (ms, fn) => timers.push(setTimeout(fn, ms));
-    const say = (time, text) => {
-      $('cap-time').textContent = time;
-      if ($('cap-text').textContent !== text) {
-        $('cap-text').textContent = text;
-        cap.classList.remove('fresh'); void cap.offsetWidth; cap.classList.add('fresh');
+    const clock = (m) => `${((Math.floor(m / 60) + 11) % 12) + 1}:${String(m % 60).padStart(2, '0')} PM`;
+    const mins = (s) => { const [hh, mm] = s.split(':').map(Number); return hh * 60 + mm; };
+    // A clock on its page; each new minute rises in as the last one leaves upwards.
+    const tick = (el, label, from, to, each) => {
+      el.innerHTML = (label ? `<span class="tick-label">${label}</span>` : '') + `<span class="tick"><span>${clock(mins(from))}</span></span>`;
+      const box = el.querySelector('.tick');
+      for (let m = mins(from) + 1, i = 1; m <= mins(to); m += 1, i += 1) {
+        const now = m;
+        at(700 + i * each, () => {
+          const old = box.lastElementChild;
+          const next = document.createElement('span');
+          next.className = 'in';
+          next.textContent = clock(now);
+          box.appendChild(next);
+          if (old) { old.className = 'out'; setTimeout(() => old.remove(), 700); }
+        });
       }
+      return 700 + (mins(to) - mins(from)) * each;
     };
-    // The recording, from a moment in it (seconds), playing on.
-    const play = (from) => {
-      d.classList.add('rolling');
-      const go = () => {
-        if (Math.abs(video.currentTime - from) > 1.5 || video.paused) video.currentTime = from;
-        const p = video.play(); if (p) p.catch(() => {});
-      };
-      // It can only jump once it knows how long it is.
-      if (video.readyState >= 1) go(); else video.addEventListener('loadedmetadata', go, { once: true });
-    };
-
-    const page = (n, upTo) => () => {
-      d.classList.add('brand', 'cap-hidden', 'word-out');
-      d.querySelectorAll('.intro-page').forEach((el) => {
-        el.querySelectorAll('p').forEach((p, i) => p.classList.toggle('on', Number(el.dataset.page) === n && i < upTo));
-      });
-    };
-    const stages = [
-      page(1, 1), page(1, 2), page(2, 1), page(2, 2), page(3, 1), page(3, 2), page(4, 1), page(4, 2),
-      // 8:29, working; 8:30, the lock comes on its own (about 6 seconds in).
-      () => { say('8:30 PM', 'Mast locks your computer until reading time is over.'); play(9); },
-      () => { say('8:31 PM', 'A locked screen, and a book.'); play(22); },
-      () => { say('8:31 PM', 'Now the choice is yours: waste the time, or read the book.'); play(28); },
-      // White, and the name; then what it's for.
-      () => { d.classList.add('brand', 'cap-hidden'); at(350, () => d.classList.add('word-in')); },
-      () => { d.classList.add('brand', 'cap-hidden', 'word-in'); at(50, () => d.classList.add('word-out')); at(550, () => d.classList.add('line-in')); },
-    ];
-    // Scroll each stage gets: the recording longer, so it plays; the last more, so it stays before the page moves on.
-    const ROOM = [0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 1.4, 1, 1.2, 1, 1.8];
-    const TOTAL = ROOM.reduce((s, x) => s + x, 0);
-    const stageAt = (p) => {
-      let edge = 0;
-      for (let i = 0; i < ROOM.length; i += 1) { edge += ROOM[i] / TOTAL; if (p < edge) return i; }
-      return ROOM.length - 1;
+    const show = (n) => {
+      d.classList.remove('locked');
+      pages.forEach((el, i) => el.querySelector('p').classList.toggle('on', i === n));
+      const [kind, label, from, to, each] = STEPS[n];
+      if (kind === 'say') return 2900;
+      const done = tick(pages[n].querySelector('p'), label, from, to, each);
+      if (kind !== 'lock') return done + 1100;
+      const scene = document.body.classList.contains('blossom') ? 'blossom' : 'field';
+      lockFrame.src = `lockscreen/index.html?s=${scene}&t=${Date.now()}`;
+      at(done + 500, () => d.classList.add('locked'));
+      return done + 5200;
     };
 
-    let current = -1;
-    function clear() {
+    let playing = false;
+    function stop() {
       timers.forEach((t) => clearTimeout(t)); timers = [];
-      d.classList.remove('brand', 'word-in', 'word-out', 'line-in', 'cap-hidden', 'rolling');
-      d.querySelectorAll('.intro-page p').forEach((p) => p.classList.remove('on'));
+      playing = false;
+      d.classList.remove('word-in', 'line-in', 'locked');
+      d.classList.add('brand', 'word-out');
+      pages.forEach((el) => el.querySelector('p').classList.remove('on'));
+      progress.style.transition = 'none'; progress.style.width = '0';
     }
-    function show(i) {
-      if (i === current) return;
-      const wasRolling = current >= 8 && current <= 10;
-      current = i;
-      clear();
-      stages[i]();
-      if (wasRolling && !(i >= 8 && i <= 10)) video.pause();
+    function play() {
+      stop();
+      playing = true;
+      // Lay the whole run out first, so the line under it knows how long it is.
+      const plan = [];
+      let t = 600;
+      STEPS.forEach((s, n) => {
+        const start = t;
+        // The clock pages report how long they need once drawn; estimate the same here.
+        const [kind, , from, to, each] = s;
+        const len = kind === 'say' ? 2900 : 700 + (mins(to) - mins(from)) * each + (kind === 'lock' ? 5200 : 1100);
+        plan.push([start, () => show(n)]);
+        t += len;
+      });
+      plan.push([t, () => { pages.forEach((el) => el.querySelector('p').classList.remove('on')); d.classList.remove('locked', 'word-out'); at(350, () => d.classList.add('word-in')); }]);
+      t += 2400;
+      plan.push([t, () => { d.classList.add('word-out'); at(500, () => d.classList.add('line-in')); }]);
+      t += 4200;
+      plan.forEach(([when, fn]) => at(when, fn));
+      at(t, () => { if (!playing) return; onceDone(); play(); });
+      void progress.offsetWidth;
+      progress.style.transition = `width ${t}ms linear`;
+      progress.style.width = '100%';
     }
 
-    function onScroll() {
-      const r = d.getBoundingClientRect();
-      if (r.top > window.innerHeight * 0.35) {
-        if (current !== -1) { current = -1; clear(); video.pause(); }
-        d.classList.add('brand', 'cap-hidden', 'word-out');
-        return;
-      }
-      const travel = d.offsetHeight - window.innerHeight;
-      const p = Math.min(0.999, Math.max(0, -r.top / Math.max(1, travel)));
-      show(stageAt(p));
+    // The first time: the page turns white from the card outwards and holds still, the demo in the middle,
+    // until it has played through once (or Skip); then the white draws back into the card.
+    const white = document.getElementById('takeover');
+    const skip = document.getElementById('takeover-skip');
+    let seen = false, holding = false;
+    const cardInset = () => {
+      const b = frame.getBoundingClientRect();
+      return `inset(${b.top}px ${innerWidth - b.right}px ${innerHeight - b.bottom}px ${b.left}px round 16px)`;
+    };
+    const stopWheel = (e) => e.preventDefault();
+    const stopKeys = (e) => { if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(e.key)) e.preventDefault(); };
+    function hold() {
+      holding = true;
+      // Held at once, so the scroll that got here stops here; then the demo glides to the middle.
+      document.documentElement.classList.add('held');
+      const centre = () => scrollY + frame.getBoundingClientRect().top - (innerHeight - frame.offsetHeight) / 2;
+      scrollTo({ top: centre(), behavior: 'smooth' });
+      setTimeout(() => {
+        if (!holding) return;
+        scrollTo({ top: centre() });
+        white.style.transition = 'none';
+        white.style.clipPath = cardInset();
+        white.classList.add('on');
+        void white.offsetWidth;
+        white.style.transition = '';
+        white.style.clipPath = 'inset(0px 0px 0px 0px round 0px)';
+        document.body.classList.add('demo-held');
+        // Held: the page can't scroll (wheel, keys, the bar or a finger) until it lets go.
+        addEventListener('touchmove', stopWheel, { passive: false });
+        addEventListener('keydown', stopKeys);
+        skip.hidden = false;
+      }, 650);
     }
-    let frameReq = null;
-    window.addEventListener('scroll', () => {
-      if (frameReq) return;
-      frameReq = requestAnimationFrame(() => { frameReq = null; onScroll(); });
-    }, { passive: true });
-    window.addEventListener('resize', () => { fit(); onScroll(); });
+    function release() {
+      if (!holding) return;
+      holding = false;
+      seen = true;
+      document.documentElement.classList.remove('held');
+      removeEventListener('touchmove', stopWheel);
+      removeEventListener('keydown', stopKeys);
+      skip.hidden = true;
+      white.style.clipPath = cardInset();
+      setTimeout(() => { white.classList.remove('on'); document.body.classList.remove('demo-held'); }, 900);
+    }
+    const onceDone = () => release();
+    skip.addEventListener('click', release);
 
-    d.classList.add('brand', 'cap-hidden', 'word-out');
+    // In view: play from the start (the first time, holding the page). Out of view: stop, to start fresh next time.
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting && !playing) { play(); if (!seen && !holding) hold(); }
+          else if (!e.isIntersecting && playing && !holding) stop();
+        }
+      }, { threshold: 0.6 }).observe(frame);
+    } else play();
+
+    stop();
     fit();
-    onScroll();
   })(); // moment-play
 </script>
 <script>

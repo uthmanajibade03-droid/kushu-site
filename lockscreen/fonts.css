@@ -1,0 +1,43 @@
+/* Bundled, so nothing is fetched at prayer time. Both fonts are under the SIL OFL (see fonts/). */
+
+@font-face {
+  font-family: 'Figtree';
+  src: url('fonts/Figtree_400Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Figtree';
+  src: url('fonts/Figtree_500Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Figtree';
+  src: url('fonts/Figtree_600SemiBold.ttf') format('truetype');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Figtree';
+  src: url('fonts/Figtree_700Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Amiri Quran';
+  src: url('fonts/AmiriQuran-Regular.ttf') format('truetype');
+}
+
+/* Kushu's stone palette, the same values as the phone app. */
+:root {
+  --card: #D9D4D3;
+  --ground: #CEC9C8;
+  --pill: #E4E0E0;
+  --line: #D2CCCC;
+  --ink: #282828;
+  --ink-2: #4A4445;
+  --muted: #5F5859;
+  --dark: #282828;
+  --dark-2: #303030;
+  --dark-3: #3A3A3A;
+  --on-dark: #F2EFEE;
+  --on-dark-2: #D9D4D3;
+  --on-dark-muted: #A6A0A1;
+}
