@@ -16,14 +16,14 @@ if (!/^[0-9a-f-]{36}$/i.test(request)) {
   document.querySelector('.card').hidden = true;
 } else {
   $('message').textContent = text;
-  // iPhones and Macs write the body after "&", everything else after "?".
-  const apple = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
-  $('text').href = `sms:${apple ? '&' : '?'}body=${encodeURIComponent(text)}`;
-  // The phone's own share sheet: WhatsApp, Messenger, anything.
+  // The phone's own share sheet first: Messages, WhatsApp, anything, and you pick the friend there.
+  // (A bare texting link, with no number in it, can open "Add to Contact" on an iPhone instead.)
   if (navigator.share) {
     $('share').hidden = false;
     $('share').addEventListener('click', () => { navigator.share({ text }).catch(() => {}); });
+    $('text').classList.add('light');
   }
+  $('text').href = `sms:?&body=${encodeURIComponent(text)}`;
   $('copy').addEventListener('click', async () => {
     try { await navigator.clipboard.writeText(text); $('done').hidden = false; } catch { /* the message is on the page to copy by hand */ }
   });
