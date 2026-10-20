@@ -74,3 +74,7 @@ button.button { border: 0; cursor: pointer; font-family: inherit; }
 html { background-color: #1B2F35; }
 body { background-color: var(--ink); }
 .band::before { content: ''; position: absolute; z-index: 1; top: 0; left: 0; right: 0; height: 120px; pointer-events: none; background: linear-gradient(180deg, #1B2F35 0%, rgba(27, 47, 53, 0.55) 40%, rgba(27, 47, 53, 0) 100%); }
+
+/* The ask page: a button for each of your friends. */
+.ask-friends { display: grid; gap: 10px; }
+.ask-friends:empty { display: none; }

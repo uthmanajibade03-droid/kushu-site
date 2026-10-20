@@ -10,6 +10,40 @@ const $ = (id) => document.getElementById(id);
 const link = `https://kushu.space/unlock?r=${encodeURIComponent(request)}`;
 const text = `Can you let me out of my Mast lock (${lock}${until ? `, until ${until}` : ''})? Open this and sign in with your email: ${link}`;
 
+// Your Mast friends, from this open ask (supabase: ask_friends). The key is the public one the app ships with.
+const SUPABASE = 'https://qnuezqnbcloksugbxbcb.supabase.co';
+const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFudWV6cW5iY2xva3N1Z2J4YmNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2NDczNzgsImV4cCI6MjEwNjIyMzM3OH0.FHhOTaIbfsue2TFkZ0mn-hBa-6esMuVYZPjCST4i4ig';
+const apple = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
+
+async function showFriends() {
+  let friends = [];
+  try {
+    const res = await fetch(`${SUPABASE}/rest/v1/rpc/ask_friends`, {
+      method: 'POST',
+      headers: { apikey: ANON, Authorization: `Bearer ${ANON}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ request }),
+    });
+    if (res.ok) friends = await res.json();
+  } catch { /* the buttons below still send it */ }
+  if (!friends.length) return;
+  const box = $('friends');
+  for (const f of friends) {
+    const name = (f.name || f.email || 'your friend').split(' ')[0];
+    const a = document.createElement('a');
+    a.className = 'button';
+    // With their number in it, the message opens straight to them (iPhones put the body after "&").
+    a.href = f.phone
+      ? `sms:${f.phone.replace(/[^+\d]/g, '')}${apple ? '&' : '?'}body=${encodeURIComponent(text)}`
+      : `mailto:${encodeURIComponent(f.email)}?subject=${encodeURIComponent('Can you let me out?')}&body=${encodeURIComponent(text)}`;
+    a.textContent = f.phone ? `Text ${name}` : `Email ${name}`;
+    box.appendChild(a);
+  }
+  // Friends named: the share sheet and the bare texting link become the other ways.
+  $('share').classList.add('light');
+  $('share').textContent = 'Send another way';
+  $('text').hidden = true;
+}
+
 if (!/^[0-9a-f-]{36}$/i.test(request)) {
   $('title').textContent = 'This link isn’t complete';
   $('lede').textContent = 'Scan the code on your computer’s lock screen again.';
@@ -24,6 +58,7 @@ if (!/^[0-9a-f-]{36}$/i.test(request)) {
     $('text').classList.add('light');
   }
   $('text').href = `sms:?&body=${encodeURIComponent(text)}`;
+  void showFriends();
   $('copy').addEventListener('click', async () => {
     try { await navigator.clipboard.writeText(text); $('done').hidden = false; } catch { /* the message is on the page to copy by hand */ }
   });
