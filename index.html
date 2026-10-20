@@ -242,6 +242,9 @@
       const b = frame.getBoundingClientRect();
       return `inset(${b.top}px ${innerWidth - b.right}px ${innerHeight - b.bottom}px ${b.left}px round 16px)`;
     };
+    // The phone's browser bars take the page's colour: white while held, the page's own after.
+    const themeTag = document.querySelector('meta[name=theme-color]');
+    let themeWas = null;
     const stopWheel = (e) => e.preventDefault();
     const stopKeys = (e) => { if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(e.key)) e.preventDefault(); };
     function hold() {
@@ -253,6 +256,7 @@
       setTimeout(() => {
         if (!holding) return;
         scrollTo({ top: centre() });
+        if (themeTag) { themeWas = themeTag.getAttribute('content'); themeTag.setAttribute('content', '#ffffff'); }
         white.style.transition = 'none';
         white.style.clipPath = cardInset();
         white.classList.add('on');
@@ -275,7 +279,11 @@
       removeEventListener('keydown', stopKeys);
       skip.hidden = true;
       white.style.clipPath = cardInset();
-      setTimeout(() => { white.classList.remove('on'); document.body.classList.remove('demo-held'); }, 900);
+      setTimeout(() => {
+        white.classList.remove('on');
+        document.body.classList.remove('demo-held');
+        if (themeTag && themeWas) themeTag.setAttribute('content', themeWas);
+      }, 900);
     }
     const onceDone = () => release();
     skip.addEventListener('click', release);

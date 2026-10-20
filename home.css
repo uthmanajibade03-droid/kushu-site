@@ -598,8 +598,9 @@ body.blossom .demo { --accent: #6E1A24; }
 .demo.reel .reel-progress i { display: block; height: 100%; width: 0; background: rgba(255, 255, 255, 0.6); }
 
 /* The first time: the white grows out of the card to the whole screen, and back. The demo sits above it. */
-.takeover { position: fixed; inset: 0; z-index: 40; background: #fff; pointer-events: none; opacity: 0; clip-path: inset(50% 50% 50% 50%); transition: clip-path 900ms cubic-bezier(.22, 1.1, .36, 1); }
-.takeover.on { opacity: 1; }
+.takeover { display: none; position: fixed; inset: 0; z-index: 40; background: #fff; pointer-events: none; clip-path: inset(50% 50% 50% 50%); transition: clip-path 900ms cubic-bezier(.22, 1.1, .36, 1); }
+/* Gone entirely when not in use: a phone's browser tints its bars from what sits at the top and bottom. */
+.takeover.on { display: block; }
 body.demo-held .demo.reel .demo-frame { position: relative; z-index: 41; box-shadow: none; transition: box-shadow 600ms ease; }
 body.demo-held .demo.reel .reel-progress { position: relative; z-index: 41; background: rgba(0, 0, 0, 0.08); }
 body.demo-held .demo.reel .reel-progress i { background: rgba(0, 0, 0, 0.35); }
