@@ -159,6 +159,7 @@
     // ["say", ms on screen] or [kind, label, from, to, ms per minute]; "lock" ends on Mast's lock screen.
     const STEPS = [["say",3000],["tick","But you’re still on your laptop.","21:28","21:30",650],["say",3600],["say",2800],["say",3600],["lock","The next night","21:29","21:30",1000],["say",3000],["say",3600]];
     const LOCK_HOLD = 4600;
+    const GAP = 420;
 
     let timers = [];
     const at = (ms, fn) => timers.push(setTimeout(fn, ms));
@@ -183,7 +184,9 @@
     };
     const show = (n) => {
       d.classList.remove('locked', 'shut', 'thud');
-      pages.forEach((el, i) => el.querySelector('p').classList.toggle('on', i === n));
+      // One line at a time: the last one fades right out (400ms) before the next comes in.
+      pages.forEach((el) => el.querySelector('p').classList.remove('on'));
+      at(GAP, () => pages[n].querySelector('p').classList.add('on'));
       const [kind, label, from, to, each] = STEPS[n];
       if (kind === 'say') return label || 2900;
       const done = tick(pages[n].querySelector('p'), label, from, to, each);
@@ -219,7 +222,7 @@
         plan.push([start, () => show(n)]);
         t += len;
       });
-      plan.push([t, () => { pages.forEach((el) => el.querySelector('p').classList.remove('on')); d.classList.remove('locked', 'thud', 'word-out'); at(350, () => d.classList.add('word-in')); }]);
+      plan.push([t, () => { pages.forEach((el) => el.querySelector('p').classList.remove('on')); d.classList.remove('locked', 'thud', 'word-out'); at(GAP, () => d.classList.add('word-in')); }]);
       t += 2400;
       plan.push([t, () => { d.classList.add('word-out'); at(500, () => d.classList.add('line-in')); }]);
       t += 4200;
