@@ -4,102 +4,101 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mast · Join the waitlist</title>
-<meta name="description" content="Be first to lock in. Mast holds you to the schedule you set, on your phone and your computer.">
+<meta name="description" content="You meant to sleep at 11. It's 1 AM and you're still scrolling. Mast locks your phone and computer at the times you set.">
 <meta name="theme-color" content="#22424A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" as="image" href="img/scene-car-field.webp">
+<link rel="stylesheet" href="home.css?v=1792338008">
+<link rel="stylesheet" href="blossom.css?v=1792338008">
 <style>
-  :root {
-    --font: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    --ink: #F6F1EA; --soft: rgba(246, 241, 234, 0.72);
+  /* The waitlist content sits in the hero, like the home page's words. */
+  .hero-words.wl { bottom: clamp(36px, 7vh, 80px); display: flex; flex-direction: column; align-items: center; }
+  .wl .eyebrow-wl { margin: 0 0 12px; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: rgba(246,241,234,.78); }
+  .wl form { margin: 26px auto 0; width: min(440px, 92vw); display: flex; flex-direction: column; gap: 10px; }
+  .wl input[type=email] {
+    width: 100%; height: 60px; padding: 0 20px; border-radius: 16px;
+    border: 1px solid rgba(246,241,234,.3); background: rgba(246,241,234,.12);
+    -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+    color: #F6F1EA; font: 500 17px 'Google Sans', system-ui, sans-serif;
   }
-  * { box-sizing: border-box; }
-  html, body { height: 100%; }
-  body {
-    margin: 0; font-family: var(--font); color: var(--ink);
-    background: #16262b url('img/scene-car-field.webp') center / cover no-repeat fixed;
-    -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; min-height: 100dvh;
+  .wl input[type=email]::placeholder { color: rgba(246,241,234,.58); }
+  .wl input[type=email]:focus { outline: none; border-color: rgba(246,241,234,.75); }
+  .wl button.join {
+    width: 100%; height: 60px; border: 0; border-radius: 16px; background: #F6F1EA; color: #1A2C30;
+    font: 600 17px 'Google Sans', system-ui, sans-serif; cursor: pointer; transition: transform .15s, opacity .2s;
   }
-  /* A soft darkening so the words read on the sky. */
-  body::before { content: ''; position: fixed; inset: 0; background: linear-gradient(180deg, rgba(10,20,24,.5), rgba(10,20,24,.2) 40%, rgba(10,20,24,.72)); pointer-events: none; }
-  .wrap { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; }
-
-  .nav { display: flex; align-items: center; justify-content: space-between; padding: 22px clamp(20px, 5vw, 48px); }
-  .wordmark { color: var(--ink); text-decoration: none; font-weight: 700; font-size: 22px; letter-spacing: -.01em; }
-  .nav a.back { color: var(--soft); text-decoration: none; font-size: 15px; font-weight: 500; }
-
-  main { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px clamp(20px, 5vw, 48px) 64px; }
-  .eyebrow { margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--soft); }
-  h1 { margin: 0; font-size: clamp(40px, 8vw, 86px); line-height: 1.02; font-weight: 600; letter-spacing: -.035em; text-wrap: balance; }
-  h1 .strong { font-weight: 700; }
-  .lede { margin: 22px 0 0; max-width: 560px; font-size: clamp(17px, 2.4vw, 21px); line-height: 1.5; color: var(--soft); font-weight: 500; text-wrap: balance; }
-
-  form { margin: 40px 0 0; width: min(460px, 100%); display: flex; flex-direction: column; gap: 10px; }
-  .row { display: flex; gap: 10px; }
-  input[type=email] {
-    flex: 1; height: 56px; padding: 0 18px; border-radius: 15px; border: 1px solid rgba(246,241,234,.28);
-    background: rgba(246,241,234,.1); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    color: var(--ink); font: 500 16px var(--font);
-  }
-  input[type=email]::placeholder { color: rgba(246,241,234,.55); }
-  input[type=email]:focus { outline: none; border-color: rgba(246,241,234,.7); }
-  button {
-    height: 56px; padding: 0 24px; border: 0; border-radius: 15px; background: var(--ink); color: #16262b;
-    font: 600 16px var(--font); cursor: pointer; white-space: nowrap; transition: opacity .2s;
-  }
-  button:disabled { opacity: .55; cursor: default; }
-  .note { margin: 2px 2px 0; font-size: 13px; color: var(--soft); min-height: 18px; text-align: left; }
-  .note.bad { color: #ffb4ab; }
-
-  .done { margin: 40px 0 0; width: min(460px, 100%); padding: 26px; border-radius: 18px; background: rgba(246,241,234,.1); border: 1px solid rgba(246,241,234,.24); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
-  .done h2 { margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -.02em; }
-  .done p { margin: 8px 0 0; color: var(--soft); font-size: 15px; }
+  .wl button.join:hover { transform: translateY(-1px); }
+  .wl button.join:disabled { opacity: .6; transform: none; cursor: default; }
+  .wl .note { margin: 2px 2px 0; min-height: 17px; font-size: 13px; color: rgba(246,241,234,.78); }
+  .wl .note.bad { color: #ffc4bd; }
+  .wl .cta-note { margin: 14px 0 0; font-size: 13px; color: rgba(246,241,234,.82); }
+  .wl .done { margin: 26px auto 0; width: min(440px, 92vw); padding: 22px; border-radius: 18px; background: rgba(246,241,234,.12); border: 1px solid rgba(246,241,234,.28); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+  .wl .done h2 { margin: 0; font-size: 22px; font-weight: 600; color: #F6F1EA; }
+  .wl .done p { margin: 7px 0 0; font-size: 15px; color: rgba(246,241,234,.82); }
   [hidden] { display: none !important; }
-
-  .platforms-note { margin: 28px 0 0; font-size: 14px; color: var(--soft); }
-  footer { position: relative; z-index: 1; display: flex; justify-content: space-between; padding: 20px clamp(20px, 5vw, 48px); font-size: 13px; color: var(--soft); }
-  footer a { color: var(--soft); }
-  @media (max-width: 520px) { .row { flex-direction: column; } button { width: 100%; } }
 </style>
 </head>
 <body>
-<div class="wrap">
+<script>try { if (localStorage.getItem('mast.scene') === 'blossom') document.body.classList.add('blossom'); } catch (e) {}</script>
+
+<section class="hero" id="top">
+  <div class="slides" aria-hidden="true">
+    <div class="slide is-on field-only" style="background-image: url('img/scene-car-field.webp')"></div>
+    <div class="slide is-on blossom-only" style="background-image: url('img/scene-blossom.webp')"></div>
+  </div>
+
   <header class="nav">
     <a class="wordmark" href="./">Mast</a>
-    <a class="back" href="./">Back</a>
+    <nav aria-label="Sections">
+      <div class="scene-switch" role="radiogroup" aria-label="Picture">
+        <button type="button" role="radio" data-scene="field" aria-label="Field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="11" r="3.5"/><path d="M12 3.5v1.6M5.6 6.1l1.1 1.1M18.4 6.1l-1.1 1.1M3 18h18M6 21h12"/></svg></button>
+        <button type="button" role="radio" data-scene="blossom" aria-label="Blossom"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2"/><path d="M12 10c-2.4-1.6-2.4-5 0-6 2.4 1 2.4 4.4 0 6zM14 12c1.6-2.4 5-2.4 6 0-1 2.4-4.4 2.4-6 0zM12 14c2.4 1.6 2.4 5 0 6-2.4-1-2.4-4.4 0-6zM10 12c-1.6 2.4-5 2.4-6 0 1-2.4 4.4-2.4 6 0z"/></svg></button>
+      </div>
+      <a href="./">Home</a>
+    </nav>
   </header>
 
-  <main>
-    <p class="eyebrow">Coming soon</p>
-    <h1><span class="strong">Lock in</span> early.</h1>
-    <p class="lede">Mast holds you to the schedule you set — on your phone and your computer. Leave your email and we’ll tell you the moment it’s ready for you.</p>
+  <div class="hero-words wl">
+    <p class="eyebrow-wl">Coming soon</p>
+    <h1><span class="strong">Stop relying</span><br><span>on willpower.</span></h1>
+    <p class="lede">You meant to sleep at 11. It’s 1 AM and you’re still scrolling. Mast locks your phone and your computer at the times you set, for bedtime, deep work, the gym, so you keep the plan you already made.</p>
 
     <form id="form" novalidate>
-      <div class="row">
-        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required>
-        <button id="submit" type="submit">Join the waitlist</button>
-      </div>
+      <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required>
+      <button class="join" id="submit" type="submit">Join the waitlist</button>
       <p class="note" id="note" role="status"></p>
     </form>
 
     <section class="done" id="done" hidden>
       <h2>You’re on the list.</h2>
-      <p>We’ll email you when Mast is ready. No spam, just the one.</p>
+      <p>We’ll email you the moment Mast is ready. No spam, just the one.</p>
     </section>
 
+    <p class="cta-note" id="cta-note">Be first when it opens.</p>
     <p class="platforms-note">iPhone · Android · Windows · Mac</p>
-  </main>
-</div>
-
-<footer>
-  <span>Mast</span>
-  <span><a href="privacy.html">Privacy</a> · © 2026 Mast</span>
-</footer>
+  </div>
+</section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
 <script src="waitlist.js"></script>
+<script>
+  // The picture switch: field or blossom, remembered on this device (same as the home page).
+  (() => {
+    const buttons = [...document.querySelectorAll('.scene-switch button')];
+    const show = (scene) => {
+      document.body.classList.toggle('blossom', scene === 'blossom');
+      document.querySelector('meta[name=theme-color]').setAttribute('content', scene === 'blossom' ? '#632B2E' : '#22424A');
+      buttons.forEach((b) => b.setAttribute('aria-checked', String(b.dataset.scene === scene)));
+    };
+    show(document.body.classList.contains('blossom') ? 'blossom' : 'field');
+    buttons.forEach((b) => b.addEventListener('click', () => {
+      show(b.dataset.scene);
+      try { localStorage.setItem('mast.scene', b.dataset.scene); } catch (e) {}
+    }));
+  })();
+</script>
 </body>
 </html>

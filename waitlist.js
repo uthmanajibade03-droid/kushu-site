@@ -17,6 +17,7 @@ const valid = (e) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e);
 
 function done() {
   $('form').hidden = true;
+  const cta = $('cta-note'); if (cta) cta.hidden = true;
   $('done').hidden = false;
 }
 
