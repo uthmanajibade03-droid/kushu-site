@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" as="image" href="img/scene-car-field.webp">
-<link rel="stylesheet" href="home.css?v=1792679221">
+<link rel="stylesheet" href="home.css?v=1792680450">
 <link rel="stylesheet" href="blossom.css?v=1792338008">
 </head>
 <body>
@@ -54,7 +54,7 @@
     <h2 id="h-moment"><span class="strong">Knowing isn’t the problem.</span><br><span>The moment is.</span></h2>
     <p class="moment-sub">When it comes, your phone is louder than your plans.</p>
 
-    <!-- The moment, a step per scroll: the words, the clock running between them, and the next night Mast's own lock screen. Reading or Bedtime, chosen under the frame. -->
+    <!-- The moment, a step per scroll: the words, the clock running between them, and the next night Mast's own lock screen. Reading, and Bedtime if they ask for another. -->
     <div class="demo reel" id="demo">
       <div class="demo-sticky">
         <div class="demo-frame">
@@ -77,7 +77,7 @@
               <div class="intro-page time" data-story="bedtime" data-page="b6"><p></p></div>
               <div class="intro-page" data-story="bedtime" data-page="b7"><p>Now nothing opens until <em>6:00 AM.</em></p></div>
               <div class="intro-page" data-story="bedtime" data-page="b8"><p>It’s just you and sleep.<span class="huge">GO TO BED.</span></p></div>
-              <div class="intro-page" data-story="between" id="demo-between"><p>Another scenario?<span class="huge" id="demo-next">BEDTIME.</span></p></div>
+              <div class="intro-page" data-story="between" id="demo-between"><p>Another scenario?<span class="ask-yes"><button type="button" id="demo-yes">Yes</button></span></p></div>
               <p class="brand-line"><span class="l1">Built for when</span><span class="l2">your willpower fails you.</span></p>
             </div>
             <!-- Mast's lock screen, the app's own page with its clock set to 9:30 PM (lockscreen/). -->
@@ -86,10 +86,6 @@
           </div>
         </div>
         <div class="reel-progress" aria-hidden="true"><i id="demo-progress"></i></div>
-        <div class="story-switch" id="story-switch" role="group" aria-label="Story">
-          <button type="button" data-story="reading" aria-pressed="true">Reading</button>
-          <button type="button" data-story="bedtime" aria-pressed="false">Bedtime</button>
-        </div>
       </div>
     </div>
   </section>
@@ -178,10 +174,11 @@
       bedtime: [["say",2800],["tick","But you’re still scrolling.","23:28","23:30",650],["say",3600],["say",2800],["say",3400],["lock","The next night","23:29","23:30",1000],["say",3000],["say",3400]],
     };
     let STEPS = STORIES.reading;
-    const NEXT = { reading: 'bedtime', bedtime: 'reading' };
-    const ASK = { reading: 'READING.', bedtime: 'BEDTIME.' };
     const between = document.querySelector('#demo-between p');
-    const nextName = document.getElementById('demo-next');
+    const yes = document.getElementById('demo-yes');
+    // Reading is the main one. After it, "Another scenario?": Yes plays Bedtime; otherwise Reading again.
+    let wantBedtime = false;
+    yes.addEventListener('click', () => { wantBedtime = true; });
     const LOCK_HOLD = 4600;
     const GAP = 420;
 
@@ -253,15 +250,25 @@
       plan.push([t, () => { d.classList.add('word-out'); at(500, () => d.classList.add('line-in')); }]);
       t += 4200;
       plan.forEach(([when, fn]) => at(when, fn));
-      // Done: "Another scenario?" with the other one's name, then that one plays.
+      // Done. After Reading: "Another scenario?" with a Yes; Yes plays Bedtime, else Reading again.
+      // After Bedtime: back to Reading.
       at(t, () => {
         if (!playing) return;
         onceDone();
-        const other = NEXT[story];
         d.classList.remove('line-in');
-        at(GAP + 200, () => { nextName.textContent = ASK[other]; between.classList.add('on'); });
-        at(GAP + 200 + 2600, () => between.classList.remove('on'));
-        at(GAP + 200 + 2600 + GAP, () => { if (!playing) return; story = other; syncSwitch(); play(); });
+        if (story === 'bedtime') { at(GAP + 200, () => { if (!playing) return; story = 'reading'; play(); }); return; }
+        wantBedtime = false;
+        at(GAP + 200, () => between.classList.add('on'));
+        const ASK_MS = 6000;
+        const askedAt = performance.now();
+        const wait = () => {
+          if (!playing) return;
+          if (wantBedtime || performance.now() - askedAt > ASK_MS) {
+            between.classList.remove('on');
+            at(GAP, () => { if (!playing) return; story = wantBedtime ? 'bedtime' : 'reading'; play(); });
+          } else at(100, wait);
+        };
+        at(GAP + 300, wait);
       });
       void progress.offsetWidth;
       progress.style.transition = `width ${t}ms linear`;
@@ -321,17 +328,6 @@
       }, 900);
     }
     const onceDone = () => release();
-
-    // Reading or Bedtime: pick one and it plays from the start.
-    const storySwitch = document.getElementById('story-switch');
-    const syncSwitch = () => storySwitch.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.story === story)));
-    storySwitch.addEventListener('click', (e) => {
-      const b = e.target.closest('button[data-story]');
-      if (!b || b.dataset.story === story) return;
-      story = b.dataset.story;
-      syncSwitch();
-      play();
-    });
     skip.addEventListener('click', release);
 
     // In view: play from the start (the first time, holding the page). Out of view: stop, to start fresh next time.
