@@ -58,15 +58,13 @@ function draw() {
       ? `${p.request_method === 'support' ? 'Asked support' : 'Asked a friend'} ${when(p.asked_at)} · ${p.lock_name}, until ${clock(p.lock_until)}`
       : `Joined ${when(p.joined)} · last signed in ${when(p.last_seen)}`;
     who.append(b, small);
-    row.append(who);
-    if (p.request) {
-      const btn = document.createElement('button');
-      btn.className = 'button';
-      btn.type = 'button';
-      btn.textContent = 'Unlock';
-      btn.addEventListener('click', () => unlock(p, btn));
-      row.append(btn);
-    }
+    // Everyone can be let out: an ask names its lock; without one, whatever is on for them now.
+    const btn = document.createElement('button');
+    btn.className = p.request ? 'button' : 'button light';
+    btn.type = 'button';
+    btn.textContent = 'Unlock';
+    btn.addEventListener('click', () => unlock(p, btn));
+    row.append(who, btn);
     list.append(row);
   }
   if (!list.children.length) {
@@ -77,12 +75,18 @@ function draw() {
 }
 
 async function unlock(p, btn) {
-  if (!confirm(`Let ${p.email} out of ${p.lock_name} (until ${clock(p.lock_until)})?`)) return;
+  const what = p.request ? `${p.lock_name} (until ${clock(p.lock_until)})` : 'whatever lock is on for them now';
+  if (!confirm(`Let ${p.email} out of ${what}?`)) return;
   btn.disabled = true;
-  const { data, error } = await db.rpc('admin_unlock', { request: p.request });
+  const { data, error } = p.request
+    ? await db.rpc('admin_unlock', { request: p.request })
+    : await db.rpc('admin_unlock_person', { person: p.user_id });
   if (error || data !== 'approved') {
     problem(error ? 'Couldn’t unlock. Try again.' : data === 'over' ? 'That lock has already ended.' : `Not unlocked (${data}).`);
     btn.disabled = false;
+  } else if (!p.request) {
+    problem('');
+    alert(`Done. Mast on ${p.email}’s devices lets them out within a few seconds (it needs Mast 0.1.78 or later).`);
   }
   await load();
 }
