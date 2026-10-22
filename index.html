@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" as="image" href="img/scene-car-field.webp">
-<link rel="stylesheet" href="home.css?v=1792338008">
+<link rel="stylesheet" href="home.css?v=1792677583">
 <link rel="stylesheet" href="blossom.css?v=1792338008">
 </head>
 <body>
@@ -63,23 +63,15 @@
               <p class="brand-word">Mast</p>
               <div class="intro-page" data-page="1"><p>You want to read every day at <em>8:30 PM.</em></p></div>
               <div class="intro-page time" data-page="2"><p></p></div>
-              <div class="intro-page" data-page="3"><p>But you are working on your computer, and the time is <em>8:28 PM.</em></p></div>
-              <div class="intro-page time" data-page="4"><p></p></div>
-              <div class="intro-page" data-page="5"><p>Reading time comes <em>(8:30 PM)</em>, now you’re left with willpower to turn off your computer and go read.</p></div>
-              <div class="intro-page" data-page="6"><p>You say: “This work is important, let me finish it. <em>10 more minutes.</em>”</p></div>
-              <div class="intro-page time" data-page="7"><p></p></div>
-              <div class="intro-page" data-page="8"><p>“You know what? <em>I’ll start my reading tomorrow.</em>”</p></div>
-              <div class="intro-page time" data-page="9"><p></p></div>
-              <div class="intro-page" data-page="10"><p>Same excuse, weak willpower.</p></div>
-              <div class="intro-page" data-page="11"><p>That’s what <em>Mast</em> is for.</p></div>
-              <div class="intro-page" data-page="12"><p>The planned schedule time comes;</p></div>
-              <div class="intro-page time" data-page="13"><p></p></div>
-              <div class="intro-page" data-page="14"><p>Mast <em>locks your computer screen</em> until your reading time is over.</p></div>
-              <div class="intro-page" data-page="15"><p>So you’re left with a locked screen and a book.</p></div>
-              <div class="intro-page" data-page="16"><p>Now the decision is yours: waste the time, or<span class="huge">READ THE BOOK.</span></p></div>
+              <div class="intro-page" data-page="3"><p>“This work is important. <em>10 more minutes.</em>”<br>“You know what? <em>I’ll start tomorrow.</em>”</p></div>
+              <div class="intro-page" data-page="4"><p>Same excuse, weak willpower.<br>That’s what <em>Mast</em> is for.</p></div>
+              <div class="intro-page time" data-page="5"><p></p></div>
+              <div class="intro-page" data-page="6"><p>So you’re left with a locked screen and a book.</p></div>
+              <div class="intro-page" data-page="7"><p>Now the decision is yours: waste the time, or<span class="huge">READ THE BOOK.</span></p></div>
               <p class="brand-line"><span class="l1">Built for when</span><span class="l2">your willpower fails you.</span></p>
             </div>
             <!-- Mast's lock screen, the app's own page with its clock set to 8:30 PM (lockscreen/). -->
+            <div class="reel-shut" aria-hidden="true"></div>
             <div class="reel-lock"><iframe id="demo-lock" title="Mast's lock screen" tabindex="-1" loading="lazy"></iframe></div>
           </div>
         </div>
@@ -163,7 +155,9 @@
     const pages = [...d.querySelectorAll('.intro-page')];
     const lockFrame = document.getElementById('demo-lock');
     const progress = document.getElementById('demo-progress');
-    const STEPS = [["say"],["tick","","20:26","20:28",900],["say"],["tick","","20:28","20:30",900],["say"],["say"],["tick","After 10 minutes","20:30","20:40",420],["say"],["tick","Tomorrow","20:27","20:29",900],["say"],["say"],["say"],["lock","Tomorrow","20:29","20:30",1100],["say"],["say"],["say"]];
+    // ["say", ms on screen] or [kind, label, from, to, ms per minute]; "lock" ends on Mast's lock screen.
+    const STEPS = [["say",2700],["tick","Still working","20:28","20:30",650],["say",3800],["say",3200],["lock","Tomorrow","20:29","20:30",1000],["say",2700],["say",3600]];
+    const LOCK_HOLD = 4600;
 
     let timers = [];
     const at = (ms, fn) => timers.push(setTimeout(fn, ms));
@@ -187,23 +181,25 @@
       return 700 + (mins(to) - mins(from)) * each;
     };
     const show = (n) => {
-      d.classList.remove('locked');
+      d.classList.remove('locked', 'shut', 'thud');
       pages.forEach((el, i) => el.querySelector('p').classList.toggle('on', i === n));
       const [kind, label, from, to, each] = STEPS[n];
-      if (kind === 'say') return 2900;
+      if (kind === 'say') return label || 2900;
       const done = tick(pages[n].querySelector('p'), label, from, to, each);
       if (kind !== 'lock') return done + 1100;
       const scene = document.body.classList.contains('blossom') ? 'blossom' : 'field';
       lockFrame.src = `lockscreen/index.html?s=${scene}&t=${Date.now()}`;
-      at(done + 500, () => d.classList.add('locked'));
-      return done + 5200;
+      // 8:30 lands: the screen cuts to black, then the lock slams in and the frame takes the knock.
+      at(done + 250, () => d.classList.add('shut'));
+      at(done + 470, () => { d.classList.add('locked', 'thud'); d.classList.remove('shut'); });
+      return done + LOCK_HOLD;
     };
 
     let playing = false;
     function stop() {
       timers.forEach((t) => clearTimeout(t)); timers = [];
       playing = false;
-      d.classList.remove('word-in', 'line-in', 'locked');
+      d.classList.remove('word-in', 'line-in', 'locked', 'shut', 'thud');
       d.classList.add('brand', 'word-out');
       pages.forEach((el) => el.querySelector('p').classList.remove('on'));
       progress.style.transition = 'none'; progress.style.width = '0';
@@ -217,12 +213,12 @@
       STEPS.forEach((s, n) => {
         const start = t;
         // The clock pages report how long they need once drawn; estimate the same here.
-        const [kind, , from, to, each] = s;
-        const len = kind === 'say' ? 2900 : 700 + (mins(to) - mins(from)) * each + (kind === 'lock' ? 5200 : 1100);
+        const [kind, label, from, to, each] = s;
+        const len = kind === 'say' ? label || 2900 : 700 + (mins(to) - mins(from)) * each + (kind === 'lock' ? LOCK_HOLD : 1100);
         plan.push([start, () => show(n)]);
         t += len;
       });
-      plan.push([t, () => { pages.forEach((el) => el.querySelector('p').classList.remove('on')); d.classList.remove('locked', 'word-out'); at(350, () => d.classList.add('word-in')); }]);
+      plan.push([t, () => { pages.forEach((el) => el.querySelector('p').classList.remove('on')); d.classList.remove('locked', 'thud', 'word-out'); at(350, () => d.classList.add('word-in')); }]);
       t += 2400;
       plan.push([t, () => { d.classList.add('word-out'); at(500, () => d.classList.add('line-in')); }]);
       t += 4200;

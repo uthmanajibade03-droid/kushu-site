@@ -589,9 +589,21 @@ body.blossom .demo { --accent: #6E1A24; }
 /* The last line's ask, big. */
 .demo.reel .huge { display: block; margin-top: 10px; font-size: 104px; line-height: .95; letter-spacing: -0.05em; color: var(--accent); }
 /* Mast's lock screen over the whole frame (its page is 1600 × 900, drawn at the frame's size). */
-.demo.reel .reel-lock { position: absolute; inset: 0; z-index: 9; overflow: hidden; opacity: 0; pointer-events: none; transition: opacity 900ms ease; }
+/* The lock lands: a cut to black (the computer going dark), then the lock screen slams in from a touch too
+   big and blurred, sharp and still in a blink, and the whole frame takes the knock. */
+.demo.reel .reel-shut { position: absolute; inset: 0; z-index: 8; background: #000; opacity: 0; pointer-events: none; transition: opacity 90ms linear; }
+.demo.reel.shut .reel-shut { opacity: 1; }
+.demo.reel.locked .reel-shut { opacity: 0; transition: opacity 500ms ease 300ms; }
+.demo.reel .reel-lock { position: absolute; inset: 0; z-index: 9; overflow: hidden; opacity: 0; pointer-events: none; transform: scale(1.12); filter: blur(18px) brightness(1.6);
+  transition: opacity 260ms ease, transform 620ms cubic-bezier(.16, 1, .3, 1), filter 520ms cubic-bezier(.16, 1, .3, 1); }
 .demo.reel .reel-lock iframe { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; border: 0; transform-origin: 0 0; transform: scale(0.625); }
-.demo.reel.locked .reel-lock { opacity: 1; }
+.demo.reel.locked .reel-lock { opacity: 1; transform: none; filter: none; }
+.demo.reel.thud .demo-frame { animation: lock-thud 520ms cubic-bezier(.3, 0, .2, 1) 180ms both; }
+@keyframes lock-thud { 0% { transform: scale(1); } 35% { transform: scale(0.982); } 70% { transform: scale(1.006); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .demo.reel .reel-lock { transform: none; filter: none; transition: opacity 400ms ease; }
+  .demo.reel.thud .demo-frame { animation: none; }
+}
 
 /* The line under the demo, filling as it plays. */
 .demo.reel .reel-progress { width: min(100%, calc((100vh - 150px) * 16 / 9)); margin: 16px auto 0; height: 3px; border-radius: 2px; background: rgba(255, 255, 255, 0.12); overflow: hidden; }
