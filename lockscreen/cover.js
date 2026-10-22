@@ -9,6 +9,8 @@
  */
 
 const $ = (id) => document.getElementById(id);
+// The big number, lined up with the words: a leading 1 sits in a wide slot, so it's pulled left more.
+const setTime = (text) => { const el = $('c-time'); el.textContent = text; el.classList.toggle('lead-1', /^1/.test(text)); };
 let current = null;
 let ticker = null;
 
@@ -52,20 +54,20 @@ function tick() {
   const now = Date.now();
   if (current.mode === 'lock') {
     if (current.kind === 'reading') {
-      $('c-time').textContent = clockText(now - current.startedAt);
+      setTime(clockText(now - current.startedAt));
       pour((current.until - now) / Math.max(1, current.until - current.startedAt));
     } else {
       const end = current.offAt || current.until;
-      $('c-time').textContent = clockText(end - now);
+      setTime(clockText(end - now));
       pour((end - now) / Math.max(1, end - current.startedAt));
     }
   } else if (current.mode === 'banned') {
-    $('c-time').textContent = current.until ? `${Math.max(1, Math.ceil((current.until - now) / 86_400_000))} days` : '';
+    setTime(current.until ? `${Math.max(1, Math.ceil((current.until - now) / 86_400_000))} days` : '');
   } else if (current.mode === 'task') {
-    $('c-time').textContent = clockText(current.until - now);
+    setTime(clockText(current.until - now));
     pour((current.until - now) / Math.max(1, current.until - (current.startedAt || current.shownAt)));
   } else {
-    $('c-time').textContent = durationText(current.usedMs + (now - current.shownAt));
+    setTime(durationText(current.usedMs + (now - current.shownAt)));
   }
 }
 

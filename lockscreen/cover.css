@@ -41,6 +41,10 @@ button { font-family: inherit; }
 .card .eyebrow { color: rgba(255, 255, 255, 0.82); }
 h1 { margin: 8px 0 0; font-family: var(--display); font-weight: 600; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.04; letter-spacing: -0.03em; }
 .big { margin: 6px 0 0; font-family: var(--display); font-weight: 600; font-size: clamp(72px, 11vw, 150px); line-height: 1; letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
+/* Lined up with the words above and below it: digits start a little in from their edge (about 0.03em), and a
+   leading 1, centred in a digit-wide slot, a lot more (0.12em), so the number is pulled left to meet them. */
+.big { margin-left: -0.03em; }
+.big.lead-1 { margin-left: -0.12em; }
 .detail { margin: 10px 0 0; font-size: 17px; color: rgba(255, 255, 255, 0.82); }
 .foot { margin: 6px 0 0; font-size: 14px; color: rgba(255, 255, 255, 0.7); }
 .foot:empty { display: none; }
