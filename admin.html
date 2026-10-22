@@ -3,61 +3,101 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Admin · Mast</title>
+<title>Mast Admin</title>
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#1B2F35">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
+<meta name="theme-color" content="#FFFFFF">
+<!-- On a phone: Share → Add to Home Screen, and it opens like an app. -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mast Admin">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="admin.webmanifest">
 <link rel="icon" href="img/favicon.png">
-<link rel="stylesheet" href="home.css?v=1792286485">
-<link rel="stylesheet" href="page.css?v=1792267120">
+<link rel="apple-touch-icon" href="img/favicon.png">
 <style>
-  .admin { max-width: 760px; }
-  .find { margin: 6px 0 4px; }
-  .people { display: flex; flex-direction: column; }
-  .person { display: flex; align-items: center; gap: 16px; padding: 14px 0; border-top: 1px solid var(--faint); }
-  .person .who { flex: 1; min-width: 0; }
-  .person .who b { display: block; color: var(--text); font-weight: 600; overflow: hidden; text-overflow: ellipsis; }
-  .person .who small { display: block; color: var(--soft); font-size: 13px; margin-top: 2px; }
-  .person .ask { color: var(--text); }
-  .person.waiting .who b::after { content: ' · waiting'; color: #e8b16b; font-weight: 500; }
-  .person .button { flex: none; }
+  :root {
+    --accent: #2F5A56; --ink: #1D1D1F; --soft: #86868B; --line: #E5E5EA; --group: #F5F5F7; --warm: #B86E1E;
+    --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI Variable Text', 'Segoe UI', Inter, system-ui, sans-serif;
+    --display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI Variable Display', 'Segoe UI', Inter, system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; color: var(--ink); font-family: var(--font); -webkit-font-smoothing: antialiased; }
+  main { width: min(640px, 100%); margin: 0 auto; padding: calc(28px + env(safe-area-inset-top)) 18px calc(40px + env(safe-area-inset-bottom)); }
+  [hidden] { display: none !important; }
+
+  .head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  h1 { margin: 0; font: 700 34px/1.1 var(--display); letter-spacing: -.03em; }
+  .who-am-i { font: 500 13px var(--font); color: var(--soft); background: none; border: 0; padding: 0; cursor: pointer; }
+  .eyebrow { margin: 0 0 6px; font: 600 12px var(--font); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+
+  /* sign in */
+  .signin { margin-top: 28px; display: flex; flex-direction: column; gap: 10px; }
+  .signin p { margin: 0 0 4px; color: var(--soft); font-size: 15px; }
+  input { width: 100%; height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff; color: var(--ink); font: 16px var(--font); }
+  input:focus { outline: none; border-color: var(--accent); }
+  .btn { height: 50px; border: 0; border-radius: 12px; background: var(--ink); color: #fff; font: 600 16px var(--font); cursor: pointer; }
+  .btn:disabled { opacity: .4; }
+
+  /* the two lists */
+  .seg { margin: 22px 0 16px; display: flex; padding: 3px; border-radius: 10px; background: #EEEEF0; }
+  .seg button { flex: 1; height: 34px; border: 0; border-radius: 8px; background: none; font: 600 14px var(--font); color: var(--ink); cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+  .seg b { margin-left: 6px; display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; background: var(--warm); color: #fff; font-size: 12px; }
+  .seg b.zero { background: #C7C7CC; }
+
+  .find { margin-bottom: 8px; height: 42px; border-radius: 11px; background: var(--group); border-color: transparent; font-size: 15px; }
+
+  /* someone waiting: a card with the lock and a big Unlock */
+  .ask { border-radius: 18px; background: var(--group); padding: 16px; margin-bottom: 12px; }
+  .ask .top { display: flex; align-items: center; gap: 12px; }
+  .ask .lock { margin-top: 14px; padding: 12px 14px; border-radius: 12px; background: #fff; }
+  .ask .lock b { display: block; font: 600 17px var(--display); letter-spacing: -.01em; }
+  .ask .lock small { display: block; margin-top: 2px; color: var(--soft); font-size: 13px; }
+  .ask .btn { width: 100%; margin-top: 12px; background: var(--accent); }
+  .tag { font: 600 12px var(--font); color: var(--warm); }
+
+  /* everyone */
+  .person { display: flex; align-items: center; gap: 12px; padding: 12px 2px; border-top: 1px solid var(--line); }
+  .person:first-child { border-top: 0; }
+  .av { width: 38px; height: 38px; border-radius: 50%; background: #E8F0EE; color: var(--accent); display: grid; place-items: center; font: 600 15px var(--font); flex: none; }
+  .ask .av { background: #fff; }
+  .name { min-width: 0; flex: 1; }
+  .name b { display: block; font: 600 15px var(--font); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .name small { display: block; margin-top: 2px; color: var(--soft); font-size: 13px; }
+
+  .empty { padding: 40px 0; text-align: center; color: var(--soft); font-size: 15px; }
+  .problem { margin: 16px 0 0; color: #C2362B; font-size: 14px; }
 </style>
 </head>
 <body>
+<main>
+  <p class="eyebrow">Mast</p>
+  <div class="head">
+    <h1>Admin</h1>
+    <button class="who-am-i" id="signed-in" type="button" hidden></button>
+  </div>
 
-<div class="band">
-<header class="nav">
-  <a class="wordmark" href="./">Mast</a>
-</header>
-</div>
-
-<main class="page unlock admin">
-  <p class="eyebrow">Admin</p>
-  <h1>People</h1>
-
-  <form class="card" id="email-form" hidden>
-    <label>Your email
-      <input id="email" type="email" autocomplete="email" required>
-    </label>
-    <button class="button" type="submit">Email me a code</button>
+  <form class="signin" id="email-form" hidden>
+    <p>Sign in with your admin email.</p>
+    <input id="email" type="email" autocomplete="email" placeholder="Email" required>
+    <button class="btn" type="submit">Email me a code</button>
   </form>
 
-  <form class="card" id="code-form" hidden>
-    <label>The code we emailed you
-      <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" required>
-    </label>
-    <button class="button" type="submit">Sign in</button>
+  <form class="signin" id="code-form" hidden>
+    <p>Type the code we emailed you.</p>
+    <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Code" required>
+    <button class="btn" type="submit">Sign in</button>
   </form>
 
-  <section class="card" id="list" hidden>
-    <input class="find" id="find" type="search" placeholder="Find by email">
-    <div class="people" id="people"></div>
+  <section id="list" hidden>
+    <div class="seg" role="group" aria-label="Show">
+      <button type="button" id="tab-waiting" aria-pressed="true">Waiting<b id="n-waiting">0</b></button>
+      <button type="button" id="tab-all" aria-pressed="false">Everyone<b class="zero" id="n-all">0</b></button>
+    </div>
+    <input class="find" id="find" type="search" placeholder="Find by email" hidden>
+    <div id="people"></div>
   </section>
 
   <p class="problem" id="problem" role="alert" hidden></p>
-  <p id="signed-in" hidden></p>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>

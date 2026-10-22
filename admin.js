@@ -26,7 +26,13 @@ function problem(text) {
   $('problem').textContent = text || '';
 }
 
-const when = (iso) => (iso ? new Date(iso).toLocaleString(undefined, { weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }) : 'never');
+const when = (iso) => {
+  if (!iso) return 'never';
+  const d = new Date(iso);
+  const time = d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+  if (d.toDateString() === new Date().toDateString()) return `today ${time}`;
+  return d.toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
+};
 const clock = (iso) => new Date(iso).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
 
 async function load() {
@@ -42,39 +48,49 @@ async function load() {
   draw();
 }
 
+let tab = 'waiting';
+const initial = (e) => (e || '?').slice(0, 1).toUpperCase();
+const el = (tag, cls, text) => { const x = document.createElement(tag); if (cls) x.className = cls; if (text !== undefined) x.textContent = text; return x; };
+
+/** Waiting: a card per ask, with its lock and Unlock. Everyone: one quiet line each. */
 function draw() {
-  const q = $('find').value.trim().toLowerCase();
+  const waiting = people.filter((p) => p.request);
+  $('n-waiting').textContent = waiting.length;
+  $('n-waiting').classList.toggle('zero', !waiting.length);
+  $('n-all').textContent = people.length;
+  $('tab-waiting').setAttribute('aria-pressed', String(tab === 'waiting'));
+  $('tab-all').setAttribute('aria-pressed', String(tab === 'all'));
+  $('find').hidden = tab !== 'all';
   const list = $('people');
   list.replaceChildren();
-  for (const p of people.filter((x) => !q || (x.email || '').toLowerCase().includes(q))) {
-    const row = document.createElement('div');
-    row.className = p.request ? 'person waiting' : 'person';
-    const who = document.createElement('div');
-    who.className = 'who';
-    const b = document.createElement('b');
-    b.textContent = p.email || '(no email)';
-    const small = document.createElement('small');
-    small.textContent = p.request
-      ? `${p.request_method === 'support' ? 'Asked support' : 'Asked a friend'} ${when(p.asked_at)} · ${p.lock_name}, until ${clock(p.lock_until)}`
-      : `Joined ${when(p.joined)} · last signed in ${when(p.last_seen)}`;
-    who.append(b, small);
-    row.append(who);
-    // Unlock only for someone who asked (from the lock screen, or by emailing support): it lifts that lock.
-    if (p.request) {
-      const btn = document.createElement('button');
-      btn.className = 'button';
+  if (tab === 'waiting') {
+    for (const p of waiting) {
+      const card = el('div', 'ask');
+      const top = el('div', 'top');
+      const name = el('div', 'name');
+      name.append(el('b', '', p.email || '(no email)'), el('small', '', `${p.request_method === 'support' ? 'Asked support' : 'Asked a friend'} · ${when(p.asked_at)}`));
+      top.append(el('span', 'av', initial(p.email)), name);
+      const lock = el('div', 'lock');
+      lock.append(el('b', '', p.lock_name), el('small', '', `until ${clock(p.lock_until)}`));
+      const btn = el('button', 'btn', 'Unlock');
       btn.type = 'button';
-      btn.textContent = 'Unlock';
       btn.addEventListener('click', () => unlock(p, btn));
-      row.append(btn);
+      card.append(top, lock, btn);
+      list.append(card);
     }
+    if (!waiting.length) list.append(el('p', 'empty', 'Nobody is waiting.'));
+    return;
+  }
+  const q = $('find').value.trim().toLowerCase();
+  for (const p of people.filter((x) => !q || (x.email || '').toLowerCase().includes(q))) {
+    const row = el('div', 'person');
+    const name = el('div', 'name');
+    name.append(el('b', '', p.email || '(no email)'), el('small', '', `Joined ${when(p.joined)} · last in ${when(p.last_seen)}`));
+    row.append(el('span', 'av', initial(p.email)), name);
+    if (p.request) row.append(el('span', 'tag', 'Waiting'));
     list.append(row);
   }
-  if (!list.children.length) {
-    const none = document.createElement('p');
-    none.textContent = 'Nobody matches.';
-    list.append(none);
-  }
+  if (!list.children.length) list.append(el('p', 'empty', 'Nobody matches.'));
 }
 
 async function unlock(p, btn) {
@@ -108,16 +124,25 @@ $('code-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const { error } = await db.auth.verifyOtp({ email, token: $('code').value.trim(), type: 'email' });
   if (error) { problem('That code didn’t work.'); return; }
+  const { data } = await db.auth.getSession();
+  if (data.session) { $('signed-in').hidden = false; $('signed-in').textContent = data.session.user.email; }
   await load();
 });
 
 $('find').addEventListener('input', draw);
+$('tab-waiting').addEventListener('click', () => { tab = 'waiting'; draw(); });
+$('tab-all').addEventListener('click', () => { tab = 'all'; draw(); });
+$('signed-in').addEventListener('click', async () => {
+  if (!confirm('Sign out?')) return;
+  await db.auth.signOut();
+  location.reload();
+});
 
 (async () => {
   const { data } = await db.auth.getSession();
   if (data.session) {
     $('signed-in').hidden = false;
-    $('signed-in').textContent = `Signed in as ${data.session.user.email}.`;
+    $('signed-in').textContent = data.session.user.email;
     await load();
   } else show('email-form');
   // A new ask shows up by itself.

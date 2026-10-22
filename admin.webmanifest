@@ -1,0 +1,9 @@
+{
+  "name": "Mast Admin",
+  "short_name": "Mast Admin",
+  "start_url": "admin.html",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFFFFF",
+  "icons": [{ "src": "img/favicon.png", "sizes": "any", "type": "image/png" }]
+}
