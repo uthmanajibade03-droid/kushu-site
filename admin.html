@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Admin · Mast</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1B2F35">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
+<link rel="icon" href="img/favicon.png">
+<link rel="stylesheet" href="home.css?v=1792286485">
+<link rel="stylesheet" href="page.css?v=1792267120">
+<style>
+  .admin { max-width: 760px; }
+  .find { margin: 6px 0 4px; }
+  .people { display: flex; flex-direction: column; }
+  .person { display: flex; align-items: center; gap: 16px; padding: 14px 0; border-top: 1px solid var(--faint); }
+  .person .who { flex: 1; min-width: 0; }
+  .person .who b { display: block; color: var(--text); font-weight: 600; overflow: hidden; text-overflow: ellipsis; }
+  .person .who small { display: block; color: var(--soft); font-size: 13px; margin-top: 2px; }
+  .person .ask { color: var(--text); }
+  .person.waiting .who b::after { content: ' · waiting'; color: #e8b16b; font-weight: 500; }
+  .person .button { flex: none; }
+</style>
+</head>
+<body>
+
+<div class="band">
+<header class="nav">
+  <a class="wordmark" href="./">Mast</a>
+</header>
+</div>
+
+<main class="page unlock admin">
+  <p class="eyebrow">Admin</p>
+  <h1>People</h1>
+
+  <form class="card" id="email-form" hidden>
+    <label>Your email
+      <input id="email" type="email" autocomplete="email" required>
+    </label>
+    <button class="button" type="submit">Email me a code</button>
+  </form>
+
+  <form class="card" id="code-form" hidden>
+    <label>The code we emailed you
+      <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" required>
+    </label>
+    <button class="button" type="submit">Sign in</button>
+  </form>
+
+  <section class="card" id="list" hidden>
+    <input class="find" id="find" type="search" placeholder="Find by email">
+    <div class="people" id="people"></div>
+  </section>
+
+  <p class="problem" id="problem" role="alert" hidden></p>
+  <p id="signed-in" hidden></p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
