@@ -58,13 +58,16 @@ function draw() {
       ? `${p.request_method === 'support' ? 'Asked support' : 'Asked a friend'} ${when(p.asked_at)} · ${p.lock_name}, until ${clock(p.lock_until)}`
       : `Joined ${when(p.joined)} · last signed in ${when(p.last_seen)}`;
     who.append(b, small);
-    // Everyone can be let out: an ask names its lock; without one, whatever is on for them now.
-    const btn = document.createElement('button');
-    btn.className = p.request ? 'button' : 'button light';
-    btn.type = 'button';
-    btn.textContent = 'Unlock';
-    btn.addEventListener('click', () => unlock(p, btn));
-    row.append(who, btn);
+    row.append(who);
+    // Unlock only for someone who asked (from the lock screen, or by emailing support): it lifts that lock.
+    if (p.request) {
+      const btn = document.createElement('button');
+      btn.className = 'button';
+      btn.type = 'button';
+      btn.textContent = 'Unlock';
+      btn.addEventListener('click', () => unlock(p, btn));
+      row.append(btn);
+    }
     list.append(row);
   }
   if (!list.children.length) {
