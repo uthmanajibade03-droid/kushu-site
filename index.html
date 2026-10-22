@@ -77,6 +77,7 @@
               <div class="intro-page time" data-story="bedtime" data-page="b6"><p></p></div>
               <div class="intro-page" data-story="bedtime" data-page="b7"><p>Now nothing opens until <em>6:00 AM.</em></p></div>
               <div class="intro-page" data-story="bedtime" data-page="b8"><p>It’s just you and sleep.<span class="huge">GO TO BED.</span></p></div>
+              <div class="intro-page" data-story="between" id="demo-between"><p>Another scenario?<span class="huge" id="demo-next">BEDTIME.</span></p></div>
               <p class="brand-line"><span class="l1">Built for when</span><span class="l2">your willpower fails you.</span></p>
             </div>
             <!-- Mast's lock screen, the app's own page with its clock set to 9:30 PM (lockscreen/). -->
@@ -177,6 +178,10 @@
       bedtime: [["say",2800],["tick","But you’re still scrolling.","23:28","23:30",650],["say",3600],["say",2800],["say",3400],["lock","The next night","23:29","23:30",1000],["say",3000],["say",3400]],
     };
     let STEPS = STORIES.reading;
+    const NEXT = { reading: 'bedtime', bedtime: 'reading' };
+    const ASK = { reading: 'READING.', bedtime: 'BEDTIME.' };
+    const between = document.querySelector('#demo-between p');
+    const nextName = document.getElementById('demo-next');
     const LOCK_HOLD = 4600;
     const GAP = 420;
 
@@ -248,7 +253,16 @@
       plan.push([t, () => { d.classList.add('word-out'); at(500, () => d.classList.add('line-in')); }]);
       t += 4200;
       plan.forEach(([when, fn]) => at(when, fn));
-      at(t, () => { if (!playing) return; onceDone(); play(); });
+      // Done: "Another scenario?" with the other one's name, then that one plays.
+      at(t, () => {
+        if (!playing) return;
+        onceDone();
+        const other = NEXT[story];
+        d.classList.remove('line-in');
+        at(GAP + 200, () => { nextName.textContent = ASK[other]; between.classList.add('on'); });
+        at(GAP + 200 + 2600, () => between.classList.remove('on'));
+        at(GAP + 200 + 2600 + GAP, () => { if (!playing) return; story = other; syncSwitch(); play(); });
+      });
       void progress.offsetWidth;
       progress.style.transition = `width ${t}ms linear`;
       progress.style.width = '100%';
@@ -310,11 +324,12 @@
 
     // Reading or Bedtime: pick one and it plays from the start.
     const storySwitch = document.getElementById('story-switch');
+    const syncSwitch = () => storySwitch.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.story === story)));
     storySwitch.addEventListener('click', (e) => {
       const b = e.target.closest('button[data-story]');
       if (!b || b.dataset.story === story) return;
       story = b.dataset.story;
-      storySwitch.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      syncSwitch();
       play();
     });
     skip.addEventListener('click', release);
