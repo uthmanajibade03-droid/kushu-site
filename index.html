@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" as="image" href="img/scene-car-field.webp">
-<link rel="stylesheet" href="home.css?v=1792678283">
+<link rel="stylesheet" href="home.css?v=1792679221">
 <link rel="stylesheet" href="blossom.css?v=1792338008">
 </head>
 <body>
@@ -54,21 +54,29 @@
     <h2 id="h-moment"><span class="strong">Knowing isn’t the problem.</span><br><span>The moment is.</span></h2>
     <p class="moment-sub">When it comes, your phone is louder than your plans.</p>
 
-    <!-- The moment, a step per scroll: the words, the clock running between them, and the next night at 9:30 Mast's own lock screen. -->
+    <!-- The moment, a step per scroll: the words, the clock running between them, and the next night Mast's own lock screen. Reading or Bedtime, chosen under the frame. -->
     <div class="demo reel" id="demo">
       <div class="demo-sticky">
         <div class="demo-frame">
           <div class="demo-stage">
             <div class="brand-screen">
               <p class="brand-word">Mast</p>
-              <div class="intro-page" data-page="1"><p>You want to read for <em>20 minutes</em> every night at <em>9:30 PM.</em></p></div>
-              <div class="intro-page time" data-page="2"><p></p></div>
-              <div class="intro-page" data-page="3"><p>You tell yourself: “<em>Just 10 more minutes.</em>”<br>Then: “<em>I’ll start tomorrow.</em>”</p></div>
-              <div class="intro-page" data-page="4"><p>Tomorrow comes, and so does <em>the same excuse.</em></p></div>
-              <div class="intro-page" data-page="5"><p>So Mast does it for you: at <em>9:30 PM</em>,<br>it locks your laptop for <em>20 minutes.</em></p></div>
-              <div class="intro-page time" data-page="6"><p></p></div>
-              <div class="intro-page" data-page="7"><p>Now your apps won’t open until <em>9:50 PM.</em></p></div>
-              <div class="intro-page" data-page="8"><p>It’s just you and the book.<span class="huge">READ THE BOOK.</span></p></div>
+              <div class="intro-page" data-story="reading" data-page="1"><p>You want to read for <em>20 minutes</em> every night at <em>9:30 PM.</em></p></div>
+              <div class="intro-page time" data-story="reading" data-page="2"><p></p></div>
+              <div class="intro-page" data-story="reading" data-page="3"><p>You tell yourself: “<em>Just 10 more minutes.</em>”<br>Then: “<em>I’ll start tomorrow.</em>”</p></div>
+              <div class="intro-page" data-story="reading" data-page="4"><p>Tomorrow comes, and so does <em>the same excuse.</em></p></div>
+              <div class="intro-page" data-story="reading" data-page="5"><p>So Mast does it for you: at <em>9:30 PM</em>,<br>it locks your laptop for <em>20 minutes.</em></p></div>
+              <div class="intro-page time" data-story="reading" data-page="6"><p></p></div>
+              <div class="intro-page" data-story="reading" data-page="7"><p>Now your apps won’t open until <em>9:50 PM.</em></p></div>
+              <div class="intro-page" data-story="reading" data-page="8"><p>It’s just you and the book.<span class="huge">READ THE BOOK.</span></p></div>
+              <div class="intro-page" data-story="bedtime" data-page="b1"><p>You want to be asleep by <em>11:30 PM.</em></p></div>
+              <div class="intro-page time" data-story="bedtime" data-page="b2"><p></p></div>
+              <div class="intro-page" data-story="bedtime" data-page="b3"><p>You tell yourself: “<em>One more video.</em>”<br>Then it’s <em>1 AM</em>, again.</p></div>
+              <div class="intro-page" data-story="bedtime" data-page="b4"><p>And the next morning, <em>you’re tired again.</em></p></div>
+              <div class="intro-page" data-story="bedtime" data-page="b5"><p>So Mast does it for you:<br>at <em>11:30 PM</em>, it shuts everything down.</p></div>
+              <div class="intro-page time" data-story="bedtime" data-page="b6"><p></p></div>
+              <div class="intro-page" data-story="bedtime" data-page="b7"><p>Now nothing opens until <em>6:00 AM.</em></p></div>
+              <div class="intro-page" data-story="bedtime" data-page="b8"><p>It’s just you and sleep.<span class="huge">GO TO BED.</span></p></div>
               <p class="brand-line"><span class="l1">Built for when</span><span class="l2">your willpower fails you.</span></p>
             </div>
             <!-- Mast's lock screen, the app's own page with its clock set to 9:30 PM (lockscreen/). -->
@@ -77,6 +85,10 @@
           </div>
         </div>
         <div class="reel-progress" aria-hidden="true"><i id="demo-progress"></i></div>
+        <div class="story-switch" id="story-switch" role="group" aria-label="Story">
+          <button type="button" data-story="reading" aria-pressed="true">Reading</button>
+          <button type="button" data-story="bedtime" aria-pressed="false">Bedtime</button>
+        </div>
       </div>
     </div>
   </section>
@@ -153,11 +165,18 @@
     const frame = d.querySelector('.demo-frame');
     const fit = () => stage.style.setProperty('--k', frame.clientWidth / 1000);
     if ('ResizeObserver' in window) new ResizeObserver(fit).observe(frame);
-    const pages = [...d.querySelectorAll('.intro-page')];
+    // Two stories, the same way: the pages and steps of the one chosen under the frame.
+    let story = 'reading';
+    let pages = [];
+    const pagesOf = (name) => [...d.querySelectorAll(`.intro-page[data-story="${name}"]`)];
     const lockFrame = document.getElementById('demo-lock');
     const progress = document.getElementById('demo-progress');
     // ["say", ms on screen] or [kind, label, from, to, ms per minute]; "lock" ends on Mast's lock screen.
-    const STEPS = [["say",3000],["tick","But you’re still on your laptop.","21:28","21:30",650],["say",3600],["say",2800],["say",3600],["lock","The next night","21:29","21:30",1000],["say",3000],["say",3600]];
+    const STORIES = {
+      reading: [["say",3000],["tick","But you’re still on your laptop.","21:28","21:30",650],["say",3600],["say",2800],["say",3600],["lock","The next night","21:29","21:30",1000],["say",3000],["say",3600]],
+      bedtime: [["say",2800],["tick","But you’re still scrolling.","23:28","23:30",650],["say",3600],["say",2800],["say",3400],["lock","The next night","23:29","23:30",1000],["say",3000],["say",3400]],
+    };
+    let STEPS = STORIES.reading;
     const LOCK_HOLD = 4600;
     const GAP = 420;
 
@@ -192,8 +211,8 @@
       const done = tick(pages[n].querySelector('p'), label, from, to, each);
       if (kind !== 'lock') return done + 1100;
       const scene = document.body.classList.contains('blossom') ? 'blossom' : 'field';
-      lockFrame.src = `lockscreen/index.html?s=${scene}&t=${Date.now()}`;
-      // 9:30 lands: the screen cuts to black, then the lock slams in and the frame takes the knock.
+      lockFrame.src = `lockscreen/index.html?s=${scene}&k=${story}&t=${Date.now()}`;
+      // The time lands: the screen cuts to black, then the lock slams in and the frame takes the knock.
       at(done + 250, () => d.classList.add('shut'));
       at(done + 470, () => { d.classList.add('locked', 'thud'); d.classList.remove('shut'); });
       return done + LOCK_HOLD;
@@ -205,12 +224,14 @@
       playing = false;
       d.classList.remove('word-in', 'line-in', 'locked', 'shut', 'thud');
       d.classList.add('brand', 'word-out');
-      pages.forEach((el) => el.querySelector('p').classList.remove('on'));
+      d.querySelectorAll('.intro-page p').forEach((p) => p.classList.remove('on'));
       progress.style.transition = 'none'; progress.style.width = '0';
     }
     function play() {
       stop();
       playing = true;
+      pages = pagesOf(story);
+      STEPS = STORIES[story];
       // Lay the whole run out first, so the line under it knows how long it is.
       const plan = [];
       let t = 600;
@@ -286,6 +307,16 @@
       }, 900);
     }
     const onceDone = () => release();
+
+    // Reading or Bedtime: pick one and it plays from the start.
+    const storySwitch = document.getElementById('story-switch');
+    storySwitch.addEventListener('click', (e) => {
+      const b = e.target.closest('button[data-story]');
+      if (!b || b.dataset.story === story) return;
+      story = b.dataset.story;
+      storySwitch.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      play();
+    });
     skip.addEventListener('click', release);
 
     // In view: play from the start (the first time, holding the page). Out of view: stop, to start fresh next time.
