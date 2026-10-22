@@ -14,6 +14,9 @@
 <link rel="stylesheet" href="home.css?v=1792338008">
 <link rel="stylesheet" href="blossom.css?v=1792338008">
 <style>
+  /* Below the one-screen hero, keep it dark so it blends with the scene's dark
+     bottom instead of a sharp cut to the theme colour (teal/red). */
+  html, body { background-color: #0E0C0B !important; }
   /* The waitlist content sits in the hero, like the home page's words. */
   .hero-words.wl { bottom: clamp(36px, 7vh, 80px); display: flex; flex-direction: column; align-items: center; }
   .wl .eyebrow-wl { margin: 0 0 12px; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: rgba(246,241,234,.78); }
@@ -63,8 +66,8 @@
 
   <div class="hero-words wl">
     <p class="eyebrow-wl">Coming soon</p>
-    <h1><span class="strong">Stop relying</span><br><span>on willpower.</span></h1>
-    <p class="lede">You meant to sleep at 11. It’s 1 AM, still scrolling. Mast locks your phone and computer at the times you choose.</p>
+    <h1><span class="strong">You said 11.</span><br><span>It’s 1 AM.</span></h1>
+    <p class="lede">Mast locks your phone and your computer at the times you set, so you actually stop.</p>
 
     <form id="form" novalidate>
       <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required>
