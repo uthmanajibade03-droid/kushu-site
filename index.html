@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&display=swap">
 <link rel="icon" href="img/favicon.png">
 <link rel="preload" as="image" href="img/scene-car-field.webp">
-<link rel="stylesheet" href="home.css?v=1792677583">
+<link rel="stylesheet" href="home.css?v=1792678283">
 <link rel="stylesheet" href="blossom.css?v=1792338008">
 </head>
 <body>
@@ -54,23 +54,23 @@
     <h2 id="h-moment"><span class="strong">Knowing isn’t the problem.</span><br><span>The moment is.</span></h2>
     <p class="moment-sub">When it comes, your phone is louder than your plans.</p>
 
-    <!-- The moment, a step per scroll: the words, the clock running between them, and on the second day at 8:30 Mast's own lock screen. -->
+    <!-- The moment, a step per scroll: the words, the clock running between them, and the next night at 9:30 Mast's own lock screen. -->
     <div class="demo reel" id="demo">
       <div class="demo-sticky">
         <div class="demo-frame">
           <div class="demo-stage">
             <div class="brand-screen">
               <p class="brand-word">Mast</p>
-              <div class="intro-page" data-page="1"><p>You want to read every day at <em>8:30 PM.</em></p></div>
+              <div class="intro-page" data-page="1"><p>You want to read for <em>20 minutes</em> every night at <em>9:30 PM.</em></p></div>
               <div class="intro-page time" data-page="2"><p></p></div>
-              <div class="intro-page" data-page="3"><p>“This work is important. <em>10 more minutes.</em>”<br>“You know what? <em>I’ll start tomorrow.</em>”</p></div>
-              <div class="intro-page" data-page="4"><p>Same excuse, weak willpower.<br>That’s what <em>Mast</em> is for.</p></div>
+              <div class="intro-page" data-page="3"><p>You tell yourself: “<em>Just 10 more minutes.</em>”<br>Then: “<em>I’ll start tomorrow.</em>”</p></div>
+              <div class="intro-page" data-page="4"><p>So you set Mast to lock your laptop<br>at <em>9:30 PM</em> for <em>20 minutes.</em></p></div>
               <div class="intro-page time" data-page="5"><p></p></div>
-              <div class="intro-page" data-page="6"><p>So you’re left with a locked screen and a book.</p></div>
-              <div class="intro-page" data-page="7"><p>Now the decision is yours: waste the time, or<span class="huge">READ THE BOOK.</span></p></div>
+              <div class="intro-page" data-page="6"><p>Now your apps won’t open until <em>9:50 PM.</em></p></div>
+              <div class="intro-page" data-page="7"><p>It’s just you and the book.<span class="huge">READ THE BOOK.</span></p></div>
               <p class="brand-line"><span class="l1">Built for when</span><span class="l2">your willpower fails you.</span></p>
             </div>
-            <!-- Mast's lock screen, the app's own page with its clock set to 8:30 PM (lockscreen/). -->
+            <!-- Mast's lock screen, the app's own page with its clock set to 9:30 PM (lockscreen/). -->
             <div class="reel-shut" aria-hidden="true"></div>
             <div class="reel-lock"><iframe id="demo-lock" title="Mast's lock screen" tabindex="-1" loading="lazy"></iframe></div>
           </div>
@@ -144,7 +144,7 @@
 <script src="site.js"></script>
 <script>
   // moment-play: plays by itself once it's in view, and again from the start each time: words fade in,
-  // a clock runs between them, and on the second day at 8:30 Mast's own lock screen comes over the frame.
+  // a clock runs between them, and the next night at 9:30 Mast's own lock screen comes over the frame.
   (() => {
     const d = document.getElementById('demo');
     if (!d) return;
@@ -156,7 +156,7 @@
     const lockFrame = document.getElementById('demo-lock');
     const progress = document.getElementById('demo-progress');
     // ["say", ms on screen] or [kind, label, from, to, ms per minute]; "lock" ends on Mast's lock screen.
-    const STEPS = [["say",2700],["tick","Still working","20:28","20:30",650],["say",3800],["say",3200],["lock","Tomorrow","20:29","20:30",1000],["say",2700],["say",3600]];
+    const STEPS = [["say",3000],["tick","But you’re still on your laptop.","21:28","21:30",650],["say",3600],["say",3400],["lock","The next night","21:29","21:30",1000],["say",3000],["say",3600]];
     const LOCK_HOLD = 4600;
 
     let timers = [];
@@ -189,7 +189,7 @@
       if (kind !== 'lock') return done + 1100;
       const scene = document.body.classList.contains('blossom') ? 'blossom' : 'field';
       lockFrame.src = `lockscreen/index.html?s=${scene}&t=${Date.now()}`;
-      // 8:30 lands: the screen cuts to black, then the lock slams in and the frame takes the knock.
+      // 9:30 lands: the screen cuts to black, then the lock slams in and the frame takes the knock.
       at(done + 250, () => d.classList.add('shut'));
       at(done + 470, () => { d.classList.add('locked', 'thud'); d.classList.remove('shut'); });
       return done + LOCK_HOLD;

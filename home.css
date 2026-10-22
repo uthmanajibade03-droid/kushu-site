@@ -329,7 +329,7 @@ html:has(body.past-hero) { background-color: var(--ink); }
 
 .moment .moment-sub { max-width: 44ch; }
 
-/* ---- the moment, played out: a computer at night, with the real Mast screens (img/demo, captured from the app) ---- */
+/* ---- the moment: the reading story, told on white pages, ending on Mast's real lock screen (lockscreen/). */
 .demo { margin: clamp(40px, 7vh, 72px) auto 0; max-width: 1000px; text-align: left; }
 /* Drawn at 1000 × 640 and scaled to fit, so a phone sees the same screen, smaller. */
 .demo-frame { position: relative; width: 100%; aspect-ratio: 1000 / 640; border-radius: 14px; overflow: hidden; box-shadow: 0 50px 120px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.12); }
@@ -337,173 +337,14 @@ html:has(body.past-hero) { background-color: var(--ink); }
 body.blossom .demo-stage { background-image: url('img/scene-blossom.webp'); }
 .demo p { margin: 0; max-width: none; letter-spacing: normal; color: inherit; font-size: inherit; line-height: inherit; }
 
-.menubar { position: absolute; left: 0; right: 0; top: 0; height: 24px; z-index: 2; display: flex; align-items: center; gap: 16px; padding: 0 14px; background: rgba(20, 20, 22, 0.55); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); font-size: 12px; color: #fff; }
-.menubar b { font-weight: 700; }
-.mb-clock { margin-left: auto; font-variant-numeric: tabular-nums; }
-
-/* The browser, nearly full screen. */
-.win { position: absolute; left: 14px; right: 14px; top: 34px; bottom: 14px; border-radius: 11px; overflow: hidden; background: #0F0F0F; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.12); transition: filter 500ms ease; }
-.win-bar { height: 34px; display: flex; align-items: flex-end; gap: 4px; padding: 0 10px; background: #1F1F21; }
-.lights { display: flex; gap: 7px; align-self: center; margin-right: 12px; }
-.lights i { width: 11px; height: 11px; border-radius: 50%; background: #FF5F57; }
-.lights i:nth-child(2) { background: #FEBC2E; }
-.lights i:nth-child(3) { background: #28C840; }
-.tab { display: flex; align-items: center; gap: 8px; height: 27px; padding: 0 12px; border-radius: 8px 8px 0 0; font-size: 11.5px; color: #A9A9AE; max-width: 270px; white-space: nowrap; overflow: hidden; }
-.tab.on { background: #2B2B2E; color: #EDEDED; }
-.tab-title { overflow: hidden; text-overflow: ellipsis; }
-.yt-fav, .yt-play { flex: none; position: relative; width: 15px; height: 10.5px; border-radius: 3px; background: #FF0033; }
-.yt-fav::after, .yt-play::after { content: ''; position: absolute; left: 5.5px; top: 2.75px; border-left: 5px solid #fff; border-top: 2.5px solid transparent; border-bottom: 2.5px solid transparent; }
-.mail-fav { flex: none; width: 14px; height: 10px; border-radius: 2px; background: #3E7BFA; }
-.url-row { height: 34px; display: flex; align-items: center; gap: 14px; padding: 0 12px; background: #2B2B2E; border-bottom: 1px solid #000; }
-.nav-btns { font-size: 13px; color: #8E8E93; }
-.addr { flex: 1; height: 24px; border-radius: 12px; background: #1C1C1E; display: flex; align-items: center; padding: 0 14px; font-size: 12px; color: #C7C7CC; }
-
-/* The video site. */
-.yt { height: calc(100% - 68px); overflow: hidden; }
-.yt-head { height: 46px; display: flex; align-items: center; gap: 14px; padding: 0 16px; }
-.burger { display: flex; flex-direction: column; gap: 3px; }
-.burger i { width: 15px; height: 1.6px; background: #eee; }
-.yt-logo { display: flex; align-items: center; gap: 3px; font-size: 16px; font-weight: 700; letter-spacing: -0.06em; }
-.yt-logo .yt-play { width: 22px; height: 15.5px; border-radius: 4.5px; margin-right: 1px; }
-.yt-logo .yt-play::after { left: 8.5px; top: 4.5px; border-left-width: 6.5px; border-top-width: 3.3px; border-bottom-width: 3.3px; }
-.yt-search { margin: 0 auto; display: flex; width: 380px; height: 30px; border: 1px solid #303030; border-radius: 16px; overflow: hidden; }
-.yt-search span { flex: 1; display: flex; align-items: center; padding: 0 14px; font-size: 12.5px; background: #121212; }
-.yt-search i { width: 52px; background: #222; }
-.yt-me { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: #7B5EA7; font-size: 12px; font-weight: 700; }
-.yt-body { display: flex; gap: 18px; padding: 4px 18px 0; }
-.main-col { flex: 1; min-width: 0; }
-.player { position: relative; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: #000; }
-.player .frame { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 300ms ease; }
-.player .later { opacity: 0; }
-.demo.next .player .later { opacity: 1; }
-.time { font-variant-numeric: tabular-nums; }
-.moment .demo .vt { position: relative; margin-top: 10px; height: 22px; font-size: 16px; line-height: 22px; font-weight: 700; color: #F1F1F1; }
-.vt span { position: absolute; left: 0; top: 0; white-space: nowrap; transition: opacity 250ms; }
-.vt-b { opacity: 0; }
-.demo.next .vt-a { opacity: 0; }
-.demo.next .vt-b { opacity: 1; }
-.channel { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
-.avatar { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, #3A5A8C, #1E2C44); font-size: 13px; font-weight: 700; }
-.channel b { display: block; font-size: 12.5px; }
-.channel small { font-size: 10.5px; color: #AAA; }
-.sub { margin-left: 10px; padding: 7px 13px; border-radius: 16px; background: #F1F1F1; color: #0F0F0F; font-size: 11.5px; font-weight: 600; }
-.pill { padding: 7px 13px; border-radius: 16px; background: #272727; font-size: 11.5px; font-weight: 600; }
-.pill.like { margin-left: auto; }
-.side { width: 290px; display: flex; flex-direction: column; gap: 9px; }
-.chips { display: flex; gap: 7px; }
-.chips span { padding: 5px 10px; border-radius: 7px; background: #272727; font-size: 11px; font-weight: 600; white-space: nowrap; }
-.chips .on { background: #F1F1F1; color: #0F0F0F; }
-.vid { display: flex; gap: 9px; padding: 3px; margin: -3px; border-radius: 9px; transition: background 200ms; }
-.th { position: relative; flex: none; width: 140px; height: 79px; }
-.th img { width: 100%; height: 100%; border-radius: 8px; object-fit: cover; display: block; }
-.th em { position: absolute; right: 4px; bottom: 4px; padding: 1px 4px; border-radius: 4px; background: rgba(0, 0, 0, 0.8); font-size: 10px; font-style: normal; font-weight: 600; }
-.vid b { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 12px; line-height: 1.3; font-weight: 600; }
-.vid small { display: block; margin-top: 3px; font-size: 10.5px; line-height: 1.35; color: #AAA; }
-.demo.hover-vid .vid.first { background: #272727; }
-
-/* Mast, open over the blurred desktop. */
-.mastwin { position: absolute; left: 180px; top: 128px; z-index: 3; width: 640px; height: 404px; border-radius: 12px; overflow: hidden; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.16); transition: opacity 450ms, transform 450ms cubic-bezier(.2, .8, .2, 1); }
-.mastwin { opacity: 0; transform: scale(0.95); pointer-events: none; }
-.mw { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-
-/* The system notification, top right. */
-.notif { position: absolute; top: 32px; right: 12px; z-index: 3; display: flex; align-items: flex-start; gap: 10px; width: 330px; padding: 11px 12px; border-radius: 16px; background: rgba(48, 48, 50, 0.86); -webkit-backdrop-filter: blur(30px) saturate(160%); backdrop-filter: blur(30px) saturate(160%); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.12); opacity: 0; transform: translateX(40px); transition: opacity 400ms, transform 450ms cubic-bezier(.2, .8, .2, 1); }
-.demo[data-step="warn"] .notif { opacity: 1; transform: none; }
-.notif img { width: 36px; height: 36px; border-radius: 8px; }
-.notif div { flex: 1; }
-.notif b { display: block; font-size: 12.5px; }
-.notif small { display: block; margin-top: 2px; font-size: 11.5px; line-height: 1.35; color: rgba(255, 255, 255, 0.8); }
-.notif .now { font-size: 10.5px; color: rgba(255, 255, 255, 0.55); }
-
-/* The cover, full screen, and then the screen goes off. */
-.cover-shot { position: absolute; inset: 0; z-index: 4; width: 100%; height: 100%; display: block; opacity: 0; transform: scale(0.985); transition: opacity 500ms cubic-bezier(.2, .8, .2, 1), transform 500ms cubic-bezier(.2, .8, .2, 1); }
-.demo[data-step="lock"] .cover-shot, .demo[data-step="ff"] .cover-shot { opacity: 1; transform: none; }
-.off-screen { position: absolute; inset: 0; z-index: 5; background: #000; opacity: 0; transition: opacity 900ms ease; }
-.demo[data-step="off"] .off-screen { opacity: 1; }
-
-/* The pointer. */
-.cursor { position: absolute; z-index: 6; left: 520px; top: 470px; transition: left 1.1s cubic-bezier(.4, .1, .2, 1), top 1.1s cubic-bezier(.4, .1, .2, 1), transform 120ms, opacity 300ms; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5)); }
-.demo.click .cursor { transform: scale(0.82); }
-.demo[data-step="lock"] .cursor, .demo[data-step="ff"] .cursor, .demo[data-step="off"] .cursor { opacity: 0; }
-
-/* YouTube's own player controls and the rest of the watch page. */
-.controls { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 12px 6px; background: linear-gradient(transparent, rgba(0, 0, 0, 0.75)); font-size: 10.5px; color: #eee; }
-.track { position: relative; height: 3px; margin-bottom: 7px; background: rgba(255, 255, 255, 0.3); }
-.track .done { position: absolute; left: 0; top: 0; bottom: 0; width: 92%; background: #FF0033; transition: width 300ms; }
-.track .knob { position: absolute; top: -4px; left: calc(92% - 5px); width: 11px; height: 11px; border-radius: 50%; background: #FF0033; transition: left 300ms; }
-.demo.next .track .done { width: 2%; }
-.demo.next .track .knob { left: calc(2% - 5px); }
-.ctl-row { display: flex; align-items: center; gap: 14px; height: 20px; }
-.play { display: flex; gap: 3px; }
-.play i { width: 3.5px; height: 12px; background: #fff; border-radius: 1px; }
-.skip { width: 0; height: 0; border-left: 8px solid #fff; border-top: 5px solid transparent; border-bottom: 5px solid transparent; box-shadow: 2px 0 0 #fff; }
-.vol { width: 12px; height: 9px; background: #fff; clip-path: polygon(0 30%, 35% 30%, 75% 0, 75% 100%, 35% 70%, 0 70%); }
-.time { font-variant-numeric: tabular-nums; }
-.ctl-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
-.ctl-right b { padding: 0 3px; border: 1.5px solid #fff; border-radius: 2px; font-size: 8px; line-height: 10px; }
-.gear { width: 11px; height: 11px; border-radius: 50%; border: 2.5px dotted #fff; }
-.full { width: 12px; height: 9px; border: 2px solid #fff; clip-path: polygon(0 0, 35% 0, 35% 20%, 65% 20%, 65% 0, 100% 0, 100% 100%, 65% 100%, 65% 80%, 35% 80%, 35% 100%, 0 100%); }
-.avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
-.yt-mic, .yt-bell { position: relative; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; }
-.yt-mic { background: #222; margin-left: -6px; }
-.yt-search { margin: 0 0 0 auto; }
-.yt-search span { color: #888; }
-.yt-search i { display: grid; place-items: center; }
-.yt-create { margin-left: auto; padding: 6px 12px; border-radius: 16px; background: #272727; font-size: 11.5px; font-weight: 600; }
-.yt-bell em { position: absolute; top: 0; right: -4px; padding: 0 3px; border-radius: 6px; background: #CC0000; font-size: 8px; font-style: normal; font-weight: 700; }
-.desc { margin-top: 10px; padding: 9px 11px; border-radius: 10px; background: #272727; font-size: 11px; color: #ddd; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.desc b { color: #fff; }
 
 /* One stage per scroll: the screen holds still while the page moves on underneath it. */
 .demo { height: calc(100vh + 12 * 72vh); height: calc(100svh + 12 * 72svh); }
 .demo-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
 .demo-frame { width: min(100%, calc((100vh - 150px) * 1000 / 640)); margin: 0 auto; }
 
-/* The video, really playing (YouTube's own player, muted), under YouTube's controls as drawn. */
-.player .yt-frame { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; border: 0; pointer-events: none; opacity: 0; transition: opacity 400ms; }
-.player .yt-frame.ready { opacity: 1; }
-.player .controls { z-index: 2; }
 
 
-/* The night's time and what's happening, one line, top centre; it changes as the night moves on. */
-.demo-cap { margin: 0 auto; max-width: min(100%, 720px); display: flex; align-items: baseline; gap: 12px; padding: 12px 20px; border-radius: 18px; background: rgba(255, 255, 255, 0.1); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22); font-size: 16px; line-height: 1.25; color: #fff; }
-.moment .demo .demo-cap { margin: 0 auto; }
-.cap-time { flex: none; font-weight: 700; font-variant-numeric: tabular-nums; color: #FF6B61; }
-.demo-cap.fresh { animation: cap-in 450ms cubic-bezier(.2, .8, .2, 1); }
-@keyframes cap-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-@media (max-width: 600px) { .demo-cap { font-size: 14px; padding: 9px 14px; } }
-
-/* 9:00 PM: just the desktop and Mast; the browser comes later. */
-.win { transition: filter 500ms ease, opacity 400ms ease; }
-.demo.no-browser .win { opacity: 0; }
-.demo.mast-open .win { filter: blur(7px) brightness(0.7); }
-.demo.mast-open .mastwin { opacity: 1; transform: none; }
-
-/* 11:55 PM, Windows: "Shutting down", the dots going round, on its blue. */
-.shutdown-win { position: absolute; inset: 0; z-index: 5; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 30px; background: #0B3D78; color: #fff; font-family: 'Segoe UI', 'Segoe UI Variable', system-ui, sans-serif; }
-.moment .demo .shutdown-win p { margin: 0; font-size: 22px; font-weight: 300; letter-spacing: 0; color: #fff; }
-.demo.os-win[data-step="shutdown"] .shutdown-win, .demo.os-mac[data-step="shutdown"] .shutdown-mac { display: flex; }
-.dots { position: relative; width: 44px; height: 44px; }
-.dots i { position: absolute; inset: 0; opacity: 0; animation: win-orbit 5.5s infinite; }
-.dots i::before { content: ''; position: absolute; left: 50%; top: 0; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: #fff; }
-.dots i:nth-child(2) { animation-delay: 240ms; }
-.dots i:nth-child(3) { animation-delay: 480ms; }
-.dots i:nth-child(4) { animation-delay: 720ms; }
-.dots i:nth-child(5) { animation-delay: 960ms; }
-@keyframes win-orbit {
-  0% { transform: rotate(225deg); opacity: 1; animation-timing-function: ease-out; }
-  7% { transform: rotate(345deg); animation-timing-function: linear; }
-  30% { transform: rotate(455deg); animation-timing-function: ease-in-out; }
-  39% { transform: rotate(690deg); animation-timing-function: linear; }
-  70% { transform: rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
-  75% { transform: rotate(945deg); animation-timing-function: ease-out; }
-  76% { transform: rotate(945deg); opacity: 0; }
-  100% { transform: rotate(945deg); opacity: 0; }
-}
-
-/* 11:55 PM, Mac: the apps close, the bare desktop for a moment, then dark. */
-.demo[data-step="shutdown"] .cursor { opacity: 0; }
-.off-screen { z-index: 6; }
 
 /* The opening and the ending: white, and the name coming into focus, as Apple shows a name. */
 .demo { --accent: #2F5A56; }
@@ -515,13 +356,7 @@ body.blossom .demo { --accent: #6E1A24; }
 .demo .brand-screen .brand-line { max-width: 720px; font-size: 46px; line-height: 1.08; font-weight: 600; letter-spacing: -0.035em; color: #1D1D1F; }
 .demo.word-in .brand-screen .brand-word, .demo.line-in .brand-screen .brand-line { opacity: 1; filter: blur(0); transform: none; }
 .demo.word-out .brand-screen .brand-word { opacity: 0; filter: blur(10px); transform: translateY(-18px) scale(0.97); transition-duration: 700ms; }
-.demo-cap { transition: opacity 400ms ease; }
-.demo.cap-hidden .demo-cap { opacity: 0; }
 
-/* 11:45 PM, softly: the screen blurs and dims first, then the cover settles over it. */
-.win { transition: filter 1200ms ease, opacity 400ms ease; }
-.demo[data-step="dim"] .win, .demo[data-step="lock"] .win { filter: blur(16px) brightness(0.8); }
-.cover-shot { transform: scale(1.02); transition: opacity 1400ms cubic-bezier(.25, .1, .25, 1), transform 1800ms cubic-bezier(.2, .8, .2, 1); }
 .moment .demo .brand-screen .brand-line { max-width: 640px; }
 
 /* The last words: two short lines, the same size, the second in the picture's colour. */
@@ -535,8 +370,6 @@ body.blossom .demo { --accent: #6E1A24; }
 .brand-screen { background: transparent; opacity: 1; transition: background-color 900ms ease; }
 .demo.brand .brand-screen { background: #fff; }
 
-/* On a phone, no line on top: the screen tells it. */
-@media (max-width: 600px) { .demo-cap { display: none; } }
 
 /* After the name: what Mast is, three lines a page, each coming into focus after the last. */
 .intro-page { grid-area: 1 / 1; text-align: center; }
@@ -544,24 +377,6 @@ body.blossom .demo { --accent: #6E1A24; }
 .demo .intro-page p em { font-style: normal; color: var(--accent); }
 .demo .intro-page p.on { opacity: 1; filter: blur(0); transform: none; transition: opacity 1000ms cubic-bezier(.2, .8, .2, 1), filter 1000ms cubic-bezier(.2, .8, .2, 1), transform 1200ms cubic-bezier(.2, .8, .2, 1); }
 
-/* 11:55 PM on a Mac (or anything not Windows): dark, the spinner, "Shutting down". */
-.shutdown-mac { position: absolute; inset: 0; z-index: 5; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 26px; background: #000; }
-.moment .demo .shutdown-mac p { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, system-ui, sans-serif; font-size: 18px; font-weight: 500; letter-spacing: 0; color: rgba(255, 255, 255, 0.85); }
-.spokes { position: relative; width: 30px; height: 30px; animation: spokes 1s steps(12) infinite; }
-.spokes i { position: absolute; left: 13.5px; top: 0; width: 3px; height: 8px; border-radius: 2px; background: #fff; transform-origin: 1.5px 15px; }
-.spokes i:nth-child(1) { transform: rotate(0deg); opacity: 0.15; }
-.spokes i:nth-child(2) { transform: rotate(30deg); opacity: 0.23; }
-.spokes i:nth-child(3) { transform: rotate(60deg); opacity: 0.30; }
-.spokes i:nth-child(4) { transform: rotate(90deg); opacity: 0.38; }
-.spokes i:nth-child(5) { transform: rotate(120deg); opacity: 0.46; }
-.spokes i:nth-child(6) { transform: rotate(150deg); opacity: 0.54; }
-.spokes i:nth-child(7) { transform: rotate(180deg); opacity: 0.61; }
-.spokes i:nth-child(8) { transform: rotate(210deg); opacity: 0.69; }
-.spokes i:nth-child(9) { transform: rotate(240deg); opacity: 0.77; }
-.spokes i:nth-child(10) { transform: rotate(270deg); opacity: 0.85; }
-.spokes i:nth-child(11) { transform: rotate(300deg); opacity: 0.92; }
-.spokes i:nth-child(12) { transform: rotate(330deg); opacity: 1.00; }
-@keyframes spokes { to { transform: rotate(360deg); } }
 
 /* The reading story: a 16:9 frame for the real recording; the white pages over it until it rolls. */
 .demo.reel { height: auto; }
