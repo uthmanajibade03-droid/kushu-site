@@ -71,11 +71,18 @@ function draw() {
       name.append(el('b', '', p.email || '(no email)'), el('small', '', `${p.request_method === 'support' ? 'Asked support' : 'Asked a friend'} · ${when(p.asked_at)}`));
       top.append(el('span', 'av', initial(p.email)), name);
       const lock = el('div', 'lock');
-      lock.append(el('b', '', p.lock_name), el('small', '', `until ${clock(p.lock_until)}`));
-      const btn = el('button', 'btn', 'Unlock');
+      lock.append(el('b', '', p.lock_name), el('small', '', `until ${clock(p.lock_until)}${p.minutes ? ` · asks ${p.minutes} min` : ''}`));
+      card.append(top, lock);
+      // Why, and what shows it: what the decision is made on.
+      if (p.reason) card.append(el('p', 'reason', p.reason));
+      if (p.evidence) card.append(el('p', 'evidence', p.evidence));
+      // Never your own: an admin can't let themselves out (the server refuses it too).
+      const btn = el('button', 'btn', p.mine ? 'Your own: someone else decides' : p.minutes ? `Unlock for ${p.minutes} min` : 'Unlock');
       btn.type = 'button';
+      btn.disabled = !!p.mine;
       btn.addEventListener('click', () => unlock(p, btn));
-      card.append(top, lock, btn);
+      card.append(btn);
+      if (!p.mine) card.append(el('small', 'later', 'Opens 5 minutes after you unlock.'));
       list.append(card);
     }
     if (!waiting.length) list.append(el('p', 'empty', 'Nobody is waiting.'));
@@ -101,7 +108,7 @@ async function unlock(p, btn) {
     ? await db.rpc('admin_unlock', { request: p.request })
     : await db.rpc('admin_unlock_person', { person: p.user_id });
   if (error || data !== 'approved') {
-    problem(error ? 'Couldn’t unlock. Try again.' : data === 'over' ? 'That lock has already ended.' : `Not unlocked (${data}).`);
+    problem(error ? 'Couldn’t unlock. Try again.' : data === 'own' ? 'You can’t unlock yourself.' : data === 'over' ? 'That lock ends within 5 minutes anyway.' : `Not unlocked (${data}).`);
     btn.disabled = false;
   } else if (!p.request) {
     problem('');
