@@ -7,6 +7,9 @@
     bedtime: { from: [23, 30], to: [6, 0], cover: { kind: 'bedtime', name: 'Bedtime' } },
   };
   const lock = LOCKS[kind];
+  // ?at=HH:MM: the bedtime the visitor picked (the waitlist's "try it").
+  const at = /^(\d{1,2}):(\d{2})$/.exec(new URLSearchParams(location.search).get('at') || '');
+  if (at && kind === 'bedtime') lock.from = [Number(at[1]), Number(at[2])];
   const base = new Date(); base.setHours(lock.from[0], lock.from[1], 5, 0);
   const t0 = performance.now();
   const RealDate = Date;
