@@ -35,7 +35,11 @@ const when = (iso) => {
 };
 const clock = (iso) => new Date(iso).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
 
+/** The waitlist, newest first (admin_waitlist). */
+let waitlist = [];
+
 async function load() {
+  void db.rpc('admin_waitlist').then(({ data }) => { waitlist = data || []; draw(); });
   const { data, error } = await db.rpc('admin_people');
   if (error) {
     problem(String(error.message).includes('not-admin') ? 'This account isn’t an admin.' : 'Couldn’t load. Try again.');
@@ -58,8 +62,12 @@ function draw() {
   $('n-waiting').textContent = waiting.length;
   $('n-waiting').classList.toggle('zero', !waiting.length);
   $('n-all').textContent = people.length;
+  $('n-waitlist').textContent = waitlist.length;
+  $('n-waitlist').classList.toggle('zero', !waitlist.length);
   $('tab-waiting').setAttribute('aria-pressed', String(tab === 'waiting'));
   $('tab-all').setAttribute('aria-pressed', String(tab === 'all'));
+  $('tab-waitlist').setAttribute('aria-pressed', String(tab === 'waitlist'));
+  $('csv').hidden = tab !== 'waitlist' || !waitlist.length;
   $('find').hidden = tab !== 'all';
   const list = $('people');
   list.replaceChildren();
@@ -86,6 +94,20 @@ function draw() {
       list.append(card);
     }
     if (!waiting.length) list.append(el('p', 'empty', 'Nobody is waiting.'));
+    return;
+  }
+  if (tab === 'waitlist') {
+    // Each signup: name, email, when, and what they said about themselves.
+    for (const w of waitlist) {
+      const row = el('div', 'person');
+      const name = el('div', 'name');
+      const said = [w.devices, (w.slips || []).join(', ')].filter(Boolean).join(' · ');
+      name.append(el('b', '', w.name ? `${w.name} · ${w.email}` : w.email), el('small', '', `Joined ${when(w.created_at)} · from ${w.source || 'waitlist'} · ${w.emails_sent} of 3 emails${w.unsubscribed ? ' · unsubscribed' : ''}`));
+      if (said) name.append(el('small', 'answers', said));
+      row.append(el('span', 'av', initial(w.name || w.email)), name);
+      list.append(row);
+    }
+    if (!waitlist.length) list.append(el('p', 'empty', 'Nobody on the waitlist yet.'));
     return;
   }
   const q = $('find').value.trim().toLowerCase();
@@ -139,6 +161,19 @@ $('code-form').addEventListener('submit', async (e) => {
 $('find').addEventListener('input', draw);
 $('tab-waiting').addEventListener('click', () => { tab = 'waiting'; draw(); });
 $('tab-all').addEventListener('click', () => { tab = 'all'; draw(); });
+$('tab-waitlist').addEventListener('click', () => { tab = 'waitlist'; draw(); });
+// The waitlist as a spreadsheet, for inviting people in.
+$('csv').addEventListener('click', () => {
+  const cell = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const rows = [['email', 'name', 'devices', 'slips', 'source', 'joined', 'emails_sent', 'unsubscribed']].concat(
+    waitlist.map((w) => [w.email, w.name, w.devices, (w.slips || []).join('; '), w.source, w.created_at, w.emails_sent, w.unsubscribed]));
+  const blob = new Blob([rows.map((r) => r.map(cell).join(',')).join('\n')], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `mast-waitlist-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
 $('signed-in').addEventListener('click', async () => {
   if (!confirm('Sign out?')) return;
   await db.auth.signOut();

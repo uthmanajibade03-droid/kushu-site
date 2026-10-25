@@ -1,0 +1,47 @@
+/* The waitlist's sign-up, on top of the home page's look (waitlist.html is made from index.html). */
+.join-box { margin: 26px auto 0; width: min(460px, 100%); text-align: center; }
+.join-end .join-box { margin: 0; text-align: left; }
+.join-form { display: flex; flex-direction: column; gap: 10px; }
+.join-row { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 10px; }
+.join-box input {
+  width: 100%; height: 56px; padding: 0 18px; border-radius: 16px; box-sizing: border-box;
+  border: 1px solid rgba(246, 241, 234, 0.3); background: rgba(246, 241, 234, 0.12);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  color: #F6F1EA; font: 500 16px var(--sans, 'Google Sans', system-ui, sans-serif);
+}
+.join-box input::placeholder { color: rgba(246, 241, 234, 0.58); }
+.join-box input:focus { outline: none; border-color: rgba(246, 241, 234, 0.75); }
+.join-box button.join {
+  width: 100%; height: 56px; border: 0; border-radius: 16px; background: #F6F1EA; color: #1A2C30; cursor: pointer;
+  font: 600 16px var(--sans, 'Google Sans', system-ui, sans-serif); transition: transform 0.15s, opacity 0.2s;
+}
+.join-box button.join:hover { transform: translateY(-1px); background: #fff; }
+.join-box button.join:disabled { opacity: 0.6; transform: none; }
+.join-box button.join.small { width: auto; height: 44px; padding: 0 22px; margin-top: 14px; font-size: 15px; }
+.join-note { margin: 2px 0 0; min-height: 18px; font-size: 13px; color: rgba(246, 241, 234, 0.82); }
+.join-note.bad { color: #FFB4A8; }
+
+.join-done {
+  padding: 22px; border-radius: 20px; text-align: left;
+  background: rgba(246, 241, 234, 0.12); border: 1px solid rgba(246, 241, 234, 0.28);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+}
+.join-done h3 { margin: 0; font-size: 22px; font-weight: 600; color: #F6F1EA; }
+.join-done > p { margin: 6px 0 0; font-size: 15px; color: rgba(246, 241, 234, 0.82); }
+.join-ask { margin: 18px 0 8px; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; color: rgba(246, 241, 234, 0.78); }
+.join-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.join-chips button {
+  height: 36px; padding: 0 14px; border-radius: 999px; cursor: pointer;
+  border: 1px solid rgba(246, 241, 234, 0.35); background: transparent; color: #F6F1EA;
+  font: 500 14px var(--sans, 'Google Sans', system-ui, sans-serif);
+}
+.join-chips button.on { background: #F6F1EA; color: #1A2C30; border-color: #F6F1EA; }
+.join-thanks { margin: 14px 0 0; font-size: 15px; color: #F6F1EA; }
+
+.faq .what { padding-bottom: clamp(40px, 8vh, 80px); }
+.join-end h2 { margin-bottom: 24px; }
+
+@media (max-width: 520px) {
+  .join-row { grid-template-columns: 1fr; }
+}
+[hidden] { display: none !important; }
