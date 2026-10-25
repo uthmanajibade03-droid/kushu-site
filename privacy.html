@@ -27,7 +27,7 @@
 <main class="page legal">
   <p class="eyebrow">Privacy</p>
   <h1>What Mast keeps.</h1>
-  <p class="legal-updated">Last updated 17 October 2026</p>
+  <p class="legal-updated">Last updated 24 October 2026</p>
 
   <p class="legal-lede">Mast locks your phone and computer at the times you set. To do that it keeps a few things.
     This page says what, where, and who sees them.</p>
@@ -37,85 +37,109 @@
     <li><strong>The apps you block.</strong> On iPhone you pick them in Apple’s Screen Time, and Mast never learns
       which apps they are. On Android the list stays on the phone.</li>
     <li><strong>Time in apps on your computer</strong>: which app is in front and for how long, kept up to 90 days.
-      Mast also reads window titles there, to spot sites like YouTube during a to-do and to notice when a friend’s
-      answer page is open on your own computer. None of this is sent.</li>
-    <li><strong>Your place</strong>, if you set one that lets you out of a lock. Your location is checked only when you
-      save it or ask to be let out there.</li>
-    <li><strong>The masjids near you</strong>, if you open the map, and the one you chose.</li>
-    <li><strong>Your Google sign-in</strong>, if you connect Google Calendar, encrypted by the computer’s operating
-      system.</li>
+      Mast also reads window titles there, to spot sites like YouTube during a to-do. None of this is sent.</li>
+    <li><strong>Your Google sign-in on the computer</strong>, if you connect Google Calendar there, encrypted by the
+      computer’s operating system.</li>
     <li><strong>The content filter</strong>, a founder feature on the computer. While Instagram, X, Reddit or TikTok
       is in front, Mast looks at a picture of the window, on the computer, for nudity and faces. The pictures are not
       saved or sent. It keeps only the gender you gave it and which sites it has blocked, and until when.</li>
   </ul>
 
   <h2>In your Mast account</h2>
-  <p>You sign in with your email and a code. There is no password. Your account lets your phone and computer lock
+  <p>You sign in with Google or Apple. There is no password. Your account lets your phone and computer lock
     together, so Mast keeps these on its servers:</p>
   <ul>
-    <li><strong>Your email address.</strong></li>
+    <li><strong>Your account</strong>: your email address and the name your Google or Apple account gives.</li>
     <li><strong>Your devices</strong>: a name for each (on a computer, the computer’s own name), phone or computer,
       the platform, and when it was last seen.</li>
-    <li><strong>Your locks</strong>: prayer, bedtime and calendar settings, changes waiting
-      their 24 hours, and the ways out you allow. If you pause prayer locks for a period, when the pause began.</li>
-    <li><strong>Timed locks</strong> you start: when each starts and ends, and how it ended.</li>
-    <li><strong>Your calendars</strong>: the private address of each calendar you add, the Google account you connect,
-      and the titles and times of events in the next two days.</li>
+    <li><strong>Your locks</strong>: prayer, bedtime, your own locks and quick locks, calendar settings, how each eases
+      in, and changes waiting their 24 hours. If you pause prayer locks for a period, when the pause began.</li>
+    <li><strong>Locks from your phone</strong>: when a lock you start for your computer begins and ends.</li>
+    <li><strong>Your calendars</strong>: see <a href="#google">Google user data</a> below.</li>
     <li><strong>Where you are</strong>, if you allow location on your phone: the latitude, longitude and city used for
       prayer times, so your computer uses the same times.</li>
-    <li><strong>Your friends</strong>: the email, name and phone number you add for each.</li>
-    <li><strong>Asking to be let out</strong>: which lock, when it ends, any note you write, how you were let out
-      (a friend, your place, or an emergency), each friend’s answer, and when.</li>
-    <li><strong>Going around a lock</strong>: Screen Time access turned off, a lock your computer missed, or an
-      emergency used.</li>
-    <li><strong>Your networks</strong>: the internet addresses your devices connect from, kept 30 days, so a friend’s
-      yes can’t come from your own Wi-Fi.</li>
+    <li><strong>Your friends</strong>: the email, name and phone number you add for each, and whether they accepted.</li>
+    <li><strong>Asking to be let out</strong>: which lock, when it ends, any note, reason or evidence you write, how
+      many minutes you asked for, how you were let out (a friend, Mast support, or the week’s emergency), each
+      friend’s answer, and when.</li>
+    <li><strong>Going around a lock</strong>: Screen Time access turned off, a lock your computer missed, or the
+      week’s emergency used.</li>
     <li><strong>Your to-dos</strong>, a founder feature: each title, day, time and length, and when it was done.</li>
-    <li><strong>A recitation shared between devices</strong>: what is playing and where. It is replaced each time.</li>
   </ul>
   <p>Each account can read only its own records. One exception: anyone who has your account’s ID can ask whether a
     single lock was let out, and get a yes or no. Your computer uses this to keep bedtime without signing in.</p>
   <p>We don’t sell any of this, use it for ads, or use it for anything but running Mast.</p>
 
   <h2>What your friends see</h2>
-  <p>When you ask to be let out, Mast emails your friends. The email has your email address, the lock’s name and when
-    it ends. You can also text your friends a link from your phone.</p>
-  <p>A friend signs in on kushu.space with a code texted to the phone number you added for them, and says yes with
-    Face ID or a fingerprint on that phone. Mast keeps a passkey for it (a public key, not their face or fingerprint),
-    and texts them after each yes. They see your email address, the lock’s name, when it ends, any note you wrote,
-    and how many friends have said yes.</p>
-  <p>Your friends are also emailed if Screen Time access is turned off, if your computer misses a lock,
-    or if you use your weekly emergency.</p>
+  <p>A friend is someone with a Mast account who accepted your friend request in the Mast app. When you add a friend,
+    Mast emails them the request, or an invite to join if they aren’t on Mast yet. You can also text them from your
+    own phone.</p>
+  <p>When you ask to be let out, your friends see your name, the lock’s name, when it ends and any note you wrote, in
+    their Mast app and by email. They answer in the app, confirming with Face ID or a fingerprint on their own phone;
+    Mast never receives their face or fingerprint. They also see how many friends have said yes.</p>
+  <p>Your friends are emailed if Screen Time access is turned off, if your computer misses a lock, or if you use your
+    weekly emergency.</p>
+  <p>If you ask Mast support to let you out, the people who run Mast see your email, the lock, the minutes you asked
+    for, and the reason and evidence you wrote.</p>
 
   <h2>Your location</h2>
   <p>Prayer locks need prayer times. If you allow location, your phone’s position is used. If not, Mast guesses your
-    city from your internet address. Either way the latitude and longitude are sent to AlAdhan for the times.</p>
-  <p>The map of nearby masjids sends your position to OpenStreetMap’s services to find them and the walking route.</p>
+    city from your internet address. Either way the latitude and longitude are sent to AlAdhan for the times.
+    Location is used for nothing else.</p>
 
-  <h2>Your calendar</h2>
-  <p>If you connect Google Calendar, Mast asks Google for read-only access to your calendar list and your events. It
-    reads the titles and times of the next two days’ events, to lock for the ones you chose. It never changes,
-    creates or deletes anything in your calendar.</p>
-  <p>The Google sign-in stays on the computer where you made it. The events are kept in your account so your other
-    device can lock for them too. They are replaced every few minutes and removed when you disconnect the calendar or
-    delete your account.</p>
-  <p>Mast’s use of information received from Google APIs adheres to the
+  <h2 id="google">Google user data</h2>
+  <p>Mast uses Google in two ways: to sign you in, and, if you choose, to lock during events in your Google
+    Calendar.</p>
+  <p><strong>What Mast asks Google for.</strong></p>
+  <ul>
+    <li><strong>Signing in</strong> (openid, email, profile): your Google account’s email address and name, to create
+      and sign in to your Mast account.</li>
+    <li><strong>Google Calendar</strong>, only if you connect it, read-only:
+      <code>calendar.calendarlist.readonly</code>, to show you your calendars so you can pick which ones lock, and
+      <code>calendar.events.readonly</code>, to read the titles and times of events in those calendars.</li>
+  </ul>
+  <p>Mast never creates, changes or deletes anything in your Google account or calendar, and never reads your
+    email, contacts, files or anything else.</p>
+  <p><strong>How Mast uses it.</strong> Calendar data is used only to lock your phone and computer while the events
+    you chose are on, and to show you those events in Mast (Home, Locks, and when you pick which events lock). Mast
+    reads events from yesterday to a few days ahead to lock, and, while you pick events, up to a few months ahead so
+    you can see what repeats.</p>
+  <p><strong>Where it’s kept.</strong></p>
+  <ul>
+    <li>If you connect Google Calendar on your computer, the Google sign-in stays on that computer, encrypted by its
+      operating system. The computer also asks Google to tell Mast when a chosen calendar changes, so the locks
+      follow at once.</li>
+    <li>If you connect it on your phone, Google’s permission (a refresh token) is kept on Mast’s servers, never sent
+      back to any device, and used only to read your chosen calendars for your locks, every half hour.</li>
+    <li>The titles and times of upcoming events in the calendars you chose are kept in your account, so your phone
+      and computer lock for them together. They are replaced as they are read again.</li>
+  </ul>
+  <p><strong>Who sees it.</strong> Only you, in Mast on your own devices. Google data is never sold, never used for
+    advertising, never shared with your friends or anyone else, and never used to train AI or machine-learning
+    models. No person at Mast reads it, unless you ask us to for support, or the law requires it.</p>
+  <p><strong>Removing it.</strong> Take a calendar out of your locks and the events read from it are deleted.
+    Disconnect Google Calendar in Mast, or remove Mast’s access at
+    <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>, and Google’s permission and
+    the events read with it are deleted too (after removing it at Google, the next time Mast tries to read). Deleting
+    your Mast account deletes everything kept with it.</p>
+  <p>Mast’s use and transfer of information received from Google APIs to any other app will adhere to the
     <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>,
-    including the Limited Use requirements. Calendar data is used only to run your locks: it is never sold, never used
-    for advertising, and never shown to anyone else.</p>
+    including the Limited Use requirements.</p>
   <p>If you add a calendar by its private address instead, the same applies to the events read from that address.</p>
 
   <h2>Services Mast uses</h2>
   <ul>
-    <li><strong>Supabase</strong> hosts your account and sends your sign-in code.</li>
-    <li><strong>Resend</strong> sends the emails to your friend.</li>
-    <li><strong>Cloudflare.</strong> On Windows and Mac, once you allow it, Safe Web (which blocks adult sites) makes the computer look up
-      web addresses through Cloudflare for Families, so Cloudflare sees the names of sites the computer visits. It
-      also turns on SafeSearch in your browsers.</li>
-    <li><strong>Google</strong>, if you connect Google Calendar.</li>
-    <li><strong>Location.</strong> ipwho.is, GeoJS or ipapi.co, to guess your city from your internet address. AlAdhan,
-      for prayer times. OpenStreetMap (Overpass and its routing service) and OpenFreeMap, for the map.</li>
-    <li><strong>The Qur’an and the adhan.</strong> Text, fonts, recitations and adhan sounds load from alquran.cloud,
+    <li><strong>Supabase</strong> hosts your account and runs Mast’s servers.</li>
+    <li><strong>Resend</strong> sends Mast’s emails: sign-in codes for Mast’s own admin page, and the emails to your
+      friends.</li>
+    <li><strong>Google</strong>, to sign in and, if you connect it, Google Calendar. <strong>Apple</strong>, to sign in
+      with Apple.</li>
+    <li><strong>Cloudflare.</strong> On Windows and Mac, once you allow it, Safe Web (which blocks adult sites) makes
+      the computer look up web addresses through Cloudflare for Families, so Cloudflare sees the names of sites the
+      computer visits. It also turns on SafeSearch in your browsers.</li>
+    <li><strong>Location.</strong> ipwho.is, GeoJS or ipapi.co, to guess your city from your internet address.
+      AlAdhan, for prayer times.</li>
+    <li><strong>The adhan and recitation.</strong> Adhan sounds, verses and recitations load from alquran.cloud,
       Quran.com, QuranicAudio, EveryAyah, GitHub and IslamCan. These requests carry nothing about you.</li>
     <li><strong>Updates.</strong> The phone app checks Expo for updates; test builds come through Apple’s TestFlight.
       The computer app checks GitHub.</li>
@@ -124,11 +148,11 @@
     tracking tools.</p>
 
   <h2>Deleting your data</h2>
-  <p>To delete your account and everything kept with it, open <strong>Settings → Account → Delete account</strong> in the Mast
-    app on your phone. It is deleted at once and can’t be undone. You can also email
+  <p>To delete your account and everything kept with it, open <strong>You → Account → Delete my account</strong> in the
+    Mast app on your phone. It is deleted at once and can’t be undone. You can also email
     <a href="mailto:hello@kushu.space">hello@kushu.space</a> from the address you signed in with, and we will delete
     it. Deleting Mast from a device removes what it kept there.</p>
-  <p>If you are someone’s friend, your email stays in their list until they remove you.</p>
+  <p>If you are someone’s friend, your email stays in their list until they remove you or you turn the request down.</p>
 
   <h2>Children</h2>
   <p>Mast accounts are not meant for children under 13, and we don’t knowingly keep their data.</p>
