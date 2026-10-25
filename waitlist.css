@@ -1,0 +1,58 @@
+/* The waitlist page: one scene, one thing at a time. */
+html, body { background-color: #0E0C0B !important; }
+.hero-words.wl { bottom: clamp(36px, 8vh, 88px); display: grid; justify-items: center; }
+.wl .step { grid-area: 1 / 1; width: 100%; display: flex; flex-direction: column; align-items: center; opacity: 0; transform: translateY(14px); pointer-events: none; visibility: hidden; transition: opacity 420ms ease, transform 420ms ease, visibility 0s 420ms; }
+.wl .step.is-on { opacity: 1; transform: none; pointer-events: auto; visibility: visible; transition: opacity 420ms ease 120ms, transform 420ms ease 120ms, visibility 0s; }
+.wl .eyebrow-wl { margin: 0 0 12px; min-height: 15px; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: rgba(246,241,234,.78); }
+
+/* Email and button in one glass pill. */
+.wl .pill-form { margin: 26px auto 0; width: min(460px, 100%); display: flex; gap: 6px; padding: 6px; border-radius: 999px; box-sizing: border-box;
+  background: rgba(246,241,234,.14); border: 1px solid rgba(246,241,234,.3); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+.wl .pill-form:focus-within { border-color: rgba(246,241,234,.7); }
+.wl .pill-form input { flex: 1; min-width: 0; height: 48px; padding: 0 18px; border: 0; background: none; color: #F6F1EA; font: 500 16px 'Google Sans', system-ui, sans-serif; }
+.wl .pill-form input::placeholder { color: rgba(246,241,234,.6); }
+.wl .pill-form input:focus { outline: none; }
+.join { height: 48px; padding: 0 26px; border: 0; border-radius: 999px; background: #F6F1EA; color: #1A2C30; cursor: pointer; text-decoration: none; display: inline-grid; place-items: center;
+  font: 600 16px 'Google Sans', system-ui, sans-serif; transition: transform .15s, opacity .2s, background .2s; }
+.join:hover { background: #fff; }
+.join:active { transform: scale(.97); }
+.join:disabled { opacity: .6; }
+.wl .note { margin: 10px 0 0; min-height: 17px; font-size: 13px; color: rgba(246,241,234,.8); }
+.wl .note.bad { color: #ffc4bd; }
+.wl .note + .platforms-note { margin-top: 2px; }
+
+/* The questions. */
+.wl .ask { margin: 0; font-size: clamp(30px, 4vw, 48px); line-height: 1.05; font-weight: 500; letter-spacing: -0.03em; color: #F6F1EA; }
+.wl .chips { margin: 26px auto 0; max-width: 520px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.wl .chips button { height: 44px; padding: 0 18px; border-radius: 999px; cursor: pointer; border: 1px solid rgba(246,241,234,.34);
+  background: rgba(246,241,234,.1); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); color: #F6F1EA; font: 500 15px 'Google Sans', system-ui, sans-serif; transition: background .2s, color .2s, transform .15s; }
+.wl .chips button:hover { background: rgba(246,241,234,.2); }
+.wl .chips button:active { transform: scale(.96); }
+.wl .chips button.on { background: #F6F1EA; color: #1A2C30; border-color: #F6F1EA; }
+.wl .actions { margin-top: 22px; }
+.wl .count { margin: 18px 0 0; font-size: 12px; letter-spacing: .04em; color: rgba(246,241,234,.6); }
+.wl .skip { margin-top: 12px; border: 0; background: none; color: rgba(246,241,234,.75); font: 500 14px 'Google Sans', system-ui, sans-serif; cursor: pointer; }
+.wl .skip:hover { color: #F6F1EA; }
+.wl .big-place { margin: 0; }
+
+.down { position: absolute; z-index: 3; left: 50%; bottom: 10px; transform: translateX(-50%); width: 36px; height: 36px; display: grid; place-items: center; color: rgba(246,241,234,.6); }
+.down svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.down:hover { color: #F6F1EA; }
+
+/* How it works: three lines, then back up. */
+.how-wl { max-width: 1120px; margin: 0 auto; padding: clamp(80px, 14vh, 150px) clamp(16px, 4vw, 48px); text-align: center; }
+.how-wl ol { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(24px, 4vw, 56px); text-align: left; }
+.how-wl li span { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(246,241,234,.3); font-size: 13px; color: rgba(246,241,234,.8); }
+.how-wl h2 { margin: 18px 0 10px; font-size: clamp(22px, 2.2vw, 28px); line-height: 1.15; font-weight: 500; letter-spacing: -0.02em; }
+.how-wl p:not(.eyebrow) { margin: 0; font-size: 16px; line-height: 1.6; color: rgba(246,241,234,.72); }
+.how-wl .back { margin-top: clamp(48px, 8vh, 80px); }
+
+@media (max-width: 700px) {
+  .how-wl ol { grid-template-columns: 1fr; gap: 36px; }
+  .down { display: none; }
+}
+@media (max-width: 420px) {
+  .join { padding: 0 20px; }
+  .wl .pill-form input { padding: 0 12px; }
+}
+[hidden] { display: none !important; }

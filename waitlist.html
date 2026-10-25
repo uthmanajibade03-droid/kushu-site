@@ -13,36 +13,7 @@
 <link rel="preload" as="image" href="img/scene-car-field.webp">
 <link rel="stylesheet" href="home.css?v=1792338008">
 <link rel="stylesheet" href="blossom.css?v=1792338008">
-<style>
-  /* Below the one-screen hero, keep it dark so it blends with the scene's dark
-     bottom instead of a sharp cut to the theme colour (teal/red). */
-  html, body { background-color: #0E0C0B !important; }
-  /* The waitlist content sits in the hero, like the home page's words. */
-  .hero-words.wl { bottom: clamp(36px, 7vh, 80px); display: flex; flex-direction: column; align-items: center; }
-  .wl .eyebrow-wl { margin: 0 0 12px; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: rgba(246,241,234,.78); }
-  .wl form { margin: 26px auto 0; width: min(440px, 92vw); display: flex; flex-direction: column; gap: 10px; }
-  .wl input[type=email] {
-    width: 100%; height: 60px; padding: 0 20px; border-radius: 16px;
-    border: 1px solid rgba(246,241,234,.3); background: rgba(246,241,234,.12);
-    -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
-    color: #F6F1EA; font: 500 17px 'Google Sans', system-ui, sans-serif;
-  }
-  .wl input[type=email]::placeholder { color: rgba(246,241,234,.58); }
-  .wl input[type=email]:focus { outline: none; border-color: rgba(246,241,234,.75); }
-  .wl button.join {
-    width: 100%; height: 60px; border: 0; border-radius: 16px; background: #F6F1EA; color: #1A2C30;
-    font: 600 17px 'Google Sans', system-ui, sans-serif; cursor: pointer; transition: transform .15s, opacity .2s;
-  }
-  .wl button.join:hover { transform: translateY(-1px); }
-  .wl button.join:disabled { opacity: .6; transform: none; cursor: default; }
-  .wl .note { margin: 2px 2px 0; min-height: 17px; font-size: 13px; color: rgba(246,241,234,.78); }
-  .wl .note.bad { color: #ffc4bd; }
-  .wl .cta-note { margin: 14px 0 0; font-size: 13px; color: rgba(246,241,234,.82); }
-  .wl .done { margin: 26px auto 0; width: min(440px, 92vw); padding: 22px; border-radius: 18px; background: rgba(246,241,234,.12); border: 1px solid rgba(246,241,234,.28); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
-  .wl .done h2 { margin: 0; font-size: 22px; font-weight: 600; color: #F6F1EA; }
-  .wl .done p { margin: 7px 0 0; font-size: 15px; color: rgba(246,241,234,.82); }
-  [hidden] { display: none !important; }
-</style>
+<link rel="stylesheet" href="waitlist.css?v=2">
 </head>
 <body>
 <script>try { if (localStorage.getItem('mast.scene') === 'blossom') document.body.classList.add('blossom'); } catch (e) {}</script>
@@ -60,32 +31,77 @@
         <button type="button" role="radio" data-scene="field" aria-label="Field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="11" r="3.5"/><path d="M12 3.5v1.6M5.6 6.1l1.1 1.1M18.4 6.1l-1.1 1.1M3 18h18M6 21h12"/></svg></button>
         <button type="button" role="radio" data-scene="blossom" aria-label="Blossom"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2"/><path d="M12 10c-2.4-1.6-2.4-5 0-6 2.4 1 2.4 4.4 0 6zM14 12c1.6-2.4 5-2.4 6 0-1 2.4-4.4 2.4-6 0zM12 14c2.4 1.6 2.4 5 0 6-2.4-1-2.4-4.4 0-6zM10 12c-1.6 2.4-5 2.4-6 0 1-2.4 4.4-2.4 6 0z"/></svg></button>
       </div>
-      <a href="./">Home</a>
+      <a href="#how">How it works</a>
     </nav>
   </header>
 
   <div class="hero-words wl">
-    <p class="eyebrow-wl">Coming soon</p>
-    <h1><span class="strong">You said 11.</span><br><span>It’s 1 AM.</span></h1>
-    <p class="lede">Mast locks your phone and your computer at the times you set, so you actually stop.</p>
-
-    <form id="form" novalidate>
-      <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required>
-      <button class="join" id="submit" type="submit">Join the waitlist</button>
+    <!-- 1. Join: just an email. -->
+    <div class="step is-on" data-step="join">
+      <p class="eyebrow-wl">Coming soon</p>
+      <h1><span class="strong">You said 11.</span><br><span>It’s 1 AM.</span></h1>
+      <p class="lede">Mast locks your phone and your computer at the times you set, so you actually stop.</p>
+      <form class="pill-form" id="form" novalidate>
+        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required aria-label="Email">
+        <button class="join" id="submit" type="submit">Join</button>
+      </form>
       <p class="note" id="note" role="status"></p>
-    </form>
+      <p class="platforms-note">iPhone · Android · Windows · Mac</p>
+    </div>
 
-    <section class="done" id="done" hidden>
-      <h2>You’re on the list.</h2>
-      <p>We’ll email you the moment Mast is ready. No spam, just the one.</p>
-    </section>
+    <!-- 2. Three taps, one at a time. -->
+    <div class="step" data-step="slips">
+      <p class="eyebrow-wl place"></p>
+      <h2 class="ask">What keeps slipping?</h2>
+      <div class="chips multi">
+        <button type="button">Going to bed</button><button type="button">Deep work</button><button type="button">Prayer</button><button type="button">Studying</button><button type="button">The gym</button><button type="button">Family time</button>
+      </div>
+      <div class="actions"><button class="join" type="button" data-next>Next</button></div>
+      <p class="count">1 of 3</p>
+    </div>
 
-    <p class="platforms-note">iPhone · Android · Windows · Mac</p>
+    <div class="step" data-step="devices">
+      <p class="eyebrow-wl place"></p>
+      <h2 class="ask">Where do you lose it?</h2>
+      <div class="chips one">
+        <button type="button" data-v="phone">Phone</button><button type="button" data-v="computer">Computer</button><button type="button" data-v="both">Both</button>
+      </div>
+      <p class="count">2 of 3</p>
+    </div>
+
+    <div class="step" data-step="name">
+      <p class="eyebrow-wl place"></p>
+      <h2 class="ask">What should we call you?</h2>
+      <form class="pill-form" id="name-form" novalidate>
+        <input id="name" type="text" autocomplete="given-name" placeholder="First name" maxlength="60" aria-label="First name">
+        <button class="join" type="submit">Done</button>
+      </form>
+      <button class="skip" type="button" data-skip>Skip</button>
+      <p class="count">3 of 3</p>
+    </div>
+
+    <!-- 3. Done. -->
+    <div class="step" data-step="done">
+      <h1 class="big-place"></h1>
+      <p class="lede">We’re letting people in a few at a time. Watch your inbox.</p>
+    </div>
   </div>
+
+  <a class="down" href="#how" aria-label="How it works"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
 </section>
 
+<main class="how-wl" id="how">
+  <p class="eyebrow">How it works</p>
+  <ol>
+    <li><span>1</span><h2>Set your times once.</h2><p>Bedtime, deep work, prayer. You choose when you’re calm.</p></li>
+    <li><span>2</span><h2>At the time, it locks.</h2><p>The apps you chose, on your phone and your computer. Until it ends.</p></li>
+    <li><span>3</span><h2>Really need out?</h2><p>A friend you chose says yes. Or use your one emergency a week.</p></li>
+  </ol>
+  <a class="join back" href="#top" data-top>Join the waitlist</a>
+</main>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
-<script src="waitlist.js"></script>
+<script src="waitlist.js?v=2"></script>
 <script>
   // The picture switch: field or blossom, remembered on this device (same as the home page).
   (() => {
