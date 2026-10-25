@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mast · Join the waitlist</title>
-<meta name="description" content="You meant to sleep at 11. It's 1 AM and you're still scrolling. Mast locks your phone and computer at the times you set.">
+<meta name="description" content="Mast locks your phone and your computer at the times you set. You set it once. It holds you to it. Join the waitlist.">
 <meta name="theme-color" content="#22424A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,11 +13,12 @@
 <link rel="preload" as="image" href="img/scene-car-field.webp">
 <link rel="stylesheet" href="home.css?v=1792338008">
 <link rel="stylesheet" href="blossom.css?v=1792338008">
-<link rel="stylesheet" href="waitlist.css?v=2">
+<link rel="stylesheet" href="waitlist.css?v=4">
 </head>
 <body>
 <script>try { if (localStorage.getItem('mast.scene') === 'blossom') document.body.classList.add('blossom'); } catch (e) {}</script>
 
+<!-- 1. What Mast is, in one line, and the sign-up. -->
 <section class="hero" id="top">
   <div class="slides" aria-hidden="true">
     <div class="slide is-on field-only" style="background-image: url('img/scene-car-field.webp')"></div>
@@ -31,77 +32,86 @@
         <button type="button" role="radio" data-scene="field" aria-label="Field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="11" r="3.5"/><path d="M12 3.5v1.6M5.6 6.1l1.1 1.1M18.4 6.1l-1.1 1.1M3 18h18M6 21h12"/></svg></button>
         <button type="button" role="radio" data-scene="blossom" aria-label="Blossom"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2"/><path d="M12 10c-2.4-1.6-2.4-5 0-6 2.4 1 2.4 4.4 0 6zM14 12c1.6-2.4 5-2.4 6 0-1 2.4-4.4 2.4-6 0zM12 14c2.4 1.6 2.4 5 0 6-2.4-1-2.4-4.4 0-6zM10 12c-1.6 2.4-5 2.4-6 0 1-2.4 4.4-2.4 6 0z"/></svg></button>
       </div>
-      <a href="#how">How it works</a>
+      <a href="#story">How it works</a>
     </nav>
   </header>
 
   <div class="hero-words wl">
-    <!-- 1. Join: just an email. -->
-    <div class="step is-on" data-step="join">
-      <p class="eyebrow-wl">Coming soon</p>
-      <h1><span class="strong">You said 11.</span><br><span>It’s 1 AM.</span></h1>
-      <p class="lede">Mast locks your phone and your computer at the times you set, so you actually stop.</p>
-      <form class="pill-form" id="form" novalidate>
-        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required aria-label="Email">
-        <button class="join" id="submit" type="submit">Join</button>
-      </form>
-      <p class="note" id="note" role="status"></p>
-      <p class="platforms-note">iPhone · Android · Windows · Mac</p>
-    </div>
-
-    <!-- 2. Three taps, one at a time. -->
-    <div class="step" data-step="slips">
-      <p class="eyebrow-wl place"></p>
-      <h2 class="ask">What keeps slipping?</h2>
-      <div class="chips multi">
-        <button type="button">Going to bed</button><button type="button">Deep work</button><button type="button">Prayer</button><button type="button">Studying</button><button type="button">The gym</button><button type="button">Family time</button>
-      </div>
-      <div class="actions"><button class="join" type="button" data-next>Next</button></div>
-      <p class="count">1 of 3</p>
-    </div>
-
-    <div class="step" data-step="devices">
-      <p class="eyebrow-wl place"></p>
-      <h2 class="ask">Where do you lose it?</h2>
-      <div class="chips one">
-        <button type="button" data-v="phone">Phone</button><button type="button" data-v="computer">Computer</button><button type="button" data-v="both">Both</button>
-      </div>
-      <p class="count">2 of 3</p>
-    </div>
-
-    <div class="step" data-step="name">
-      <p class="eyebrow-wl place"></p>
-      <h2 class="ask">What should we call you?</h2>
-      <form class="pill-form" id="name-form" novalidate>
-        <input id="name" type="text" autocomplete="given-name" placeholder="First name" maxlength="60" aria-label="First name">
-        <button class="join" type="submit">Done</button>
-      </form>
-      <button class="skip" type="button" data-skip>Skip</button>
-      <p class="count">3 of 3</p>
-    </div>
-
-    <!-- 3. Done. -->
-    <div class="step" data-step="done">
-      <h1 class="big-place"></h1>
-      <p class="lede">We’re letting people in a few at a time. Watch your inbox.</p>
-    </div>
+    <p class="eyebrow-wl">Coming soon</p>
+    <h1><span class="strong">Stop relying</span><br><span>on willpower.</span></h1>
+    <p class="lede">Mast locks your phone and your computer at the times you set. You set it once. It holds you to it.</p>
+    <div class="joinbox"></div>
+    <p class="platforms-note">iPhone · Android · Windows · Mac</p>
   </div>
 
-  <a class="down" href="#how" aria-label="How it works"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
+  <a class="down" href="#story" aria-label="How it works"><span>See how it works</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
 </section>
 
-<main class="how-wl" id="how">
-  <p class="eyebrow">How it works</p>
-  <ol>
-    <li><span>1</span><h2>Set your times once.</h2><p>Bedtime, deep work, prayer. You choose when you’re calm.</p></li>
-    <li><span>2</span><h2>At the time, it locks.</h2><p>The apps you chose, on your phone and your computer. Until it ends.</p></li>
-    <li><span>3</span><h2>Really need out?</h2><p>A friend you chose says yes. Or use your one emergency a week.</p></li>
-  </ol>
-  <a class="join back" href="#top" data-top>Join the waitlist</a>
-</main>
+<!-- 2. One night with and without Mast, a scene per scroll; then try another lock. -->
+<section class="night" id="story" aria-label="How Mast works">
+  <div class="pin" data-beat="0">
+    <div class="bg bg-glow" aria-hidden="true"><iframe data-yt title="YouTube" tabindex="-1" allow="autoplay"></iframe></div>
+    <div class="bg bg-field" aria-hidden="true"></div>
+
+    <p class="cap" aria-live="polite"><b class="cap-a"></b> <span class="cap-b"></span></p>
+    <p class="n-huge" aria-hidden="true"></p>
+
+    <!-- The computer and the phone, as Mast leaves them. -->
+    <div class="rig" aria-hidden="true">
+      <div class="computer">
+        <div class="cscreen">
+          <iframe data-yt title="YouTube" tabindex="-1" allow="autoplay"></iframe>
+          <span class="cclock"></span>
+          <div class="cglow"></div>
+          <div class="toast"><img src="img/favicon.png" alt=""><div><small>Mast</small><b class="toast-t"></b><span class="toast-b"></span></div></div>
+          <div class="off"></div>
+          <div class="lockwrap"><iframe class="lockframe" title="Mast's lock screen" tabindex="-1"></iframe></div>
+        </div>
+        <div class="base"></div>
+      </div>
+      <div class="phone">
+        <div class="pscreen">
+          <iframe data-yt title="YouTube" tabindex="-1" allow="autoplay"></iframe>
+          <div class="banner"><img src="img/favicon.png" alt=""><div><small>Mast</small><b class="banner-t"></b><span>Save your work.</span></div></div>
+          <div class="shield">
+            <svg viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zm2 0h6V7a3 3 0 0 0-6 0z"/></svg>
+            <p>YouTube can wait.</p>
+            <i>Close</i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- The last scene: pick a lock and watch it. -->
+    <div class="try">
+      <div class="try-pick">
+        <div class="chips one" role="radiogroup" aria-label="Lock">
+          <button type="button" class="on" data-lock="work">Deep work · 2 PM</button>
+          <button type="button" data-lock="study">Study · 7 PM</button>
+          <button type="button" data-lock="dinner">Family dinner · 6:30 PM</button>
+        </div>
+        <button class="join" type="button" data-watch>Watch it</button>
+      </div>
+      <div class="try-done" hidden>
+        <button class="join" type="button" data-tojoin>Join the waitlist</button>
+        <button class="skip" type="button" data-again>Try another</button>
+      </div>
+    </div>
+
+    <div class="dots" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- 3. The way out, and the last sign-up. -->
+<section class="end" id="join">
+  <h2>Really need out?</h2>
+  <p>A friend you chose can let you out from their phone. Or use your one emergency a week. There’s no switch to turn Mast off in a weak moment.</p>
+  <h2 class="last">Be first to get Mast.</h2>
+  <div class="joinbox"></div>
+</section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
-<script src="waitlist.js?v=2"></script>
+<script src="waitlist.js?v=4"></script>
 <script>
   // The picture switch: field or blossom, remembered on this device (same as the home page).
   (() => {

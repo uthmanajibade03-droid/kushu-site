@@ -2,8 +2,8 @@
 
 /*
  * The dark cover. Two kinds, one screen:
- *   lock   the phone asked for the computer: a reading session, "Lock my
- *          computer", or a reading schedule. Lifts on its own at the end.
+ *   lock   the phone asked for the computer: "Lock my computer", a prayer or
+ *          bedtime lock, or a scheduled focus time. Lifts on its own at the end.
  *   limit  an app past its daily limit. Lifts when you switch to another app.
  * Main decides when it shows and goes; this only draws it.
  */
@@ -53,14 +53,9 @@ function tick() {
   if (!current) return;
   const now = Date.now();
   if (current.mode === 'lock') {
-    if (current.kind === 'reading') {
-      setTime(clockText(now - current.startedAt));
-      pour((current.until - now) / Math.max(1, current.until - current.startedAt));
-    } else {
-      const end = current.offAt || current.until;
-      setTime(clockText(end - now));
-      pour((end - now) / Math.max(1, end - current.startedAt));
-    }
+    const end = current.offAt || current.until;
+    setTime(clockText(end - now));
+    pour((end - now) / Math.max(1, end - current.startedAt));
   } else if (current.mode === 'banned') {
     setTime(current.until ? `${Math.max(1, Math.ceil((current.until - now) / 86_400_000))} days` : '');
   } else if (current.mode === 'task') {
@@ -135,7 +130,21 @@ function scrollToVerse(v) {
   });
 }
 
+/** The verse on the screen, recited once as a prayer lock comes on; stopped when the lock goes. */
+let recital = null;
+let recitedFor = null;
+function recite(c) {
+  const lockKey = c.mode === 'lock' ? `${c.kind}:${c.startedAt}` : null;
+  if (lockKey === recitedFor) return;
+  if (recital) { recital.pause(); recital = null; }
+  recitedFor = lockKey;
+  if (!lockKey || !c.recite) return;
+  recital = new Audio(c.recite);
+  recital.play().catch(() => {});
+}
+
 function show(c) {
+  recite(c);
   // A new cover rises in; the same one, updated, stays still.
   if (!current || current.mode !== c.mode || current.until !== c.until || current.startedAt !== c.startedAt) {
     const cover = document.querySelector('.cover');
@@ -151,11 +160,17 @@ function show(c) {
       prayer: [c.name, 'Go and pray', `Opens at ${until}`],
       bedtime: ['Shut down', 'Saving your work', `Off until ${until}`],
       calendar: ['From your calendar', c.name || 'On your calendar', `Opens at ${until}`],
-      reading: ['Reading', 'You’re reading Qur’an', `On your phone · until ${until}`],
-      schedule: ['Reading time', c.name || 'Time to read', `Opens at ${until}`],
-      custom: ['Your lock', c.name || 'Locked', `Opens at ${until}`],
+      custom: c.ease
+        ? ['Easing in', c.name || 'Your lock', `Locks ${c.ease.minutes} min from ${new Date(c.ease.at).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}`]
+        : ['Your lock', c.name || 'Locked', `Opens at ${until}`],
       phone: ['Locked from your phone', 'Your computer is locked', `Opens at ${until}`],
     }[c.kind] || ['Locked', 'Your computer is locked', `Opens at ${until}`];
+    // Support said yes: it opens in a moment, for the minutes asked.
+    if (c.opening) {
+      words[0] = 'Support said yes';
+      words[1] = c.name || words[1];
+      words[2] = `Opens at ${clock(c.opening.at)}${c.opening.minutes ? ` · for ${c.opening.minutes} min` : ''}`;
+    }
     $('c-label').textContent = words[0];
     $('c-title').textContent = words[1];
     $('c-detail').textContent = words[2];
@@ -172,7 +187,7 @@ function show(c) {
   } else if (c.mode === 'task') {
     $('c-label').textContent = 'Now';
     $('c-title').textContent = c.task;
-    $('c-detail').textContent = c.only ? `${c.name} isn’t on this task’s list` : `${c.name} can wait`;
+    $('c-detail').textContent = `${c.name} is blocked until ${clock(c.until)}`;
     $('c-foot').textContent = c.site ? 'Press Ctrl+W to close the tab.' : 'Switch to what this task needs.';
     $('c-limits').hidden = true;
     $('c-more').hidden = true;
@@ -188,15 +203,24 @@ function show(c) {
   // The time left drains as a line, for a lock or a task; an app's limit or a ban has none.
   $('c-drain').hidden = c.mode === 'limit' || c.mode === 'banned';
   showEmergency(c.mode === 'lock' ? c.emergency : null);
-  $('c-needed').hidden = c.mode !== 'task';
+  // Social media is blocked completely while a to-do runs: nothing to allow.
+  $('c-needed').hidden = true;
   $('c-needed').disabled = false;
   $('c-needed').textContent = 'Needed for this task';
   // A new lock: the ask starts again.
-  if (c.mode !== 'lock' || c.startedAt !== askedFor) { $('c-asked').hidden = true; askedFor = null; }
-  $('c-ask').hidden = c.mode !== 'lock' || !c.strict || askedFor !== null;
+  if (c.mode !== 'lock' || lockId(c) !== askedFor) { $('c-asked').hidden = true; askedFor = null; }
+  // Asking a friend moves to the Mast phone app (a notification, yes with Face ID); the web pages
+  // it used are gone, so the button waits for it. Contact support stays.
+  $('c-ask').hidden = true;
+  // Something wrong with this lock: support is a way to reach a person.
+  if (c.mode !== 'lock' || lockId(c) !== supportFor) { $('c-support-panel').hidden = true; supportFor = null; }
+  $('c-support').hidden = c.mode !== 'lock' || !!c.preview || supportFor !== null || !!c.opening;
+  // Waiting to open: nothing to ask for.
+  if (c.opening) { $('c-support-panel').hidden = true; showEmergency(null); }
   strictLock = !!c.strict;
-  dayVerse = c.verse;
-  drawVerse(c.mode === 'lock' && reciting ? reciting : c.verse);
+  dayVerse = c.mode === 'lock' && c.kind === 'prayer' ? c.verse : null;
+  // The verse in the middle of the screen is for prayer locks only (or whatever the phone is reciting).
+  drawVerse(c.mode === 'lock' && reciting ? reciting : c.mode === 'lock' && c.kind === 'prayer' ? c.verse : null);
   tick();
   clearInterval(ticker);
   ticker = setInterval(tick, 1000);
@@ -236,16 +260,55 @@ $('c-needed').addEventListener('click', () => {
   $('c-needed').textContent = 'Allowed from next time';
 });
 
+/**
+ * Which lock this is: by its start alone, bedtime and a calendar Sleep starting at the same
+ * minute looked like one lock, and the second kept the first one's QR codes.
+ */
+const lockId = (c) => `${c.kind}|${c.name}|${c.startedAt}|${c.until}`;
 let askedFor = null;
 let strictLock = false;
-let lockStartedAt = null;
-window.kushu.onCover((c) => { lockStartedAt = c.startedAt; });
+let lockNow = null;
+window.kushu.onCover((c) => { lockNow = lockId(c); });
+let supportFor = null;
+let supportMinutes = 15;
+function showMinutes() {
+  for (const b of document.querySelectorAll('#c-support-mins [data-m]')) b.setAttribute('aria-pressed', String(Number(b.dataset.m) === supportMinutes));
+}
+$('c-support').addEventListener('click', () => {
+  supportFor = current && lockId(current);
+  $('c-support-form').hidden = false;
+  $('c-support-note').textContent = '';
+  showMinutes();
+  $('c-support').hidden = true;
+  $('c-support-panel').hidden = false;
+  $('c-support-reason').focus();
+});
+$('c-support-mins').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-m]');
+  if (!b) return;
+  supportMinutes = Number(b.dataset.m);
+  showMinutes();
+});
+$('c-support-cancel').addEventListener('click', () => {
+  $('c-support-panel').hidden = true;
+  $('c-support').hidden = false;
+  supportFor = null;
+});
+$('c-support-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $('c-support-send').disabled = true;
+  const answer = await window.kushu.coverSupport({ minutes: supportMinutes, reason: $('c-support-reason').value, evidence: $('c-support-evidence').value });
+  $('c-support-send').disabled = false;
+  if (answer && answer.problem) { $('c-support-note').textContent = answer.problem; return; }
+  $('c-support-form').hidden = true;
+  $('c-support-note').textContent = `Sent. If support says yes, it opens 5 minutes later, for ${supportMinutes} min.`;
+});
 $('c-ask').addEventListener('click', async () => {
   $('c-ask').disabled = true;
   const answer = await window.kushu.coverAskFriends();
   $('c-ask').disabled = false;
   if (answer.problem) { $('c-ask').textContent = answer.problem; return; }
-  askedFor = lockStartedAt;
+  askedFor = lockNow;
   $('c-ask').hidden = true;
   $('c-qr').innerHTML = answer.svg; // made by main from our own text
   $('c-ask-note').textContent = strictLock ? 'Two friends have to say yes. It opens here by itself.' : 'It opens here by itself when they say yes.';
@@ -253,14 +316,13 @@ $('c-ask').addEventListener('click', async () => {
 });
 
 window.kushu.onCover(show);
-
-// The phone's recitation: the verse being recited, or null when it stops.
-window.kushu.onRecitation((v) => {
-  const was = reciting;
-  reciting = v;
-  document.body.classList.toggle('reciting', !!v);
-  if (!current || current.mode !== 'lock') return;
-  if (!v) drawVerse(dayVerse);
-  else if (was) scrollToVerse(v);
-  else drawVerse(v);
+// Try it, from the Prayer page: the lock as it will be, with a way back and nothing to spend.
+window.kushu.onCover((c) => {
+  const end = $('c-end-preview');
+  end.hidden = !c.preview;
+  if (!c.preview) return;
+  for (const b of $('c-dock').children) if (b !== end) b.hidden = true;
+  $('c-foot').textContent = 'A preview. It ends by itself in a moment.';
 });
+$('c-end-preview').addEventListener('click', () => window.kushu.coverEndPreview());
+

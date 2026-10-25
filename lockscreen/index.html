@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; media-src https:">
 <title>Mast</title>
 <link rel="stylesheet" href="fonts.css">
 <link rel="stylesheet" href="glass.css">
-<link rel="stylesheet" href="cover.css?v=1792680866">
+<link rel="stylesheet" href="cover.css?v=1792930077">
 </head>
 <body>
 <!-- The lens behind liquid glass (glass.css): the middle almost still, the edges bent. -->
@@ -41,9 +41,28 @@
     <div class="panel lg deep" id="c-asked" hidden>
       <div class="qr" id="c-qr" aria-label="QR code to text your friends"></div>
       <div>
-        <p class="confirm-q">Scan with your phone to text your friends</p>
+        <p class="confirm-q">Scan with your phone to ask your friends</p>
         <p class="confirm-note" id="c-ask-note"></p>
       </div>
+    </div>
+    <!-- Contact support: how long, why, and anything that shows it. A yes opens 5 minutes later. -->
+    <div class="panel lg deep support" id="c-support-panel" hidden>
+      <form id="c-support-form">
+        <p class="confirm-q">How long do you need?</p>
+        <div class="support-mins" id="c-support-mins" role="radiogroup" aria-label="Minutes">
+          <button type="button" class="glass-button" data-m="5">5 min</button>
+          <button type="button" class="glass-button" data-m="10">10 min</button>
+          <button type="button" class="glass-button" data-m="15">15 min</button>
+          <button type="button" class="glass-button" data-m="30">30 min</button>
+        </div>
+        <textarea id="c-support-reason" maxlength="280" rows="2" placeholder="Why do you need out?"></textarea>
+        <textarea id="c-support-evidence" maxlength="1000" rows="2" placeholder="Anything that shows it (optional)"></textarea>
+        <div class="confirm-row">
+          <button class="glass-button" id="c-support-cancel" type="button">Cancel</button>
+          <button class="glass-button primary" id="c-support-send" type="submit">Send to support</button>
+        </div>
+      </form>
+      <p class="confirm-note" id="c-support-note"></p>
     </div>
     <!-- The week's one emergency: asked twice, because it might really be needed later. -->
     <div class="panel lg deep confirm" id="c-confirm" role="group" aria-labelledby="c-confirm-q" hidden>
@@ -62,10 +81,12 @@
       <button class="glass-button" id="c-more" type="button" hidden>Five more minutes</button>
       <button class="glass-button" id="c-limits" type="button" hidden>Change limits</button>
       <button class="glass-button" id="c-emergency" type="button" hidden>Emergency</button>
+      <button class="glass-button" id="c-support" type="button" hidden>Contact support</button>
+      <button class="glass-button primary" id="c-end-preview" type="button" hidden>End preview</button>
     </nav>
   </aside>
 </main>
-<script src="clock-830.js?v=1792679131"></script>
-<script src="cover.js?v=1792680866"></script>
+<script src="clock-830.js?v=1792930077"></script>
+<script src="cover.js?v=1792930077"></script>
 </body>
 </html>
