@@ -17,10 +17,10 @@ const DOWNLOADS = {
   // The TestFlight beta until Kushu is on the App Store.
   appStore: 'https://testflight.apple.com/join/EeYxdrCt',
   android: RELEASES + 'Kushu.apk',
-  windows: RELEASES + 'Kushu-Setup.exe',
+  windows: RELEASES + 'Mast-Setup.exe',
   // One universal app for Apple silicon and Intel alike, signed and notarized.
-  macArm: RELEASES + 'Kushu-Mac.dmg',
-  macIntel: RELEASES + 'Kushu-Mac.dmg',
+  macArm: RELEASES + 'Mast-Mac.dmg',
+  macIntel: RELEASES + 'Mast-Mac.dmg',
 };
 
 /** The newest release, for the version under the download buttons. */
