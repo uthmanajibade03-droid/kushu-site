@@ -209,9 +209,10 @@ function show(c) {
   $('c-needed').textContent = 'Needed for this task';
   // A new lock: the ask starts again.
   if (c.mode !== 'lock' || lockId(c) !== askedFor) { $('c-asked').hidden = true; askedFor = null; }
-  // Asking a friend moves to the Mast phone app (a notification, yes with Face ID); the web pages
-  // it used are gone, so the button waits for it. Contact support stays.
-  $('c-ask').hidden = true;
+  // Ask a friend: it waits in their Mast app; a yes opens this lock by itself.
+  $('c-ask').hidden = c.mode !== 'lock' || !!c.preview || !!c.opening || !c.canAsk || askedFor !== null;
+  $('c-ask').disabled = false;
+  $('c-ask').textContent = 'Ask a friend';
   // Something wrong with this lock: support is a way to reach a person.
   if (c.mode !== 'lock' || lockId(c) !== supportFor) { $('c-support-panel').hidden = true; supportFor = null; }
   $('c-support').hidden = c.mode !== 'lock' || !!c.preview || supportFor !== null || !!c.opening;
@@ -307,11 +308,11 @@ $('c-ask').addEventListener('click', async () => {
   $('c-ask').disabled = true;
   const answer = await window.kushu.coverAskFriends();
   $('c-ask').disabled = false;
-  if (answer.problem) { $('c-ask').textContent = answer.problem; return; }
+  if (answer.problem) { $('c-ask').textContent = answer.problem; $('c-ask').disabled = true; return; }
   askedFor = lockNow;
   $('c-ask').hidden = true;
-  $('c-qr').innerHTML = answer.svg; // made by main from our own text
-  $('c-ask-note').textContent = strictLock ? 'Two friends have to say yes. It opens here by itself.' : 'It opens here by itself when they say yes.';
+  $('c-asked-q').textContent = `Asked ${answer.asked.join(' and ')}`;
+  $('c-ask-note').textContent = 'It’s waiting in their Mast app. When they say yes, this opens by itself.';
   $('c-asked').hidden = false;
 });
 

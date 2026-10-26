@@ -82,17 +82,10 @@
     <button class="who-am-i" id="signed-in" type="button" hidden></button>
   </div>
 
-  <form class="signin" id="email-form" hidden>
-    <p>Sign in with your admin email.</p>
-    <input id="email" type="email" autocomplete="email" placeholder="Email" required>
-    <button class="btn" type="submit">Email me a code</button>
-  </form>
-
-  <form class="signin" id="code-form" hidden>
-    <p>Type the code we emailed you.</p>
-    <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Code" required>
-    <button class="btn" type="submit">Sign in</button>
-  </form>
+  <div class="signin" id="signin" hidden>
+    <p>Sign in with your admin Google account.</p>
+    <button class="btn" id="google" type="button">Continue with Google</button>
+  </div>
 
   <section id="list" hidden>
     <div class="seg" role="group" aria-label="Show">

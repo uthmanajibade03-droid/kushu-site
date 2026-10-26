@@ -20,6 +20,8 @@
   const RealDate = Date;
   Date.now = () => base.getTime() + (performance.now() - t0);
   let show = null;
+  // For trying the lock screen by hand in a browser: __mastShow({ ...lock }).
+  window.__mastShow = (c) => show && show(c);
   window.kushu = { onCover: (cb) => { if (!show) show = cb; else { const first = show; show = (c) => { first(c); cb(c); }; } }, onRecitation: () => {}, coverSnooze() {}, coverLimits() {}, coverEmergency() {}, coverNeeded() {}, coverAskFriends: async () => ({ problem: '' }), coverSupport: async () => ({ problem: '' }), coverEndPreview() {} };
   window.addEventListener('load', () => {
     const start = new RealDate(base); start.setHours(lock.from[0], lock.from[1], 0, 0);

@@ -14,11 +14,10 @@ const SUPABASE_ANON_KEY =
 
 const $ = (id) => document.getElementById(id);
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-let email = '';
 let people = [];
 
 function show(...ids) {
-  for (const id of ['email-form', 'code-form', 'list']) $(id).hidden = !ids.includes(id);
+  for (const id of ['signin', 'list']) $(id).hidden = !ids.includes(id);
 }
 
 function problem(text) {
@@ -115,6 +114,10 @@ function draw() {
     const row = el('div', 'person');
     const name = el('div', 'name');
     name.append(el('b', '', p.email || '(no email)'), el('small', '', `Joined ${when(p.joined)} · last in ${when(p.last_seen)}`));
+    // When a lock last started on their computer, and Screen Time switched off on their phone this week.
+    const locked = p.last_locked ? `Last locked ${when(p.last_locked)} (${p.last_locked_name})` : 'Not locked yet';
+    const off = p.screen_time_off_week ? ` · Screen Time off ${p.screen_time_off_week}× this week` : '';
+    name.append(el('small', 'answers', locked + off));
     row.append(el('span', 'av', initial(p.email)), name);
     if (p.request) row.append(el('span', 'tag', 'Waiting'));
     list.append(row);
@@ -139,23 +142,10 @@ async function unlock(p, btn) {
   await load();
 }
 
-$('email-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  email = $('email').value.trim();
-  const { error } = await db.auth.signInWithOtp({ email, options: { shouldCreateUser: false } });
-  if (error) { problem('Couldn’t send a code to that email.'); return; }
-  problem('');
-  show('code-form');
-  $('code').focus();
-});
-
-$('code-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const { error } = await db.auth.verifyOtp({ email, token: $('code').value.trim(), type: 'email' });
-  if (error) { problem('That code didn’t work.'); return; }
-  const { data } = await db.auth.getSession();
-  if (data.session) { $('signed-in').hidden = false; $('signed-in').textContent = data.session.user.email; }
-  await load();
+// Admins sign in with Google, as in the apps; it comes back here signed in.
+$('google').addEventListener('click', async () => {
+  const { error } = await db.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname } });
+  if (error) problem('Couldn’t open Google sign-in. Try again.');
 });
 
 $('find').addEventListener('input', draw);
@@ -186,7 +176,7 @@ $('signed-in').addEventListener('click', async () => {
     $('signed-in').hidden = false;
     $('signed-in').textContent = data.session.user.email;
     await load();
-  } else show('email-form');
+  } else show('signin');
   // A new ask shows up by itself.
   setInterval(() => { if (!$('list').hidden) load(); }, 20000);
 })();
