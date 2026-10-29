@@ -13,13 +13,16 @@
   html { background: #22424A; overscroll-behavior: none; }
   body { margin: 0; min-height: 100svh; overscroll-behavior: none; }
   /* Fixed to the largest viewport, so it reaches under Safari's bars as they come and go. */
+  .cap { display: none; }
   .scene { position: fixed; top: 0; left: 0; right: 0; height: 100lvh; background: url('img/scene-horse-field.webp') center 58% / cover no-repeat; }
   /* Phones: the field from further back, its sky and grass running on into the bars' colours. */
   @media (max-aspect-ratio: 3/4) {
     html { background: #1C1E1A; }
     .scene { background-image: url('img/scene-horse-tall.webp'); background-position: center 46%; }
+    /* Newer Safari colours its top bar from a solid strip fixed at the top, not theme-color: the sky's own colour, fading into the picture. */
+    .cap { display: block; position: fixed; top: 0; left: 0; right: 0; height: calc(env(safe-area-inset-top, 0px) + 56px); background-color: #305762; -webkit-mask-image: linear-gradient(#000 60%, transparent); mask-image: linear-gradient(#000 60%, transparent); }
   }
 </style>
 </head>
-<body><div class="scene" aria-hidden="true"></div></body>
+<body><div class="scene" aria-hidden="true"></div><div class="cap" aria-hidden="true"></div></body>
 </html>
