@@ -4,18 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mast</title>
-<meta name="theme-color" content="#22424A">
+<!-- Safari's top bar takes this colour: the picture's sky at its top edge. -->
+<meta name="theme-color" content="#305762">
 <link rel="icon" href="img/favicon.png?v=horseman">
 <link rel="preload" as="image" href="img/scene-horse-field.webp">
 <style>
   /* Only the picture: the horseman running the field, filling the screen. */
-  html, body { margin: 0; height: 100%; background: #22424A; }
-  body { background: #22424A url('img/scene-horse-field.webp') center 58% / cover no-repeat; }
-  /* Phones: the tall crop, the horse in view. */
+  html { background: #22424A; overscroll-behavior: none; }
+  body { margin: 0; min-height: 100svh; overscroll-behavior: none; }
+  /* Fixed to the largest viewport, so it reaches under Safari's bars as they come and go. */
+  .scene { position: fixed; top: 0; left: 0; right: 0; height: 100lvh; background: url('img/scene-horse-field.webp') center 58% / cover no-repeat; }
+  /* Phones: the field from further back, its sky and grass running on into the bars' colours. */
   @media (max-aspect-ratio: 3/4) {
-    body { background-image: url('img/scene-horse-tall.webp'); background-position: center 40%; }
+    html { background: #1C1E1A; }
+    .scene { background-image: url('img/scene-horse-tall.webp'); background-position: center 46%; }
   }
 </style>
 </head>
-<body></body>
+<body><div class="scene" aria-hidden="true"></div></body>
 </html>
