@@ -50,7 +50,7 @@ html, body { background-color: #0E0C0B !important; }
 .bg { position: absolute; inset: 0; opacity: 0; transition: opacity 800ms ease; }
 .bg-glow iframe { position: absolute; left: 50%; top: 50%; width: max(180vw, 320vh); height: max(101.25vw, 180vh); transform: translate(-50%, -50%); border: 0; pointer-events: none; filter: blur(34px) brightness(.5) saturate(1.3); }
 .bg-glow::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(0,0,0,.1), rgba(0,0,0,.8)); }
-.bg-field { background: url('img/scene-car-field.webp') center 88% / cover; }
+.bg-field { background: url('img/scene-horse-field.webp') center 88% / cover; }
 body.blossom .bg-field { background-image: url('img/scene-blossom.webp'); }
 .bg-field::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.1) 0%, rgba(0,0,0,0) 40%, rgba(10,8,7,.8) 80%, #0E0C0B 100%); }
 .pin[data-beat="1"] .bg-glow, .pin[data-beat="5"] .bg-field { opacity: 1; }
@@ -144,3 +144,8 @@ body.blossom .bg-field { background-image: url('img/scene-blossom.webp'); }
 }
 @media (prefers-reduced-motion: reduce) { .pin.glow .cglow, .down svg { animation: none; } }
 [hidden] { display: none !important; }
+
+/* Phones: the tall crop with the horse above the words. */
+@media (max-width: 600px) {
+  .field-only { background-image: url('img/scene-horse-tall.webp') !important; }
+}
