@@ -39,9 +39,9 @@
   }
 
   /* The way in: one small button; a line to write on once it's tapped. */
-  .join { position: fixed; z-index: 2; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 7vh); display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0 24px; }
+  .join { position: fixed; z-index: 2; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 3.5vh); display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0 24px; }
   /* No pill: the word alone, in the field's own light, a little larger. */
-  .open { border: 0; background: none; padding: 8px 14px; color: rgba(243, 236, 223, .72); font-family: inherit; font-size: 22px; font-weight: 400; line-height: 1; letter-spacing: .06em; cursor: pointer; transition: color .3s; }
+  .open { border: 0; background: none; padding: 8px 14px; color: rgba(243, 236, 223, .72); font-family: inherit; font-size: 17px; font-weight: 400; line-height: 1; letter-spacing: .01em; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; cursor: pointer; transition: color .3s; }
   .open:hover, .open:focus-visible { color: #F3ECDF; outline: none; }
   form { display: none; width: min(320px, 100%); align-items: center; gap: 8px; border-bottom: 1px solid rgba(243, 236, 223, .5); }
   form input { flex: 1; min-width: 0; padding: 9px 2px; background: none; border: 0; outline: 0; color: inherit; font-size: 16px; font-family: inherit; }
@@ -52,8 +52,8 @@
   .join.writing form { display: flex; animation: rise .45s ease-out; }
   @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
   @media (max-aspect-ratio: 3/4) {
-    .join { bottom: calc(env(safe-area-inset-bottom, 0px) + 5vh); }
-    .open { font-size: 19px; }
+    .join { bottom: calc(env(safe-area-inset-bottom, 0px) + 2.5vh); }
+    .open { font-size: 15px; }
     form { width: min(260px, 100%); }
     form input { font-size: 16px; padding: 7px 2px; }
   }
