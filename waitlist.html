@@ -8,21 +8,66 @@
 <meta name="theme-color" content="#305762">
 <link rel="icon" href="img/favicon.png?v=horseman">
 <link rel="preload" as="image" href="img/scene-horse-mast.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&display=swap">
 <style>
-  /* Only the picture: the horseman running the field, filling the screen. */
+  /* The horseman running the field, filling the screen, and a small way in. */
   html { background: #22424A; overscroll-behavior: none; }
-  body { margin: 0; min-height: 100svh; overscroll-behavior: none; }
-  /* Fixed to the largest viewport, so it reaches under Safari's bars as they come and go. */
+  body { margin: 0; min-height: 100svh; overscroll-behavior: none; font-family: 'Google Sans', -apple-system, system-ui, sans-serif; color: #F3ECDF; -webkit-tap-highlight-color: transparent; }
   .cap { display: none; }
-  .scene { position: fixed; top: 0; left: 0; right: 0; height: 100lvh; background: url('img/scene-horse-mast.webp') center 58% / cover no-repeat; }
+  /* Fixed to the largest viewport, so it reaches under Safari's bars as they come and go. */
+  .scene { position: fixed; top: 0; left: 0; right: 0; height: 100lvh; background: center 58% / cover no-repeat; }
+  .scene.empty { background-image: url('img/scene-horse-mast-empty.webp'); }
+  .scene.full { background-image: url('img/scene-horse-mast.webp'); }
+  /* While he rides off, the picture without him shows behind. */
+  body.away .scene.full { visibility: hidden; }
+  .rider { position: fixed; z-index: 1; cursor: pointer; opacity: 0; }
+  body.away .rider { opacity: 1; }
+  .rider img { display: block; width: 100%; height: auto; }
+  body.away .rider img { animation: stride .42s linear infinite; transform-origin: 50% 90%; }
+  @keyframes stride { 0%, 100% { transform: translateY(0) rotate(0); } 35% { transform: translateY(-5%) rotate(-1.5deg); } 70% { transform: translateY(1%) rotate(1deg); } }
+
   /* Phones: the field from further back, its sky and grass running on into the bars' colours. */
   @media (max-aspect-ratio: 3/4) {
     html { background: #1C1E1A; }
-    .scene { background-image: url('img/scene-horse-mast-tall.webp'); background-position: center 46%; }
+    .scene { background-position: center 46%; }
+    .scene.empty { background-image: url('img/scene-horse-mast-tall-empty.webp'); }
+    .scene.full { background-image: url('img/scene-horse-mast-tall.webp'); }
     /* Newer Safari colours its top bar from a solid strip fixed at the top, not theme-color: the sky's own colour, fading into the picture. */
     .cap { display: block; position: fixed; top: 0; left: 0; right: 0; height: calc(env(safe-area-inset-top, 0px) + 56px); background-color: #305762; -webkit-mask-image: linear-gradient(#000 60%, transparent); mask-image: linear-gradient(#000 60%, transparent); }
   }
+
+  /* The way in: one small button; a line to write on once it's tapped. */
+  .join { position: fixed; z-index: 2; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 7vh); display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0 24px; }
+  .open { border: 1px solid rgba(243, 236, 223, .45); border-radius: 999px; padding: 11px 20px; background: rgba(20, 22, 20, .16); color: inherit; font: 500 14px/1 inherit; font-family: inherit; letter-spacing: .02em; cursor: pointer; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  form { display: none; width: min(320px, 100%); align-items: center; gap: 8px; border-bottom: 1px solid rgba(243, 236, 223, .5); }
+  form input { flex: 1; min-width: 0; padding: 9px 2px; background: none; border: 0; outline: 0; color: inherit; font-size: 16px; font-family: inherit; }
+  form input::placeholder { color: rgba(243, 236, 223, .6); }
+  form button { border: 0; background: none; color: inherit; font-size: 18px; padding: 6px 2px; cursor: pointer; opacity: .85; }
+  .note { margin: 0; min-height: 1em; font-size: 13px; opacity: .8; text-align: center; }
+  .join.writing .open, .join.joined .open { display: none; }
+  .join.writing form { display: flex; animation: rise .45s ease-out; }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+  @media (max-aspect-ratio: 3/4) {
+    .join { bottom: calc(env(safe-area-inset-bottom, 0px) + 5vh); }
+    .open { padding: 8px 15px; font-size: 12.5px; border-color: rgba(243, 236, 223, .32); background: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+    form { width: min(260px, 100%); }
+    form input { font-size: 16px; padding: 7px 2px; }
+  }
+  @media (prefers-reduced-motion: reduce) { body.away .rider img { animation: none; } }
 </style>
 </head>
-<body><div class="scene" aria-hidden="true"></div><div class="cap" aria-hidden="true"></div></body>
+<body>
+<div class="scene empty" aria-hidden="true"></div>
+<div class="scene full" aria-hidden="true"></div>
+<div class="cap" aria-hidden="true"></div>
+<div class="rider" role="button" aria-label="The horseman"><img src="img/rider.webp" alt=""></div>
+<div class="join">
+  <button class="open" type="button">Join the waitlist</button>
+  <form novalidate><input type="email" inputmode="email" autocomplete="email" placeholder="Your email" aria-label="Email"><button type="submit" aria-label="Join">→</button></form>
+  <p class="note" aria-live="polite"></p>
+</div>
+<script src="waitlist.js?v=1"></script>
+</body>
 </html>
