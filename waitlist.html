@@ -40,7 +40,9 @@
 
   /* The way in: one small button; a line to write on once it's tapped. */
   .join { position: fixed; z-index: 2; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 7vh); display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0 24px; }
-  .open { border: 1px solid rgba(243, 236, 223, .45); border-radius: 999px; padding: 11px 20px; background: rgba(20, 22, 20, .16); color: inherit; font: 500 14px/1 inherit; font-family: inherit; letter-spacing: .02em; cursor: pointer; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  /* No pill: the word alone, in the field's own light, a little larger. */
+  .open { border: 0; background: none; padding: 8px 14px; color: rgba(243, 236, 223, .72); font-family: inherit; font-size: 22px; font-weight: 400; line-height: 1; letter-spacing: .06em; cursor: pointer; transition: color .3s; }
+  .open:hover, .open:focus-visible { color: #F3ECDF; outline: none; }
   form { display: none; width: min(320px, 100%); align-items: center; gap: 8px; border-bottom: 1px solid rgba(243, 236, 223, .5); }
   form input { flex: 1; min-width: 0; padding: 9px 2px; background: none; border: 0; outline: 0; color: inherit; font-size: 16px; font-family: inherit; }
   form input::placeholder { color: rgba(243, 236, 223, .6); }
@@ -51,7 +53,7 @@
   @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
   @media (max-aspect-ratio: 3/4) {
     .join { bottom: calc(env(safe-area-inset-bottom, 0px) + 5vh); }
-    .open { padding: 8px 15px; font-size: 12.5px; border-color: rgba(243, 236, 223, .32); background: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+    .open { font-size: 19px; }
     form { width: min(260px, 100%); }
     form input { font-size: 16px; padding: 7px 2px; }
   }
@@ -64,7 +66,7 @@
 <div class="cap" aria-hidden="true"></div>
 <div class="rider" role="button" aria-label="The horseman"><img src="img/rider.webp" alt=""></div>
 <div class="join">
-  <button class="open" type="button">Join the waitlist</button>
+  <button class="open" type="button">Waitlist</button>
   <form novalidate><input type="email" inputmode="email" autocomplete="email" placeholder="Your email" aria-label="Email"><button type="submit" aria-label="Join">→</button></form>
   <p class="note" aria-live="polite"></p>
 </div>
