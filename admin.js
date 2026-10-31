@@ -154,7 +154,8 @@ $('tab-all').addEventListener('click', () => { tab = 'all'; draw(); });
 $('tab-waitlist').addEventListener('click', () => { tab = 'waitlist'; draw(); });
 // The waitlist as a spreadsheet, for inviting people in.
 $('csv').addEventListener('click', () => {
-  const cell = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  // A value starting = + - @ (a formula to Excel or Sheets) is kept as text, so opening the file runs nothing.
+  const cell = (v) => { const t = String(v ?? ''); return `"${(/^[=+\-@\t\r]/.test(t) ? `'${t}` : t).replace(/"/g, '""')}"`; };
   const rows = [['email', 'name', 'devices', 'slips', 'source', 'joined', 'emails_sent', 'unsubscribed']].concat(
     waitlist.map((w) => [w.email, w.name, w.devices, (w.slips || []).join('; '), w.source, w.created_at, w.emails_sent, w.unsubscribed]));
   const blob = new Blob([rows.map((r) => r.map(cell).join(',')).join('\n')], { type: 'text/csv' });
