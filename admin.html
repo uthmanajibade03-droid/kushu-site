@@ -4,7 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mast Admin</title>
-<meta name="robots" content="noindex">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; manifest-src 'self'; connect-src https://qnuezqnbcloksugbxbcb.supabase.co wss://qnuezqnbcloksugbxbcb.supabase.co; base-uri 'none'; form-action 'none'">
 <meta name="theme-color" content="#FFFFFF">
 <!-- On a phone: Share → Add to Home Screen, and it opens like an app. -->
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -101,7 +103,7 @@
   <p class="problem" id="problem" role="alert" hidden></p>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js" integrity="sha384-Rj26LVGvoeRVR6+mwQmFfcR3QOBEwT+ZmuCWpuiqeTzJpCs0ER4ITAWGb4Hiy3Ok" crossorigin="anonymous"></script>
 <script src="admin.js"></script>
 </body>
 </html>

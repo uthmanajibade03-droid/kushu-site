@@ -13,7 +13,19 @@ const SUPABASE_ANON_KEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFudWV6cW5iY2xva3N1Z2J4YmNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2NDczNzgsImV4cCI6MjEwNjIyMzM3OH0.FHhOTaIbfsue2TFkZ0mn-hBa-6esMuVYZPjCST4i4ig';
 
 const $ = (id) => document.getElementById(id);
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Never inside another site's frame.
+if (window.top !== window.self) { document.documentElement.textContent = ''; throw new Error('framed'); }
+// Signed in for this tab only, with the safer sign-in flow: closing the tab signs you out.
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { storage: window.sessionStorage, flowType: 'pkce' } });
+// Fifteen minutes with nothing touched: signed out.
+const IDLE_MS = 15 * 60_000;
+let touched = Date.now();
+for (const kind of ['pointerdown', 'keydown', 'scroll']) addEventListener(kind, () => { touched = Date.now(); }, { passive: true });
+setInterval(async () => {
+  if (Date.now() - touched < IDLE_MS) return;
+  await db.auth.signOut();
+  location.reload();
+}, 30_000);
 let people = [];
 
 function show(...ids) {
