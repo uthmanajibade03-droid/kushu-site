@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mast</title>
+<link rel="icon" href="/img/favicon.png?v=horseman">
+<style>
+  @font-face { font-family: Figtree; src: url('/fonts/Figtree_400Regular.ttf') format('truetype'); font-weight: 400; }
+  @font-face { font-family: Figtree; src: url('/fonts/Figtree_600SemiBold.ttf') format('truetype'); font-weight: 600; }
+  @font-face { font-family: Garamond; src: url('/fonts/EBGaramond-500.woff2') format('woff2'); font-weight: 500; }
+  @font-face { font-family: Pinyon; src: url('/fonts/PinyonScript_400Regular.ttf') format('truetype'); }
+  * { box-sizing: border-box; }
+  html, body { min-height: 100%; margin: 0; }
+  body { display: grid; justify-items: center; align-content: center; min-height: 100vh; padding: 24px 16px; overflow-x: hidden; font: 400 15px/1.5 Figtree, system-ui, sans-serif; text-align: center; color: #111112; background: #2B3A34 url('/img/scene-car-field.webp') center bottom / cover no-repeat fixed; }
+  .huge { position: fixed; left: 50%; top: 1.5vw; font: 400 29vw/1 Pinyon, serif; white-space: nowrap; color: rgba(243, 236, 223, 0.92); text-shadow: 0 6px 40px rgba(14, 28, 28, 0.28); transform: translateX(-50%); pointer-events: none; }
+  main[hidden] { display: none; }
+  main { position: relative; width: min(440px, 100%); padding: 22px 24px 24px; border-radius: 18px; background: #F7F4EA; box-shadow: 0 0 0 1.5px #111112, 0 24px 60px rgba(10, 20, 20, 0.35); }
+  .stage { perspective: 900px; margin-bottom: 26px; }
+  .gift { --mx: 0; --my: 0; position: relative; overflow: hidden; width: 100%; aspect-ratio: 420 / 236; border-radius: 18px; color: #F3ECDF; background: #27413E; box-shadow: 0 14px 34px rgba(20, 30, 30, 0.32), inset 0 0 0 1px rgba(255, 255, 255, 0.3); transform: rotateX(calc(var(--my) * -7deg)) rotateY(calc(var(--mx) * 9deg)); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); animation: card 0.7s cubic-bezier(0.2, 0.9, 0.25, 1) both; }
+  .gift.held { transition: transform 0.08s linear; }
+  .gift > img { position: absolute; inset: -4% -3%; width: 106%; height: 108%; max-width: none; object-fit: cover; pointer-events: none; transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .gift.held > img, .gift.held .word { transition: transform 0.08s linear; }
+  .back { transform: translate(calc(var(--mx) * 3px), calc(var(--my) * 2px)); }
+  .front { transform: translate(calc(var(--mx) * -7px), calc(var(--my) * -3px)); }
+  .word { position: absolute; left: 0; right: 0; top: -0.5%; text-align: center; font: 400 clamp(72px, 24vw, 108px)/1.1 Pinyon, serif; color: #F3ECDF; text-shadow: 0 2px 16px rgba(20, 40, 40, 0.28); transform: translate(calc(var(--mx) * 16px), calc(var(--my) * 8px)); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); animation: rise 1.5s 0.22s cubic-bezier(0.16, 0.84, 0.3, 1) both; }
+  .under { position: absolute; left: 16px; right: 16px; bottom: 11px; display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6); }
+  .under b { font-weight: 600; }
+  h1 { margin: 0; font: 500 36px/1.15 Garamond, Georgia, serif; letter-spacing: -0.01em; text-wrap: balance; }
+  p { margin: 8px 0 0; color: #5A5A5F; }
+  .code { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; padding: 9px 9px 9px 16px; border-radius: 12px; background: #F4F2E8; box-shadow: 0 0 0 1px rgba(29, 29, 31, 0.12); }
+  .code b { font-size: 17px; font-weight: 600; letter-spacing: 0.08em; }
+  .code button { height: 34px; padding: 0 14px; border: 0; border-radius: 9px; font: 600 13px Inter, system-ui, sans-serif; color: #1D1D1F; background: #E6E4D8; cursor: pointer; }
+  a.go { display: block; margin-top: 12px; padding: 12px; border-radius: 10px; font-weight: 600; text-decoration: none; color: #fff; background: #1D1D1F; }
+  a.go:hover { background: #333; }
+  @keyframes card { from { opacity: 0; transform: translateY(16px) scale(0.96); } }
+  @keyframes rise { from { opacity: 0; transform: translateY(96px); } 30% { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<span class="huge" aria-hidden="true">Mast</span>
+<main id="gift" hidden>
+  <div class="stage"><div class="gift">
+    <img class="back" src="/img/gift-bg.webp" alt="">
+    <div class="word">Mast</div>
+    <img class="front" src="/img/gift-front.webp" alt="">
+    <div class="under"><b>14 days free</b><span>From a friend</span></div>
+  </div></div>
+  <h1>A friend invited you to Mast</h1>
+  <p>Get Mast, then type this code when you start your trial.</p>
+  <div class="code"><b id="code"></b><button id="copy" type="button">Copy</button></div>
+  <a class="go" href="/">Get Mast</a>
+</main>
+<main id="lost" hidden>
+  <h1>This page isn’t here</h1>
+  <a class="go" href="/">Go to Mast</a>
+</main>
+<script>
+  // usemastapp.com/r/CODE: the site is static, so every such address lands here.
+  var found = location.pathname.match(/^\/r\/([A-Za-z0-9]{4,12})\/?$/);
+  document.getElementById(found ? 'gift' : 'lost').hidden = false;
+  if (found) {
+    var code = found[1].toUpperCase();
+    var card = document.querySelector('.gift');
+    var copy = document.getElementById('copy');
+    document.getElementById('code').textContent = code;
+    copy.addEventListener('click', function () {
+      navigator.clipboard.writeText(code).then(function () {
+        copy.textContent = 'Copied';
+        setTimeout(function () { copy.textContent = 'Copy'; }, 1200);
+      }).catch(function () {});
+    });
+    card.addEventListener('pointermove', function (e) {
+      var r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+      card.style.setProperty('--my', ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
+      card.classList.add('held');
+    });
+    card.addEventListener('pointerleave', function () {
+      card.style.setProperty('--mx', 0);
+      card.style.setProperty('--my', 0);
+      card.classList.remove('held');
+    });
+  }
+</script>
+</body>
+</html>
